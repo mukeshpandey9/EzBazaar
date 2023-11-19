@@ -1,7 +1,7 @@
 {
   "name": "ecommerce",
   "version": "0.1.0",
-  "proxy": "https://ezbazaar-asxw.onrender.com",
+  "proxy": "https://ezbazaar-asxw.onrender.com/",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
