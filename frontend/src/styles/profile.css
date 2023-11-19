@@ -1,0 +1,111 @@
+.user-profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 55%;
+  left: 25%;
+  background-color: transparent;
+  color: white !important;
+  backdrop-filter: blur(3px);
+}
+
+.user-profile-card {
+  width: 90%;
+  min-width: 45vw;
+  background-color: transparent;
+  box-shadow: 0 4px 12px rgba(0, 0, 3px, 0.15);
+  border: 2px solid rgb(179, 177, 177);
+
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  margin: 20px; /* Add spacing around the card */
+  padding: 1vw 10vw; /* Add padding inside the card */
+  text-align: start; /* Center the content */
+}
+
+.user-profile-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.avatar-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Add spacing below the avatar */
+}
+
+.info-section {
+  width: 60%;
+  text-align: center;
+  margin-bottom: 20px; /* Add spacing below the user's name */
+}
+
+.user-name {
+  text-align: center;
+  color: #b6b3b3 !important;
+  margin-bottom: 5px; /* Add spacing below the user's name */
+  font-size: 3rem !important; /* Increase font size for the user's name */
+}
+
+.user-info {
+  color: #666;
+  margin-bottom: 5px; /* Add spacing below user information */
+  font-size: 1.17rem;
+}
+
+.profile label {
+  font-size: 1.25rem !important;
+  color: black;
+  font-weight: bold;
+}
+
+.edit-button,
+.save-button {
+  width: 50%;
+  background-color: #ff8818;
+  border-color: #ff8818;
+  color: #fff;
+  margin-top: 20px; /* Add spacing above buttons */
+  font-size: 16px; /* Increase font size for buttons */
+}
+
+.edit-button:hover,
+.save-button:hover {
+  background-color: #f08f35;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .user-profile-card {
+    min-width: 90vw;
+  }
+
+  .user-profile-container {
+    top: 80vh;
+    left: 0;
+  }
+
+  .avatar-section {
+    margin-top: 0;
+  }
+
+  .edit-button,
+  .save-button {
+    font-size: 1rem;
+  }
+}
+
+.profile button {
+  margin-right: 1rem;
+}
+
+.profile .ant-form-item-control-input {
+  width: 150%;
+}
+
+.profile input,
+textarea {
+  width: 60% !important;
+}
