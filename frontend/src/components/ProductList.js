@@ -112,10 +112,10 @@ export default function ProductList() {
 
   return (
     <>
-      <ContentWrapper>
-        {loading ? (
-          <Spinner />
-        ) : (
+      {loading ? (
+        <Spinner />
+      ) : (
+        <ContentWrapper>
           <div>
             {/* Search and filterr component */}
 
@@ -517,8 +517,8 @@ export default function ProductList() {
               </div>
             </div>
           </div>
-        )}
-      </ContentWrapper>
+        </ContentWrapper>
+      )}
     </>
   );
 }

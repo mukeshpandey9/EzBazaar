@@ -1,7 +1,7 @@
 {
   "name": "ecommerce",
   "version": "0.1.0",
-  "proxy": "https://ezbazaar-asxw.onrender.com/",
+  "proxy": "http://localhost:4000/",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.5",
@@ -18,6 +18,7 @@
     "axios": "^1.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-form-stepper": "^2.0.3",
     "react-icons": "^4.10.1",
     "react-rating-stars-component": "^2.2.0",
     "react-redux": "^8.1.2",

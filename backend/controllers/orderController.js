@@ -5,26 +5,14 @@ const productModel = require("../models/productModel");
 
 exports.newOrder = async (req, res) => {
   try {
-    const {
-      shippingInfo,
-      orderItems,
-      paymentInfo,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-    } = req.body;
+    const { shippingInfo, orderItems, totalPrice } = req.body;
 
     const order = await orderModel.create({
       shippingInfo,
       orderItems,
-      paymentInfo,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
       totalPrice,
       paidAt: Date.now(),
-      user: req.user._id,
+      user: req.user.id,
     });
 
     res.status(201).json({
@@ -44,9 +32,7 @@ exports.newOrder = async (req, res) => {
 
 exports.getSingleOrder = async (req, res) => {
   try {
-    const order = await orderModel
-      .findById(req.params.id)
-      .populate("user", "name email");
+    const order = await orderModel.findById(req.params.id);
 
     if (!order) {
       return res.status(404).json({

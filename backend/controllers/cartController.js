@@ -173,3 +173,19 @@ exports.updateCart = async (req, res) => {
       .json({ success: false, message: "Internal Server Error " });
   }
 };
+
+// Clear Cart
+
+exports.clearCart = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    await Cart.deleteMany({ user: userId });
+
+    return res.status(200).json({ success: true, message: "Cart Cleared" });
+  } catch (error) {
+    console.log("Error In Updating THe Cart");
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error " });
+  }
+};

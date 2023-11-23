@@ -12,6 +12,9 @@ import { useEffect } from "react";
 import store from "./redux/store/store";
 import { loadUser } from "./redux/actions/userAction";
 import { getCart } from "./redux/actions/cartActions";
+import Success from "./pages/Success";
+import Orders from "./pages/Orders";
+import OrderDetails from "./pages/OrderDetails";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +28,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/orders",
+    element: <Orders />,
+  },
+  {
+    path: "/order/:id",
+    element: <OrderDetails />,
   },
   {
     path: "/cart",
@@ -51,6 +62,11 @@ const router = createBrowserRouter([
     path: "/profile",
     element: <Profile />,
   },
+
+  {
+    path: "/success",
+    element: <Success />,
+  },
 ]);
 
 function App() {
@@ -60,7 +76,7 @@ function App() {
 
   useEffect(() => {
     store.dispatch(getCart());
-  }, []);
+  });
 
   return (
     <div className="App">
