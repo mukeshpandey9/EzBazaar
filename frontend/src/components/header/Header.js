@@ -140,7 +140,7 @@ const Header = () => {
               </Link>
             </>
           ) : (
-            <Link to="/signup">
+            <Link to="/orders">
               <li className="menuItem">My orders</li>
             </Link>
           )}

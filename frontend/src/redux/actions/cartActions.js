@@ -105,6 +105,14 @@ export const updateCart = (productId, qty) => async (dispatch) => {
   }
 };
 
+export const clearCart = () => async (dispatch) => {
+  try {
+    await axios.delete("/api/v1/cart/clear");
+  } catch (error) {
+    console.log("Error in clearing Cart: ", error);
+  }
+};
+
 //   Clearing errors
 
 export const clearCartErrors = () => async (dispatch) => {

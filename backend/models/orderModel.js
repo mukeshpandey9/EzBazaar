@@ -18,7 +18,7 @@ const orderSchema = new mongoose.Schema({
       type: String,
       required: true,
     },
-    postalCode: {
+    pincode: {
       type: Number,
       required: true,
     },
@@ -34,19 +34,19 @@ const orderSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      price: {
+      totalPrice: {
         type: Number,
         required: true,
       },
-      quantity: {
+      qty: {
         type: Number,
         required: true,
       },
       image: {
         type: String,
-        required: true,
+        required: false,
       },
-      product: {
+      product_id: {
         type: mongoose.Schema.ObjectId,
         ref: "Product",
         required: true,
@@ -63,12 +63,12 @@ const orderSchema = new mongoose.Schema({
   paymentInfo: {
     id: {
       type: String,
-      required: true,
+      required: false,
     },
 
     status: {
       type: String,
-      required: true,
+      required: false,
     },
   },
 
@@ -77,19 +77,8 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
 
-  itemsPrice: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-  taxPrice: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
   shippingPrice: {
     type: Number,
-    required: true,
     default: 0,
   },
   totalPrice: {
@@ -99,7 +88,6 @@ const orderSchema = new mongoose.Schema({
   },
   orderStatus: {
     type: String,
-    required: true,
     default: "Processing",
   },
   deliveredAt: Date,

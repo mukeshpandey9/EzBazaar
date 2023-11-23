@@ -27,7 +27,6 @@ export const cartReducer = (state = {}, action) => {
       return {
         cartLoading: true,
         success: false,
-        ...state,
       };
 
     case REMOVE_CART_REQUEST:

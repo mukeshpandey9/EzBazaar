@@ -11,26 +11,28 @@ import {
 import Spinner from "./Spinner";
 import { message } from "antd";
 
-export function Cart() {
+export default function Cart() {
   const dispatch = useDispatch();
 
-  const { cart, cartLoading, cartError } = useSelector((state) => state.cart);
+  const { cart, cartLoading, cartError, success } = useSelector(
+    (state) => state.cart
+  );
 
   useEffect(() => {
     dispatch(getCart());
 
-    if (!cartError) {
-      message.success("Cart Loaded");
-      return;
-    }
-
     if (cartError) {
       message.error(cartError);
       dispatch(clearCartErrors());
+      return;
     }
-  }, [dispatch, cartError, cart?.length]);
 
-  const [open, setOpen] = useState(true);
+    if (success) {
+      message.success("Cart Loaded Sucessfully");
+    }
+  }, [dispatch, cartError]);
+
+  // const [open, setOpen] = useState(true);
   // const [subtotal, setSubtotal] = useState(0);
   var subTotal = 0;
 
@@ -39,7 +41,7 @@ export function Cart() {
       {cartLoading ? (
         <Spinner />
       ) : (
-        <div className="mx-auto  pt-12 h-screen  max-w-7xl px-4 sm:px-6 lg:px-8 bg-white  ">
+        <div className="mx-auto  pt-1 h-full  max-w-7xl px-4 sm:px-6 lg:px-8 bg-white  ">
           <h1 className="text-5xl font-bold tracking-tight pt-7 my-5 ">Cart</h1>
           {cart && cart?.length > 0 ? (
             <div>
@@ -122,34 +124,12 @@ export function Cart() {
                   <p>Subtotal</p>
                   <p className="text-xl text-orange-500 font-extrabold">
                     ₹ {subTotal}
+                    {sessionStorage.setItem("subtotal", subTotal)}
                   </p>
                 </div>
                 <p className="mt-0.5 text-sm text-gray-500">
                   Shipping and taxes calculated at checkout.
                 </p>
-                <div className="mt-6">
-                  <Link
-                    to="/checkout"
-                    className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
-                  >
-                    Checkout
-                  </Link>
-                </div>
-                <div className="mt-6 flex justify-center text-center text-sm text-gray-500">
-                  <p>
-                    or
-                    <Link to="/">
-                      <button
-                        type="button"
-                        className="font-medium text-indigo-600 hover:text-indigo-500"
-                        onClick={() => setOpen(false)}
-                      >
-                        Continue Shopping
-                        <span aria-hidden="true"> &rarr;</span>
-                      </button>
-                    </Link>
-                  </p>
-                </div>
               </div>
             </div>
           ) : (
