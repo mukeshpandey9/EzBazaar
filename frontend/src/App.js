@@ -2,7 +2,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
 import CartPage from "./pages/CartPage";
 import Checkout from "./pages/Checkout";
 import ProdDetailPage from "./pages/ProdDetailPage";
@@ -15,59 +15,7 @@ import { getCart } from "./redux/actions/cartActions";
 import Success from "./pages/Success";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home />,
-  },
-  {
-    path: "/signup",
-    element: <SignUpPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/orders",
-    element: <Orders />,
-  },
-  {
-    path: "/order/:id",
-    element: <OrderDetails />,
-  },
-  {
-    path: "/cart",
-    element: <CartPage />,
-  },
-  {
-    path: "/checkout",
-    element: <Checkout />,
-  },
-  {
-    path: "/product/:id",
-    element: <ProdDetailPage />,
-  },
-  {
-    path: "/products",
-    element: <Products />,
-  },
-  {
-    path: "/products/:keyword",
-    element: <Products />,
-  },
-
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-
-  {
-    path: "/success",
-    element: <Success />,
-  },
-]);
+import ProtectedRoutes from "./components/routes/ProtectedRoutes";
 
 function App() {
   useEffect(() => {
@@ -79,9 +27,66 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <RouterProvider router={router} />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoutes>
+              <Orders />
+            </ProtectedRoutes>
+          }
+        />
+
+        <Route
+          path="/order/:id"
+          element={
+            <ProtectedRoutes>
+              <OrderDetails />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoutes>
+              <CartPage />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoutes>
+              <Checkout />
+            </ProtectedRoutes>
+          }
+        />
+        <Route path="/products" element={<Products />} />
+        <Route path="/product/:id" element={<ProdDetailPage />} />
+        <Route path="/products/:keyword" element={<Products />} />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoutes>
+              <Profile />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/success"
+          element={
+            <ProtectedRoutes>
+              <Success />
+            </ProtectedRoutes>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
