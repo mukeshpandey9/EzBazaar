@@ -111,7 +111,7 @@ exports.createProductReview = async (req, res) => {
   try {
     const { rating, comment, productId } = req.body;
     const review = {
-      user: req.user._id,
+      user: req.user.id,
       name: req.user.name,
       rating: Number(rating),
       comment,
@@ -119,11 +119,11 @@ exports.createProductReview = async (req, res) => {
 
     const product = await Product.findById(productId);
     const isReviewed = product.reviews.find(
-      (rev) => rev.user.toString() === req.user._id.toString()
+      (rev) => rev.user.toString() === req.user.id.toString()
     );
     if (isReviewed) {
       product.reviews.forEach((rev) => {
-        if (rev.user.toString() === req.user._id.toString())
+        if (rev.user.toString() === req.user.id.toString())
           (rev.rating = rating), (rev.comment = comment);
       });
     } else {
@@ -141,7 +141,7 @@ exports.createProductReview = async (req, res) => {
     await product.save({
       validateBeforeSave: false,
     });
-    res.status(200).json({ success: true });
+    res.status(201).json({ success: true, message: "Review Submitted" });
   } catch (error) {
     return res.status(500).json({
       success: false,

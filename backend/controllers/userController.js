@@ -7,20 +7,20 @@ const cloudinary = require("cloudinary");
 
 exports.registerController = async (req, res) => {
   try {
+    const { name, email, password } = req.body;
     const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
       folder: "avatars",
       width: 150,
       crop: "scale",
     });
 
-    const { name, email, password } = req.body;
     if (!email || !password || !name) {
       return res.status(400).json({
         success: false,
         message: "Please enter the details",
       });
     }
-    const user = await userModel.create({
+    const newUser = await userModel.create({
       name,
       email,
       password,
@@ -29,6 +29,15 @@ exports.registerController = async (req, res) => {
         url: myCloud.secure_url,
       },
     });
+
+    const user = await userModel.findById(newUser._id).select("-password");
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "Error In Registering User",
+      });
+    }
 
     sendToken(user, 201, res);
   } catch (error) {

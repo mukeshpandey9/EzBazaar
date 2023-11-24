@@ -72,6 +72,7 @@ export default function ProductList() {
     useSelector((state) => state.products);
 
   const { keyword } = useParams();
+  console.log(keyword);
 
   // Pagination
 
@@ -88,6 +89,8 @@ export default function ProductList() {
     setPrice(e);
     console.log();
   };
+
+  // Sort By
 
   // Category
 
@@ -290,8 +293,7 @@ export default function ProductList() {
                               {sortOptions.map((option) => (
                                 <Menu.Item key={option.name}>
                                   {({ active }) => (
-                                    <a
-                                      href={option.href}
+                                    <p
                                       className={classNames(
                                         option.current
                                           ? "font-medium text-gray-900"
@@ -301,7 +303,7 @@ export default function ProductList() {
                                       )}
                                     >
                                       {option.name}
-                                    </a>
+                                    </p>
                                   )}
                                 </Menu.Item>
                               ))}

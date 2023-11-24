@@ -89,7 +89,7 @@ export function SignUP() {
                       name="name"
                       type="text"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-800 sm:text-sm sm:leading-6"
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
@@ -109,7 +109,7 @@ export function SignUP() {
                       type="email"
                       autoComplete="false"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-800 sm:text-sm sm:leading-6"
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </div>
@@ -131,7 +131,7 @@ export function SignUP() {
                       type="password"
                       autoComplete="false"
                       required
-                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-violet-800 sm:text-sm sm:leading-6"
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
@@ -169,7 +169,7 @@ export function SignUP() {
                 <div>
                   <button
                     type="submit"
-                    className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                    className="flex w-full justify-center rounded-md bg-violet-800 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-800"
                     onSubmit={(e) => e.preventDefault()}
                   >
                     Sign Up
@@ -181,11 +181,19 @@ export function SignUP() {
                 Already a member?{" "}
                 <Link
                   to="/login"
-                  className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+                  className="font-semibold leading-6 text-violet-800 hover:text-indigo-500"
                 >
                   Login to Your Account
                 </Link>
               </p>
+              <div className="text-center">
+                <Link
+                  to="/"
+                  className="text-center font-bold text-violet-900 text-sm"
+                >
+                  Return To Home Page
+                </Link>
+              </div>
             </div>
           </div>
         )}
