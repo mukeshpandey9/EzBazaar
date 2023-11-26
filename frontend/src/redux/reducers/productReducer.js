@@ -6,15 +6,31 @@ import {
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   CLEAR_ERRORS,
+  ADMIN_PRODUCT_SUCCESS,
+  ADMIN_PRODUCT_FAIL,
+  ADMIN_PRODUCT_REQUEST,
+  DELETE_PRODUCT_REQUEST,
+  DELETE_PRODUCT_FAIL,
+  DELETE_PRODUCT_SUCCESS,
 } from "../constants/productContants";
 
 export const productReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case ALL_PRODUCT_REQUEST:
+    case ADMIN_PRODUCT_REQUEST:
       return {
         loading: true,
+
         products: [],
       };
+
+    case DELETE_PRODUCT_REQUEST:
+      return {
+        loading: true,
+
+        success: false,
+      };
+
     case ALL_PRODUCT_SUCCESS:
       return {
         loading: false,
@@ -23,9 +39,26 @@ export const productReducer = (state = { products: [] }, action) => {
         resultPerpage: action.payload.resultPerpage,
         filteredProductCount: action.payload.filteredProductCount,
       };
-    case ALL_PRODUCT_FAIL:
+
+    case ADMIN_PRODUCT_SUCCESS:
       return {
         loading: false,
+        products: action.payload.product,
+        productsCount: action.payload.productCount,
+      };
+
+    case DELETE_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+
+    case ALL_PRODUCT_FAIL:
+    case ADMIN_PRODUCT_FAIL:
+    case DELETE_PRODUCT_FAIL:
+      return {
+        loading: false,
+        success: false,
         error: action.payload,
       };
     case CLEAR_ERRORS:

@@ -16,6 +16,8 @@ import Success from "./pages/Success";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
 import ProtectedRoutes from "./components/routes/ProtectedRoutes";
+import AdminPage from "./pages/Admin/AdminPage";
+import AdminProductsPage from "./pages/Admin/AdminProducts";
 
 function App() {
   useEffect(() => {
@@ -85,6 +87,8 @@ function App() {
             </ProtectedRoutes>
           }
         />
+        <Route path="/admin/dashboard" element={<AdminPage />} />
+        <Route path="/admin/products" element={<AdminProductsPage />} />
       </Routes>
     </BrowserRouter>
   );
