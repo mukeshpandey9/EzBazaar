@@ -45,6 +45,32 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+// Get all Products - ADMIN
+
+exports.getAdminProducts = async (req, res) => {
+  try {
+    // res.status(500).json({ message: "I called tthe eoor" });
+    const productCount = await Product.countDocuments();
+
+    const product = await Product.find();
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No Product Found" });
+    }
+
+    res.status(201).json({
+      success: true,
+      product,
+      productCount,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+
 // Product details
 
 exports.productDetails = async (req, res) => {

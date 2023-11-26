@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineSearch, HiShoppingCart } from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Avatar, Badge, Menu, Dropdown, message } from "antd";
-import cartImg from "../../assets/img/cart.svg";
 import {
   UserOutlined,
   SolutionOutlined,
@@ -122,7 +121,7 @@ const Header = () => {
           {!mobileMenu && (
             <Link to="/cart">
               <li className="menuItem p-0 ">
-                <img src={cartImg} alt="" className="w-14" />
+                <HiShoppingCart />
                 <Badge
                   count={cartCount}
                   className="md:-mt-5 md:-ms-3  mt-0 text-violet-800"
@@ -160,7 +159,7 @@ const Header = () => {
             <>
               <Link to="/cart">
                 <li className="menuItem p-0 ">
-                  <img src={cartImg} alt="" className="w-10" />
+                  <HiShoppingCart className="w-24" />
                   <Badge
                     count={cartCount}
                     className="-mt-[5rem] ms-6 w-3/12 text-violet-800"

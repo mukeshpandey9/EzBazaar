@@ -26,18 +26,6 @@ const sortOptions = [
 
 const filters = [
   {
-    id: "color",
-    name: "Color",
-    options: [
-      { value: "white", label: "White", checked: false },
-      { value: "beige", label: "Beige", checked: false },
-      { value: "blue", label: "Blue", checked: true },
-      { value: "brown", label: "Brown", checked: false },
-      { value: "green", label: "Green", checked: false },
-      { value: "purple", label: "Purple", checked: false },
-    ],
-  },
-  {
     id: "category",
     name: "Category",
     options: [
@@ -46,18 +34,6 @@ const filters = [
       { value: "Tops", label: "Tops", checked: false },
       { value: "Sports", label: "Sports", checked: false },
       { value: "SmartPhones", label: "SmartPhones", checked: false },
-    ],
-  },
-  {
-    id: "size",
-    name: "Size",
-    options: [
-      { value: "2l", label: "2L", checked: false },
-      { value: "6l", label: "6L", checked: false },
-      { value: "12l", label: "12L", checked: false },
-      { value: "18l", label: "18L", checked: false },
-      { value: "20l", label: "20L", checked: false },
-      { value: "40l", label: "40L", checked: true },
     ],
   },
 ];
@@ -255,10 +231,10 @@ export default function ProductList() {
                       All Products
                     </h1>
 
-                    <div className="flex items-center">
+                    <div className="flex items-center pt-10">
                       <Menu
                         as="div"
-                        className="relative inline-block text-left"
+                        className=" relative inline-block text-left"
                       >
                         <div>
                           <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
@@ -269,7 +245,7 @@ export default function ProductList() {
                             />
                           </Menu.Button>
                           <button
-                            className="lg:w-40 w-32 ms-9 lg:text-xl bg-violet-200 text-violet-800   p-2 rounded-md"
+                            className="lg:w-40 w-24 ms-9 text-xs  lg:text-xl bg-violet-200 text-violet-800   p-2 rounded-md"
                             onClick={() => {
                               setPrice([0, 10000]);
                               setCategory("");
