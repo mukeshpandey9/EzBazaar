@@ -18,6 +18,9 @@ import OrderDetails from "./pages/OrderDetails";
 import ProtectedRoutes from "./components/routes/ProtectedRoutes";
 import AdminPage from "./pages/Admin/AdminPage";
 import AdminProductsPage from "./pages/Admin/AdminProducts";
+import CreateProduct from "./pages/Admin/CreateProduct";
+import AdminOrders from "./pages/Admin/AdminOrders";
+import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
 
 function App() {
   useEffect(() => {
@@ -89,6 +92,9 @@ function App() {
         />
         <Route path="/admin/dashboard" element={<AdminPage />} />
         <Route path="/admin/products" element={<AdminProductsPage />} />
+        <Route path="/admin/product/new" element={<CreateProduct />} />
+        <Route path="/admin/orders/all" element={<AdminOrders />} />
+        <Route path="/admin/order/:id" element={<AdminOrderDetails />} />
       </Routes>
     </BrowserRouter>
   );

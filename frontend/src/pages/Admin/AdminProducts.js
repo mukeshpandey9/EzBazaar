@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import SideBar from "../../components/SideBar";
 import { useDispatch, useSelector } from "react-redux";

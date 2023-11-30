@@ -96,8 +96,18 @@ export default function SideBar() {
                   Products
                 </Sidebar.Item>
               </Link>
-              <Link>
-                <Sidebar.Item href="#">Create Product</Sidebar.Item>
+              <Link to="/admin/product/new">
+                <Sidebar.Item
+                  className={
+                    activeItem === "create"
+                      ? "bg-neutral-200"
+                      : "text-violet-700 text-lg font-medium"
+                  }
+                  onClick={() => handleItemClick("create")}
+                  icon={HiShoppingBag}
+                >
+                  Create Products
+                </Sidebar.Item>
               </Link>
               <Link>
                 <Sidebar.Item href="#">Shipping</Sidebar.Item>

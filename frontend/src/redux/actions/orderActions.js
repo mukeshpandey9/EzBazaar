@@ -10,6 +10,9 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAIL,
+  ADMIN_ORDERS_REQUEST,
+  ADMIN_ORDERS_SUCCESS,
+  ADMIN_ORDERS_FAIL,
 } from "../constants/orderConstants";
 
 export const createOrder =
@@ -90,6 +93,30 @@ export const getOrderDetails = (orderId) => async (dispatch) => {
       type: ORDER_DETAILS_FAIL,
       payload: error.response.data.message,
     });
+  }
+};
+
+// Get ALl Orders ___ ADMIN
+
+export const getAdminOrders = () => async (dispatch) => {
+  try {
+    //   console.log("Inside Order Data", orderData);
+    dispatch({ type: ADMIN_ORDERS_REQUEST });
+
+    const { data } = await axios.get("/api/v1/admin/orders");
+
+    if (data && data?.success === false) {
+      dispatch({
+        type: ADMIN_ORDERS_FAIL,
+        payload: data.message,
+      });
+      return;
+    }
+
+    dispatch({ type: ADMIN_ORDERS_SUCCESS, payload: data });
+  } catch (error) {
+    console.log("Error in Getting Order: \n", error);
+    dispatch({ type: ADMIN_ORDERS_FAIL, payload: error.response.data.message });
   }
 };
 

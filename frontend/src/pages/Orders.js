@@ -49,8 +49,8 @@ const Orders = () => {
                 return (
                   <div className="w-[95vw] mt-10 mx-auto border bg-white border-violet-500 rounded-xl  md:w-[70vw] h-full p-6">
                     {/* Header */}
-                    <div className="flex flex-col border-b border-violet-400 md:flex-row justify-between">
-                      <div className="flex gap-10 ">
+                    <div className="flex pb-3 md:pb-0 flex-col border-b border-violet-400 md:flex-row justify-between">
+                      <div className="flex flex-col md:flex-row gap-2 md:gap-10 ">
                         <div className="my-2">
                           <h3 className="text-violet-500">Order Id</h3>
                           <p className="text-gray-500 text-sm">{order?._id}</p>
@@ -70,7 +70,7 @@ const Orders = () => {
                       </div>
                       <Link
                         to={`/order/${order?._id}`}
-                        className="border hover:bg-violet-100 bg-violet-200 border-violet-500 rounded-md p-2 text-violet-800 px-4 h-10"
+                        className="border mt-3 md:mt-0 hover:bg-violet-100 bg-violet-200 border-violet-500 rounded-md p-2 text-violet-800 px-4 h-10"
                       >
                         View Order
                       </Link>
