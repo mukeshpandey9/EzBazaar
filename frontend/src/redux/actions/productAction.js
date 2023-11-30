@@ -14,6 +14,10 @@ import {
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_SUCCESS,
   DELETE_PRODUCT_FAIL,
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAIL,
+  CREATE_PRODUCT_RESET,
 } from "../constants/productContants";
 
 // Get Product Details
@@ -87,6 +91,31 @@ export const getAdminProduct = () => async (dispatch) => {
   }
 };
 
+// Create Product __ ADMIN
+
+export const createProduct = (formData) => async (dispatch) => {
+  try {
+    console.log(formData);
+    dispatch({
+      type: CREATE_PRODUCT_REQUEST,
+    });
+
+    const config = { headers: { "Content-type": "multipart/form-data" } };
+
+    await axios.post("/api/v1/admin/product/new", formData, config);
+    dispatch({
+      type: CREATE_PRODUCT_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: CREATE_PRODUCT_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
+  }
+};
+
 // Delete Product -- ADMIN
 
 export const deleteProduct = (id) => async (dispatch) => {
@@ -120,5 +149,13 @@ export const deleteProduct = (id) => async (dispatch) => {
 export const clearErrors = () => async (dispatch) => {
   dispatch({
     type: CLEAR_ERRORS,
+  });
+};
+
+// Reset Product Creation
+
+export const resetCreateProduct = () => async (dispatch) => {
+  dispatch({
+    type: CREATE_PRODUCT_RESET,
   });
 };

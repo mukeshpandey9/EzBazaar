@@ -1,15 +1,34 @@
-const { Cart } = require("../models/cartModel");
 const Product = require("../models/productModel");
 const ApiFeatures = require("../utils/apiFeatures");
-
+const cloudinary = require("cloudinary");
 // Create product --Admin
 
 exports.createProduct = async (req, res) => {
   try {
+    let images = [];
+    let imageUrls = [];
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else {
+      images = req.body.images;
+    }
+
+    for (let i = 0; i < images.length; i++) {
+      let image = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+
+      imageUrls.push({
+        public_id: image.public_id,
+        url: image.url,
+      });
+    }
+
     req.body.user = req.user.id;
+    req.body.images = imageUrls;
 
     const product = await Product.create(req.body);
-    res.status(201).json({ success: true, product });
+    res.status(201).json({ success: true });
   } catch (error) {
     console.log(error);
   }

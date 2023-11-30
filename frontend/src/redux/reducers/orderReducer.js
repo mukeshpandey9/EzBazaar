@@ -9,12 +9,16 @@ import {
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
   ORDER_DETAILS_FAIL,
+  ADMIN_ORDERS_REQUEST,
+  ADMIN_ORDERS_SUCCESS,
+  ADMIN_ORDERS_FAIL,
 } from "../constants/orderConstants";
 
 export const orderReducer = (state = {}, action) => {
   switch (action.type) {
     case NEW_ORDER_REQUEST:
     case GET_ORDER_REQUEST:
+    case ADMIN_ORDERS_REQUEST:
       return {
         loading: true,
         success: false,
@@ -34,8 +38,17 @@ export const orderReducer = (state = {}, action) => {
         success: true,
       };
 
+    case ADMIN_ORDERS_SUCCESS:
+      return {
+        loading: false,
+        orders: action.payload.orders,
+        totalAmount: action.payload.totalAmount,
+        success: true,
+      };
+
     case NEW_ORDER_FAIL:
     case GET_ORDER_FAIL:
+    case ADMIN_ORDERS_FAIL:
       return {
         loading: false,
         success: false,

@@ -67,7 +67,6 @@ const Checkout = () => {
   shippingInfo = JSON.parse(shippingInfo);
 
   const orderHandler = () => {
-    console.log("Order Handler");
     if (!shippingInfo) {
       message.warning("Please Enter The Shipping Details");
       return;
@@ -80,9 +79,11 @@ const Checkout = () => {
         totalPrice: sessionStorage.getItem("subtotal"),
       };
 
-      console.log("Order:    ", orderData);
+      // console.log("Order:    ", orderData);
 
       dispatch(createOrder(orderData));
+
+      sessionStorage.clear();
     }
   };
 

@@ -12,6 +12,10 @@ import {
   DELETE_PRODUCT_REQUEST,
   DELETE_PRODUCT_FAIL,
   DELETE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAIL,
+  CREATE_PRODUCT_RESET,
 } from "../constants/productContants";
 
 export const productReducer = (state = { products: [] }, action) => {
@@ -25,6 +29,7 @@ export const productReducer = (state = { products: [] }, action) => {
       };
 
     case DELETE_PRODUCT_REQUEST:
+    case CREATE_PRODUCT_REQUEST:
       return {
         loading: true,
 
@@ -48,6 +53,7 @@ export const productReducer = (state = { products: [] }, action) => {
       };
 
     case DELETE_PRODUCT_SUCCESS:
+    case CREATE_PRODUCT_SUCCESS:
       return {
         loading: false,
         success: true,
@@ -56,14 +62,23 @@ export const productReducer = (state = { products: [] }, action) => {
     case ALL_PRODUCT_FAIL:
     case ADMIN_PRODUCT_FAIL:
     case DELETE_PRODUCT_FAIL:
+    case CREATE_PRODUCT_FAIL:
       return {
         loading: false,
         success: false,
         error: action.payload,
       };
+
+    case CREATE_PRODUCT_RESET:
+      return {
+        ...state,
+        success: false,
+      };
+
     case CLEAR_ERRORS:
       return {
         ...state,
+        loading: false,
         error: null,
       };
 
