@@ -155,6 +155,7 @@ export default function ProductDetails() {
                         </button>
                         <span className="py-4 md:px-6 px-4 rounded-lg">
                           {amount}
+                          
                         </span>
                         <button
                           className="bg-gray-200 py-1 md:py-2 px-3 md:px-4 rounded-lg text-violet-800 text-3xl disabled:text-violet-400 disabled:cursor-not-allowed"
