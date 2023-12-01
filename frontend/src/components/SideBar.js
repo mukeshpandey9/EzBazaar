@@ -139,7 +139,7 @@ export default function SideBar() {
                 Users
               </Sidebar.Item>
             </Link>
-            <Link to="/admin/orders">
+            <Link to="/admin/orders/all">
               <Sidebar.Item
                 className={
                   activeItem === "Orders"
