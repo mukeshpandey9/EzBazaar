@@ -39,7 +39,7 @@ export function Login() {
       {loading ? (
         <Spinner />
       ) : (
-        <div className="bg-[url(https://i.dummyjson.com/data/products/3/thumbnail.jpg)] flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img
               className="mx-auto h-10 w-auto"
@@ -51,7 +51,7 @@ export function Login() {
             </h2>
           </div>
 
-          <div className=" bg-[#ffffff25] p-8 backdrop-filter border border-gray-100 mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className=" bg-[#ffffff25] p-8 backdrop-blur-sm rounded-lg border border-gray-100 mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
             <form
               className="space-y-6"
               action="#"

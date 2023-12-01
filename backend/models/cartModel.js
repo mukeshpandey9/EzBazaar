@@ -28,6 +28,13 @@ const cartSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  stock: {
+    type: Number,
+    default: 1,
+  },
+  imageSrc: {
+    type: String,
+  },
   totalPrice: {
     type: Number,
     default: 0,

@@ -75,9 +75,9 @@ export default function Cart() {
                                 <div className="text-gray-500">
                                   <label
                                     htmlFor="quantity"
-                                    className="inline mr-5 text-sm font-medium leading-6 text-gray-900"
+                                    className="inline mr-2 text-sm font-medium leading-6 text-gray-900"
                                   >
-                                    Qty {"  "}
+                                    Quantity: {"  "}
                                   </label>
                                   <select
                                     value={product?.qty}
@@ -90,10 +90,13 @@ export default function Cart() {
                                       );
                                     }}
                                   >
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                    {[...Array(product.stock)].map(
+                                      (_, index) => (
+                                        <option key={index} value={index + 1}>
+                                          {index + 1}
+                                        </option>
+                                      )
+                                    )}
                                   </select>
                                 </div>
 

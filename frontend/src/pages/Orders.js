@@ -35,7 +35,7 @@ const Orders = () => {
           {" "}
           <Header />
           <div className="container py-20 mx-auto bg-white">
-            <h1 className="text-4xl text-violet-400 text-center font-semibold ">
+            <h1 className="text-4xl text-violet-800 text-center font-semibold ">
               Your Orders{" "}
             </h1>
             {/* Orders */}
@@ -52,17 +52,17 @@ const Orders = () => {
                     <div className="flex pb-3 md:pb-0 flex-col border-b border-violet-400 md:flex-row justify-between">
                       <div className="flex flex-col md:flex-row gap-2 md:gap-10 ">
                         <div className="my-2">
-                          <h3 className="text-violet-500">Order Id</h3>
+                          <h3 className="text-violet-600">Order Id</h3>
                           <p className="text-gray-500 text-sm">{order?._id}</p>
                         </div>
                         <div className="my-2">
-                          <h3 className="text-violet-500">Date Placed</h3>
+                          <h3 className="text-violet-600">Date Placed</h3>
                           <p className="text-gray-500 text-sm">
                             {order?.createdAt}
                           </p>
                         </div>
                         <div className="my-2">
-                          <h3 className="text-violet-500">Total Amount</h3>
+                          <h3 className="text-violet-600">Total Amount</h3>
                           <p className="text-gray-500 text-sm">
                             {order?.totalPrice}{" "}
                           </p>

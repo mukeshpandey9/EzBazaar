@@ -11,20 +11,19 @@ exports.addToCart = async (req, res) => {
     const userId = req.user.id;
     const product = await Product.findById(req.body.productId);
 
-    // if (qty > stock) {
-    //   return res.status(200).json({
-    //     success: false,
-    //     message: "Quantity Cannot Be Greater Then The Available Stocks",
-    //   });
-    // }
-
     if (!product) {
       return res
         .status(404)
         .json({ success: false, message: "Product Not Found!" });
     }
 
-    const { _id, price, name, category, stock } = product;
+    const { _id, price, name, category, stock, images } = product;
+    if (qty > stock) {
+      return res.status(200).json({
+        success: false,
+        message: "Quantity Cannot Be Greater Then The Available Stocks",
+      });
+    }
 
     // Check If The Product Already Exists In the cart
     const existingProduct = await Cart.find({
@@ -57,9 +56,16 @@ exports.addToCart = async (req, res) => {
       price,
       qty,
       name,
+      stock,
+      imageSrc: images[0]?.url || "",
       category,
     });
 
+    if (!cartProduct) {
+      return res
+        .status(403)
+        .json({ success: false, message: "Error in Adding Cart Item" });
+    }
     res.status(200).json({ success: true, message: "Item Added To Cart" });
   } catch (error) {
     console.log("Error In Adding Item to cart: \n\n", error);
