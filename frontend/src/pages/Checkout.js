@@ -171,7 +171,7 @@ const Checkout = () => {
                             htmlFor="phone"
                             className="block text-sm font-medium leading-6 text-gray-900"
                           >
-                            phone address
+                            Mobile Number
                           </label>
                           <div className="mt-2">
                             <input
@@ -417,7 +417,7 @@ const Checkout = () => {
               <Cart />
 
               <div className="border-t border-gray-200 px-4 sm:px-6">
-                <div className="mt-5">
+                <div className="mt-5 flex justify-center">
                   <button
                     onClick={orderHandler}
                     className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
