@@ -30,9 +30,9 @@ const filters = [
     name: "Category",
     options: [
       { value: "Laptop", label: "Laptop", checked: false },
-      { value: "Footwear", label: "Footwear", checked: false },
-      { value: "Tops", label: "Tops", checked: false },
-      { value: "Sports", label: "Sports", checked: false },
+      { value: "Groceries", label: "Groceries", checked: false },
+      { value: "Skincare", label: "Skincare", checked: false },
+      { value: "Shoes", label: "Shoes", checked: false },
       { value: "SmartPhones", label: "SmartPhones", checked: false },
     ],
   },
@@ -60,7 +60,7 @@ export default function ProductList() {
   // Filters
   // Price
 
-  const [price, setPrice] = useState([0, 10000]);
+  const [price, setPrice] = useState([0, 50000]);
   const priceHandler = (e, newPrice) => {
     setPrice(e);
     console.log();
@@ -158,7 +158,7 @@ export default function ProductList() {
                                   draggableTrack: true,
                                 }}
                                 min={0}
-                                max={10000}
+                                max={50000}
                                 defaultValue={price}
                               />
                             </div>
@@ -200,7 +200,7 @@ export default function ProductList() {
                                             >
                                               <li
                                                 id={`filter-${section.id}-${optionIdx}`}
-                                                className="h-4 w-4 rounded border-gray-300 text-orange-700 focus:ring-indigo-500
+                                                className="rounded border-gray-300 bg-violet-200 p-2 text-violet-700 focus:ring-indigo-500
                                             hover:text-orange-300
                                             "
                                                 onClick={() =>
@@ -247,7 +247,7 @@ export default function ProductList() {
                           <button
                             className="lg:w-40 w-24 ms-9 text-xs  lg:text-xl bg-violet-200 text-violet-800   p-2 rounded-md"
                             onClick={() => {
-                              setPrice([0, 10000]);
+                              setPrice([0, 50000]);
                               setCategory("");
                             }}
                           >
@@ -323,7 +323,7 @@ export default function ProductList() {
                             draggableTrack: true,
                           }}
                           min={0}
-                          max={10000}
+                          max={50000}
                           defaultValue={price}
                         />
 
@@ -363,12 +363,12 @@ export default function ProductList() {
                                           <>
                                             <ul
                                               key={option.value}
-                                              className="flex items-center"
+                                              className="flex flex-wrap items-center"
                                             >
                                               <li
                                                 id={`filter-${section.id}-${optionIdx}`}
-                                                className={`h-4 w-4 rounded border-gray-300 text-orange-500 focus:ring-indigo-500
-                                            hover:text-orange-600 cursor-pointer
+                                                className={`rounded border-gray-300 bg-violet-200 p-2 text-violet-700 focus:ring-indigo-500
+                                            hover:text-violet-600 cursor-pointer
                                              
                                             `}
                                                 onClick={() => {
@@ -398,15 +398,15 @@ export default function ProductList() {
                           {keyword && (
                             <h3 className="text-2xl ">
                               Results for{" "}
-                              <span className="text-orange-500">
+                              <span className="text-violet-600">
                                 '{keyword}'
                               </span>
                             </h3>
                           )}
                           {category && (
-                            <h3 className="text-2xl ">
-                              Category:-{" "}
-                              <span className="text-orange-500">
+                            <h3 className="text-xl ">
+                              Category:{" "}
+                              <span className="text-lg text-violet-600">
                                 '{category}'
                               </span>
                             </h3>
@@ -427,22 +427,22 @@ export default function ProductList() {
                                     <Link to={`/product/${product?._id}`}>
                                       <div
                                         key={product.id}
-                                        className="group relative"
+                                        className="group relative backdrop-blur-sm border rounded"
                                       >
-                                        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 h-96 lg:h-80">
+                                        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden object-contain rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 h-[19rem] lg:h-[17rem]">
                                           <img
                                             src={product.images[0].url}
                                             alt={product.name}
-                                            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                                            className="h-full w-max object-cover object-center lg:h-full lg:w-full"
                                           />
                                         </div>
-                                        <div className="mt-4 flex justify-between">
+                                        <div className="mt-4 p-4 flex justify-between">
                                           <div>
                                             <h3 className="text-sm text-gray-700">
                                               <a href={product?.thumbnail}>
                                                 <span
                                                   aria-hidden="true"
-                                                  className="absolute inset-0"
+                                                  className="absolute font-semibold text-xl inset-0"
                                                 />
                                                 {product?.name}
                                               </a>
@@ -451,7 +451,7 @@ export default function ProductList() {
                                               <ReactStars
                                                 {...options}
                                                 value={product.ratings}
-                                                activeColor="tomato"
+                                                activeColor="#FFD700"
                                               />
                                               <span className="align-bottom">
                                                 ( {product?.numOfReviews}{" "}
@@ -460,7 +460,7 @@ export default function ProductList() {
                                             </p>
                                           </div>
                                           <div>
-                                            <p className="text-sm font-medium text-gray-900">
+                                            <p className="text-sm text-violet-700 font-medium">
                                               ₹{Math.round(product?.price)}
                                             </p>
                                           </div>

@@ -51,7 +51,7 @@ export function Login() {
             </h2>
           </div>
 
-          <div className=" bg-[#ffffff25] p-8 backdrop-blur-sm rounded-lg border border-gray-100 mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className=" bg-[#ffffff25] p-8 backdrop-blur-sm rounded-lg border-2 border-white mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
             <form
               className="space-y-6"
               action="#"

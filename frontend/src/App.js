@@ -21,6 +21,7 @@ import AdminProductsPage from "./pages/Admin/AdminProducts";
 import CreateProduct from "./pages/Admin/CreateProduct";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 function App() {
   useEffect(() => {
@@ -30,6 +31,7 @@ function App() {
   useEffect(() => {
     store.dispatch(getCart());
   });
+  console.log(process.env.REACT_APP_BASE_URL);
 
   return (
     <BrowserRouter>
@@ -95,6 +97,7 @@ function App() {
         <Route path="/admin/product/new" element={<CreateProduct />} />
         <Route path="/admin/orders/all" element={<AdminOrders />} />
         <Route path="/admin/order/:id" element={<AdminOrderDetails />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );

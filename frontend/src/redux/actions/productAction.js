@@ -18,6 +18,9 @@ import {
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_RESET,
+  REVIEW_PRODUCT_REQUEST,
+  REVIEW_PRODUCT_SUCCESS,
+  REVIEW_PRODUCT_FAIL,
 } from "../constants/productContants";
 
 // Get Product Details
@@ -28,7 +31,9 @@ export const getProductDetails = (id) => async (dispatch) => {
       type: PRODUCT_DETAILS_REQUEST,
     });
 
-    const { data } = await axios.get(`/api/v1/product/${id}`);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/product/${id}`
+    );
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: data.product,
@@ -44,17 +49,19 @@ export const getProductDetails = (id) => async (dispatch) => {
 // Get ALl Product
 
 export const getProduct =
-  (keyword = "", currentPage = 1, price = [0, 10000], category) =>
+  (keyword = "", currentPage = 1, price = [0, 50000], category) =>
   async (dispatch) => {
     try {
+      console.log(process.env.REACT_APP_BASE_URL);
       dispatch({
         type: ALL_PRODUCT_REQUEST,
       });
-      let url = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
+      let url = `${process.env.REACT_APP_BASE_URL}/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
 
       if (category) {
-        url = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
+        url = `${process.env.REACT_APP_BASE_URL}/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
       }
+
       const { data } = await axios.get(url);
       dispatch({
         type: ALL_PRODUCT_SUCCESS,
@@ -76,7 +83,9 @@ export const getAdminProduct = () => async (dispatch) => {
       type: ADMIN_PRODUCT_REQUEST,
     });
 
-    const { data } = await axios.get("/api/v1/admin/products");
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/products`
+    );
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
       payload: data,
@@ -102,7 +111,11 @@ export const createProduct = (formData) => async (dispatch) => {
 
     const config = { headers: { "Content-type": "multipart/form-data" } };
 
-    await axios.post("/api/v1/admin/product/new", formData, config);
+    await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/product/new`,
+      formData,
+      config
+    );
     dispatch({
       type: CREATE_PRODUCT_SUCCESS,
     });
@@ -124,7 +137,9 @@ export const deleteProduct = (id) => async (dispatch) => {
       type: DELETE_PRODUCT_REQUEST,
     });
 
-    const { data } = await axios.delete(`/api/v1/admin/product/${id}`);
+    const { data } = await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/product/${id}`
+    );
 
     if (data && data.success === false) {
       dispatch({
@@ -143,6 +158,45 @@ export const deleteProduct = (id) => async (dispatch) => {
     });
   }
 };
+
+// Create Review
+
+export const createReview =
+  (rating, comment, productId) => async (dispatch) => {
+    try {
+      dispatch({
+        type: REVIEW_PRODUCT_REQUEST,
+      });
+
+      const config = { headers: { "Content-type": "application/json" } };
+
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/api/v1/review`,
+        { rating, comment, productId },
+        config
+      );
+
+      if (data && data.success === false) {
+        dispatch({
+          type: REVIEW_PRODUCT_FAIL,
+          payload: data.message,
+        });
+      }
+
+      if (data && data.success) {
+        dispatch({
+          type: REVIEW_PRODUCT_SUCCESS,
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: REVIEW_PRODUCT_FAIL,
+        payload: error.response.data.message
+          ? error.response.data.message
+          : error.message,
+      });
+    }
+  };
 
 // Clearing the error
 

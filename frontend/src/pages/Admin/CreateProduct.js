@@ -13,8 +13,9 @@ import { useNavigate } from "react-router-dom";
 const CreateProduct = () => {
   const categoryOptions = [
     "Laptop",
-    "Sports",
-    "Food",
+    "Shoes",
+    "Groceries",
+    "Skincare",
     "Cloths",
     "Electronics",
     "SmartPhones",

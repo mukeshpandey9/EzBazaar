@@ -34,7 +34,7 @@ const OrderDetails = () => {
       ) : (
         <div>
           {order && (
-            <div className="container mx-auto max-w-7xl">
+            <div className="container py-10 mx-auto max-w-7xl">
               {/* Order Summary */}
               <div className="bg-white rounded-lg shadow-md p-8">
                 <div className="flex flex-col items-center">

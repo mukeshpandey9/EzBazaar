@@ -36,6 +36,8 @@ router
 
 router.route("/product/:id").get(productDetails);
 
+// Reviews
+
 router.route("/review").put(isAuthenticatedUser, createProductReview);
 router
   .route("/reviews")

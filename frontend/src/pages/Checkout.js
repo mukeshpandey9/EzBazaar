@@ -7,24 +7,6 @@ import { message } from "antd";
 import { Step, Stepper } from "react-form-stepper";
 import { clearErrors, createOrder } from "../redux/actions/orderActions";
 import { clearCart } from "../redux/actions/cartActions";
-const adresses = [
-  {
-    name: "Jhon Doe",
-    street: "11th Main",
-    city: "Delhi",
-    pincode: 111023,
-    state: "Delhi",
-    phone: 85835245,
-  },
-  {
-    name: "Jhon Wick",
-    street: "17th west",
-    city: "Aagra",
-    pincode: 521558,
-    state: "U.P.",
-    phone: 487438343,
-  },
-];
 
 const Checkout = () => {
   const navigate = useNavigate();
