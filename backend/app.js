@@ -5,16 +5,33 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const app = express();
 
-app.use(express.json());
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload());
+app.use((req, res, next) => {
+  // Allow requests from the client domain (app.example.com)
+  res.setHeader("Access-Control-Allow-Origin", "https://ez-bazaar.vercel.app");
+
+  // Allow credentials (cookies) to be sent
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+
+  // Specify allowed HTTP methods (e.g., GET, POST)
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+
+  // Optionally specify allowed headers (e.g., Authorization)
+  res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+
+  next();
+});
 app.use(
   cors({
     origin: "*",
     credentials: true,
   })
 );
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
+
 // Routes
 
 const productRoutes = require("./routes/productRoutes");
