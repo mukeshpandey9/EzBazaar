@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../../utils/API";
 
 import {
   ALL_PRODUCT_FAIL,
@@ -30,10 +30,11 @@ export const getProductDetails = (id) => async (dispatch) => {
     dispatch({
       type: PRODUCT_DETAILS_REQUEST,
     });
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/product/${id}`
-    );
+    const { data } = await API.get(`/api/v1/product/${id}`, config);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: data.product,
@@ -55,13 +56,17 @@ export const getProduct =
       dispatch({
         type: ALL_PRODUCT_REQUEST,
       });
-      let url = `${process.env.REACT_APP_BASE_URL}/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
+
+      const config = {
+        withCredentials: true, // Include this for requests requiring credentials
+      };
+      let url = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
 
       if (category) {
-        url = `${process.env.REACT_APP_BASE_URL}/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
+        url = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
       }
 
-      const { data } = await axios.get(url);
+      const { data } = await API.get(url, config);
       dispatch({
         type: ALL_PRODUCT_SUCCESS,
         payload: data,
@@ -81,10 +86,10 @@ export const getAdminProduct = () => async (dispatch) => {
     dispatch({
       type: ADMIN_PRODUCT_REQUEST,
     });
-
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/products`
-    );
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
+    const { data } = await API.get(`/api/v1/admin/products`, config);
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
       payload: data,
@@ -108,13 +113,12 @@ export const createProduct = (formData) => async (dispatch) => {
       type: CREATE_PRODUCT_REQUEST,
     });
 
-    const config = { headers: { "Content-type": "multipart/form-data" } };
+    const config = {
+      headers: { "Content-type": "multipart/form-data" },
+      withCredentials: true,
+    };
 
-    await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/product/new`,
-      formData,
-      config
-    );
+    await API.post(`/api/v1/admin/product/new`, formData, config);
     dispatch({
       type: CREATE_PRODUCT_SUCCESS,
     });
@@ -135,10 +139,10 @@ export const deleteProduct = (id) => async (dispatch) => {
     dispatch({
       type: DELETE_PRODUCT_REQUEST,
     });
-
-    const { data } = await axios.delete(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/product/${id}`
-    );
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
+    const { data } = await API.delete(`/api/v1/admin/product/${id}`, config);
 
     if (data && data.success === false) {
       dispatch({
@@ -167,10 +171,13 @@ export const createReview =
         type: REVIEW_PRODUCT_REQUEST,
       });
 
-      const config = { headers: { "Content-type": "application/json" } };
+      const config = {
+        headers: { "Content-type": "application/json" },
+        withCredentials: true,
+      };
 
-      const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/review`,
+      const { data } = await API.put(
+        `/api/v1/review`,
         { rating, comment, productId },
         config
       );

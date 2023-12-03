@@ -21,7 +21,10 @@ export const createOrder =
     try {
       //   console.log("Inside Order Data", orderData);
       dispatch({ type: NEW_ORDER_REQUEST });
-      const config = { headers: { "Content-type": "application/json" } };
+      const config = {
+        headers: { "Content-type": "application/json" },
+        withCredentials: true,
+      };
 
       const { data } = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/api/v1/order/new`,
@@ -50,9 +53,12 @@ export const getOrders = () => async (dispatch) => {
   try {
     //   console.log("Inside Order Data", orderData);
     dispatch({ type: GET_ORDER_REQUEST });
-
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/order/me`
+      `${process.env.REACT_APP_BASE_URL}/api/v1/order/me`,
+      config
     );
 
     if (data && data?.success === false) {
@@ -78,8 +84,12 @@ export const getOrderDetails = (orderId) => async (dispatch) => {
 
     // console.log(orderId);
 
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
     const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/order/${orderId}`
+      `${process.env.REACT_APP_BASE_URL}/api/v1/order/${orderId}`,
+      config
     );
 
     if (data && data?.success === false) {
@@ -106,9 +116,12 @@ export const getAdminOrders = () => async (dispatch) => {
   try {
     //   console.log("Inside Order Data", orderData);
     dispatch({ type: ADMIN_ORDERS_REQUEST });
-
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/orders`
+      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/orders`,
+      config
     );
 
     if (data && data?.success === false) {

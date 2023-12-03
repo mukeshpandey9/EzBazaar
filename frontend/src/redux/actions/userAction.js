@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../../utils/API";
 import {
   USER_SIGNUP_FAIL,
   USER_SIGNUP_REQUEST,
@@ -22,12 +22,13 @@ import {
 
 export const UserLogin = (email, password) => async (dispatch) => {
   try {
-    console.log(process.env.REACT_APP_BASE_URL);
-
     dispatch({ type: USER_LOGIN_REQUEST });
-    const config = { headers: { "Content-type": "application/json" } };
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/login`,
+    const config = {
+      headers: { "Content-type": "application/json" },
+      withCredentials: true,
+    };
+    const { data } = await API.post(
+      `/api/v1/login`,
       { email, password },
 
       config
@@ -44,9 +45,12 @@ export const userSignup =
   (name, email, password, avatar) => async (dispatch) => {
     try {
       dispatch({ type: USER_SIGNUP_REQUEST });
-      const config = { headers: { "Content-type": "multipart/form-data" } };
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/api/v1/register`,
+      const config = {
+        headers: { "Content-type": "multipart/form-data" },
+        withCredentials: true,
+      };
+      const { data } = await API.post(
+        `/api/v1/register`,
         {
           name,
           email,
@@ -70,9 +74,12 @@ export const userSignup =
 export const updateProfile = (name, avatar) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
-    const config = { headers: { "Content-type": "multipart/form-data" } };
-    const { data } = await axios.put(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/profile/update`,
+    const config = {
+      headers: { "Content-type": "multipart/form-data" },
+      withCredentials: true,
+    };
+    const { data } = await API.put(
+      `/api/v1/profile/update`,
       { name, avatar },
       config
     );
@@ -89,11 +96,12 @@ export const updateProfile = (name, avatar) => async (dispatch) => {
 
 export const loadUser = () => async (dispatch) => {
   try {
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
     dispatch({ type: LOAD_USER_REQUEST });
     console.log(process.env.REACT_APP_BASE_URL);
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/profile`
-    );
+    const { data } = await API.get(`/api/v1/profile`, config);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({
@@ -108,10 +116,10 @@ export const loadUser = () => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOGOUT_REQUEST });
-
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/logout`
-    );
+    const config = {
+      withCredentials: true, // Include this for requests requiring credentials
+    };
+    const { data } = await API.get(`/api/v1/logout`, config);
     dispatch({ type: LOGOUT_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
