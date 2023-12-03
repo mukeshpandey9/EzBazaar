@@ -5,11 +5,7 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const app = express();
 
-app.use(
-  cors({
-    origin: "*",
-  })
-);
+app.use(cors());
 
 app.use(express.json());
 app.use(cookieParser());
