@@ -5,21 +5,6 @@ const fileUpload = require("express-fileupload");
 const cors = require("cors");
 const app = express();
 
-app.use((req, res, next) => {
-  // Allow requests from the client domain (app.example.com)
-  res.setHeader("Access-Control-Allow-Origin", "https://ez-bazaar.vercel.app");
-
-  // Allow credentials (cookies) to be sent
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-
-  // Specify allowed HTTP methods (e.g., GET, POST)
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
-
-  // Optionally specify allowed headers (e.g., Authorization)
-  res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
-
-  next();
-});
 app.use(
   cors({
     origin: "*",
