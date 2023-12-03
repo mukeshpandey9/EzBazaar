@@ -19,8 +19,6 @@ const sendToken = (user, statusCode, res) => {
       user,
       token,
     });
-
-    res.setHeader("Set-Cookie", `token=${token}; SameSite=None`);
   } catch (error) {
     console.log(error);
   }
