@@ -39,7 +39,7 @@ exports.createProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
   try {
     // res.status(500).json({ message: "I called tthe eoor" });
-    const resultPerpage = 3;
+    const resultPerpage = 6;
     const productCount = await Product.countDocuments();
     const apiFeature = new ApiFeatures(Product.find(), req.query)
       .search()

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import preImg from "../assets/img/preimg.png";
 import { useSelector, useDispatch } from "react-redux";
 import { clearErrors, getProductDetails } from "../redux/actions/productAction";
 import { Link, useParams } from "react-router-dom";
@@ -25,8 +25,6 @@ export default function ProductDetails() {
     (state) => state.cart
   );
 
-  const [activeImg, setActiveImage] = useState();
-
   const options = {
     edit: false,
     color: "rgba(20,20,20,0.1)",
@@ -36,7 +34,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductDetails(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, product?.reviews]);
 
   useEffect(() => {
     if (error) {
@@ -72,6 +70,16 @@ export default function ProductDetails() {
     message.success("Item Added To Cart SuccessFully");
   };
 
+  let img;
+
+  if (product && product.images && Array.isArray(product.images)) {
+    img = product.images[0].url;
+  } else {
+    img = preImg;
+  }
+
+  const [activeImg, setActiveImage] = useState(img);
+
   return (
     <>
       <ContentWrapper>
@@ -81,16 +89,17 @@ export default function ProductDetails() {
           <>
             {product && !error ? (
               <>
-                <div className="flex flex-col justify-between pb-12 pt-32 lg:flex-row gap-20">
-                  <div className="flex align-middle flex-col gap-6 h-6/12 lg:w-3/6">
-                    <div className=" h-full w-full  mx-auto  ">
+                <div className="flex px-4 md:px-0  flex-col justify-between pb-12 pt-20 md:pt-24 lg:flex-row gap-8 md:gap-20">
+                  <div className="flex align-middle flex-col gap-3 h-6/12 lg:w-3/6">
+                    <div className=" max-h-[50vh] h-[40vh] max-w-[90vw] md:max-h-[70vh] md:h-[60vh]  mx-auto  ">
                       <img
                         src={activeImg}
                         alt=""
                         className="w-full h-full rounded-xl mix-blend-multiply"
                       />
                     </div>
-                    <div className="flex flex-row justify-between h-24">
+
+                    <div className="flex w-full  gap-5 flex-row overflow-x-auto justify-between h-28">
                       {product &&
                         product.images &&
                         Array.isArray(product.images) &&
@@ -155,7 +164,6 @@ export default function ProductDetails() {
                         </button>
                         <span className="py-4 md:px-6 px-4 rounded-lg">
                           {amount}
-                          
                         </span>
                         <button
                           className="bg-gray-200 py-1 md:py-2 px-3 md:px-4 rounded-lg text-violet-800 text-3xl disabled:text-violet-400 disabled:cursor-not-allowed"
@@ -174,15 +182,11 @@ export default function ProductDetails() {
                         Add to Cart
                       </button>
                     </div>
-
-                    <button className="bg-gray-200 w-40 py-2 px-4 rounded-lg text-violet-800 text-bold">
-                      Write Review
-                    </button>
                   </div>
                 </div>
                 {/* Review */}
-                <div className="container mt-10">
-                  <RatingCard />
+                <div className="container my-10">
+                  <RatingCard productId={product?._id} />
                 </div>
                 <hr />
                 <div className="reviews-section overflow-x-scroll px-10  mt-8">
@@ -201,7 +205,7 @@ export default function ProductDetails() {
               </>
             ) : (
               <div className="h-screen flex items-center flex-col justify-center">
-                <h1 className="text-violet-500 text-3xl  ">
+                <h1 className="text-violet-500 text-center text-3xl  ">
                   Sorry!, The Product You Are Looking is Not Available.
                 </h1>
                 <div className="flex items-center pt-10 justify-center">

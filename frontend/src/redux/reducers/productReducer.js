@@ -16,6 +16,9 @@ import {
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_FAIL,
   CREATE_PRODUCT_RESET,
+  REVIEW_PRODUCT_REQUEST,
+  REVIEW_PRODUCT_SUCCESS,
+  REVIEW_PRODUCT_FAIL,
 } from "../constants/productContants";
 
 export const productReducer = (state = { products: [] }, action) => {
@@ -24,7 +27,6 @@ export const productReducer = (state = { products: [] }, action) => {
     case ADMIN_PRODUCT_REQUEST:
       return {
         loading: true,
-
         products: [],
       };
 
@@ -102,6 +104,36 @@ export const productDetailReducer = (state = { product: {} }, action) => {
     case PRODUCT_DETAILS_FAIL:
       return {
         loading: false,
+        error: action.payload,
+      };
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const reviewProduct = (state = {}, action) => {
+  switch (action.type) {
+    case REVIEW_PRODUCT_REQUEST:
+      return {
+        loading: true,
+        isReviewed: false,
+        ...state,
+      };
+    case REVIEW_PRODUCT_SUCCESS:
+      return {
+        loading: false,
+        isReviewed: true,
+      };
+    case REVIEW_PRODUCT_FAIL:
+      return {
+        loading: false,
+        isReviewed: true,
         error: action.payload,
       };
     case CLEAR_ERRORS:

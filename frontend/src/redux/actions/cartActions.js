@@ -27,7 +27,11 @@ export const addToCart = (productId, qty) => async (dispatch) => {
 
     const config = { headers: { "Content-type": "application/json" } };
 
-    await axios.post(`/api/v1/cart/add`, { productId, qty }, config);
+    await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/add`,
+      { productId, qty },
+      config
+    );
 
     dispatch({ type: ADD_TO_CART_SUCCESS });
   } catch (error) {
@@ -46,7 +50,9 @@ export const getCart = () => async (dispatch) => {
       type: GET_CART_REQUEST,
     });
 
-    const { data } = await axios.get(`/api/v1/cart`);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/cart`
+    );
 
     if (data) {
       dispatch({ type: GET_CART_SUCCESS, payload: data?.cartItem });
@@ -67,7 +73,9 @@ export const removeFromCart = (productId) => async (dispatch) => {
       type: REMOVE_CART_REQUEST,
     });
 
-    await axios.delete(`/api/v1/cart/remove/${productId}`);
+    await axios.delete(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/remove/${productId}`
+    );
 
     dispatch({ type: REMOVE_CART_SUCCESS });
   } catch (error) {
@@ -89,7 +97,7 @@ export const updateCart = (productId, qty) => async (dispatch) => {
     const config = { headers: { "Content-type": "application/json" } };
     console.log(productId, "  ", qty);
     const { data } = await axios.put(
-      `/api/v1/cart/update`,
+      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/update`,
       { productId, qty },
       config
     );
@@ -107,7 +115,7 @@ export const updateCart = (productId, qty) => async (dispatch) => {
 
 export const clearCart = () => async (dispatch) => {
   try {
-    await axios.delete("/api/v1/cart/clear");
+    await axios.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/cart/clear`);
   } catch (error) {
     console.log("Error in clearing Cart: ", error);
   }

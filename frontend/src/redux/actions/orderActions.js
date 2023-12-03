@@ -24,7 +24,7 @@ export const createOrder =
       const config = { headers: { "Content-type": "application/json" } };
 
       const { data } = await axios.post(
-        "/api/v1/order/new",
+        `${process.env.REACT_APP_BASE_URL}/api/v1/order/new`,
         { shippingInfo, orderItems, totalPrice },
         config
       );
@@ -51,7 +51,9 @@ export const getOrders = () => async (dispatch) => {
     //   console.log("Inside Order Data", orderData);
     dispatch({ type: GET_ORDER_REQUEST });
 
-    const { data } = await axios.get("/api/v1/order/me");
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/order/me`
+    );
 
     if (data && data?.success === false) {
       dispatch({
@@ -76,7 +78,9 @@ export const getOrderDetails = (orderId) => async (dispatch) => {
 
     // console.log(orderId);
 
-    const { data } = await axios.post(`/api/v1/order/${orderId}`);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/order/${orderId}`
+    );
 
     if (data && data?.success === false) {
       dispatch({
@@ -103,7 +107,9 @@ export const getAdminOrders = () => async (dispatch) => {
     //   console.log("Inside Order Data", orderData);
     dispatch({ type: ADMIN_ORDERS_REQUEST });
 
-    const { data } = await axios.get("/api/v1/admin/orders");
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/orders`
+    );
 
     if (data && data?.success === false) {
       dispatch({
