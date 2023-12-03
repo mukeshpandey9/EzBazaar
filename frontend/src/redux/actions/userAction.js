@@ -22,6 +22,8 @@ import {
 
 export const UserLogin = (email, password) => async (dispatch) => {
   try {
+    console.log(process.env.REACT_APP_BASE_URL);
+
     dispatch({ type: USER_LOGIN_REQUEST });
     const config = { headers: { "Content-type": "application/json" } };
     const { data } = await axios.post(
@@ -61,8 +63,6 @@ export const userSignup =
     }
   };
 
-// .kjgfa;kjvf
-
 //   Update  user profile
 
 export const updateProfile = (name, avatar) => async (dispatch) => {
@@ -88,7 +88,7 @@ export const updateProfile = (name, avatar) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
-
+    console.log(process.env.REACT_APP_BASE_URL);
     const { data } = await axios.get(
       `${process.env.REACT_APP_BASE_URL}/api/v1/profile`
     );

@@ -31,7 +31,6 @@ function App() {
   useEffect(() => {
     store.dispatch(getCart());
   });
-  console.log(process.env.REACT_APP_BASE_URL);
 
   return (
     <BrowserRouter>
