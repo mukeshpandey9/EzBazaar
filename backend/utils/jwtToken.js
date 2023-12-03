@@ -20,7 +20,7 @@ const sendToken = (user, statusCode, res) => {
       token,
     });
 
-    res.setHeader("Set-Cookie", `token=${token}; SameSite=None; Secure`);
+    res.setHeader("Set-Cookie", `token=${token}; SameSite=None`);
   } catch (error) {
     console.log(error);
   }
