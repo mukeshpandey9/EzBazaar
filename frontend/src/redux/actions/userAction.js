@@ -29,6 +29,9 @@ export const UserLogin = (email, password) => async (dispatch) => {
     const { data } = await axios.post(
       `${process.env.REACT_APP_BASE_URL}/api/v1/login`,
       { email, password },
+      {
+        withCredentials: true,
+      },
       config
     );
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data.user });
@@ -51,6 +54,9 @@ export const userSignup =
           email,
           password,
           avatar,
+        },
+        {
+          withCredentials: true,
         },
         config
       );
@@ -90,7 +96,10 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_REQUEST });
     console.log(process.env.REACT_APP_BASE_URL);
     const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/profile`
+      `${process.env.REACT_APP_BASE_URL}/api/v1/profile`,
+      {
+        withCredentials: true,
+      }
     );
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
