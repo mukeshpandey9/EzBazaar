@@ -52,7 +52,6 @@ export const getProduct =
   (keyword = "", currentPage = 1, price = [0, 50000], category) =>
   async (dispatch) => {
     try {
-      console.log(process.env.REACT_APP_BASE_URL);
       dispatch({
         type: ALL_PRODUCT_REQUEST,
       });
