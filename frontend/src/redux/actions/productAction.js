@@ -30,11 +30,8 @@ export const getProductDetails = (id) => async (dispatch) => {
     dispatch({
       type: PRODUCT_DETAILS_REQUEST,
     });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
 
-    const { data } = await API.get(`/api/v1/product/${id}`, config);
+    const { data } = await API.get(`/api/v1/product/${id}`);
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: data.product,
@@ -57,24 +54,23 @@ export const getProduct =
         type: ALL_PRODUCT_REQUEST,
       });
 
-      const config = {
-        withCredentials: true, // Include this for requests requiring credentials
-      };
       let url = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
 
       if (category) {
         url = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`;
       }
 
-      const { data } = await API.get(url, config);
-      dispatch({
-        type: ALL_PRODUCT_SUCCESS,
-        payload: data,
-      });
+      const { data } = await API.get(url);
+      if (data && data.success) {
+        dispatch({
+          type: ALL_PRODUCT_SUCCESS,
+          payload: data,
+        });
+      }
     } catch (error) {
       dispatch({
         type: ALL_PRODUCT_FAIL,
-        payload: error.response.data.message,
+        payload: error.message,
       });
     }
   };
@@ -86,10 +82,8 @@ export const getAdminProduct = () => async (dispatch) => {
     dispatch({
       type: ADMIN_PRODUCT_REQUEST,
     });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
-    const { data } = await API.get(`/api/v1/admin/products`, config);
+
+    const { data } = await API.get(`/api/v1/admin/products`);
     dispatch({
       type: ADMIN_PRODUCT_SUCCESS,
       payload: data,
@@ -115,7 +109,6 @@ export const createProduct = (formData) => async (dispatch) => {
 
     const config = {
       headers: { "Content-type": "multipart/form-data" },
-      withCredentials: true,
     };
 
     await API.post(`/api/v1/admin/product/new`, formData, config);
@@ -139,10 +132,8 @@ export const deleteProduct = (id) => async (dispatch) => {
     dispatch({
       type: DELETE_PRODUCT_REQUEST,
     });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
-    const { data } = await API.delete(`/api/v1/admin/product/${id}`, config);
+
+    const { data } = await API.delete(`/api/v1/admin/product/${id}`);
 
     if (data && data.success === false) {
       dispatch({
@@ -173,7 +164,6 @@ export const createReview =
 
       const config = {
         headers: { "Content-type": "application/json" },
-        withCredentials: true,
       };
 
       const { data } = await API.put(

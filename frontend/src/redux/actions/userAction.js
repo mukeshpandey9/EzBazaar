@@ -25,7 +25,6 @@ export const UserLogin = (email, password) => async (dispatch) => {
     dispatch({ type: USER_LOGIN_REQUEST });
     const config = {
       headers: { "Content-type": "application/json" },
-      withCredentials: true,
     };
     const { data } = await API.post(
       `/api/v1/login`,
@@ -33,9 +32,18 @@ export const UserLogin = (email, password) => async (dispatch) => {
 
       config
     );
-    dispatch({ type: USER_LOGIN_SUCCESS, payload: data.user });
+    if (data && data.success) {
+      localStorage.setItem("token", data?.token);
+
+      dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
+    }
   } catch (error) {
-    dispatch({ type: USER_LOGIN_FAIL, payload: error.response.data.message });
+    dispatch({
+      type: USER_LOGIN_FAIL,
+      payload: error?.response?.data?.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
@@ -47,7 +55,6 @@ export const userSignup =
       dispatch({ type: USER_SIGNUP_REQUEST });
       const config = {
         headers: { "Content-type": "multipart/form-data" },
-        withCredentials: true,
       };
       const { data } = await API.post(
         `/api/v1/register`,
@@ -60,7 +67,10 @@ export const userSignup =
 
         config
       );
-      dispatch({ type: USER_SIGNUP_SUCCESS, payload: data.user });
+      if (data && data.success) {
+        localStorage.setItem("token", data.token);
+        dispatch({ type: USER_SIGNUP_SUCCESS, payload: data });
+      }
     } catch (error) {
       dispatch({
         type: USER_SIGNUP_FAIL,
@@ -76,7 +86,6 @@ export const updateProfile = (name, avatar) => async (dispatch) => {
     dispatch({ type: UPDATE_USER_REQUEST });
     const config = {
       headers: { "Content-type": "multipart/form-data" },
-      withCredentials: true,
     };
     const { data } = await API.put(
       `/api/v1/profile/update`,
@@ -96,14 +105,12 @@ export const updateProfile = (name, avatar) => async (dispatch) => {
 
 export const loadUser = () => async (dispatch) => {
   try {
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
     dispatch({ type: LOAD_USER_REQUEST });
-    console.log(process.env.REACT_APP_BASE_URL);
-    const { data } = await API.get(`/api/v1/profile`, config);
+
+    const { data } = await API.get(`/api/v1/profile`);
     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
   } catch (error) {
+    localStorage.clear();
     dispatch({
       type: LOAD_USER_FAIL,
       payload: error.response.data.message,
@@ -116,12 +123,12 @@ export const loadUser = () => async (dispatch) => {
 export const logoutUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOGOUT_REQUEST });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
-    const { data } = await API.get(`/api/v1/logout`, config);
+
+    const { data } = await API.get(`/api/v1/logout`);
+    localStorage.clear();
     dispatch({ type: LOGOUT_SUCCESS, payload: data });
   } catch (error) {
+    localStorage.clear();
     dispatch({
       type: LOGOUT_FAIL,
       payload: error.response.data.message,

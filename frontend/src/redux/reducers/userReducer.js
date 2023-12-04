@@ -18,7 +18,11 @@ import {
   UPDATE_USER_RESET,
 } from "../constants/userConstants";
 
-export const userReducer = (state = { user: {} }, action) => {
+let isToken = localStorage.getItem("token");
+
+let token = isToken ? isToken : null;
+
+export const userReducer = (state = { user: {}, token }, action) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
     case USER_SIGNUP_REQUEST:
@@ -34,8 +38,9 @@ export const userReducer = (state = { user: {} }, action) => {
       return {
         ...state,
         loading: false,
-        user: action.payload,
+        user: action.payload.user,
         isAuthanticated: true,
+        token: action.payload.token,
       };
 
     case LOGOUT_SUCCESS:
