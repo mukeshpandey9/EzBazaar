@@ -48,7 +48,6 @@ export default function ProductList() {
     useSelector((state) => state.products);
 
   const { keyword } = useParams();
-  console.log(keyword);
 
   // Pagination
 
@@ -63,7 +62,6 @@ export default function ProductList() {
   const [price, setPrice] = useState([0, 50000]);
   const priceHandler = (e, newPrice) => {
     setPrice(e);
-    console.log();
   };
 
   // Sort By

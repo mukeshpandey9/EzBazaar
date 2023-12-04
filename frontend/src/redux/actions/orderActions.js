@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../../utils/API";
 import {
   CLEAR_ERRORS,
   NEW_ORDER_FAIL,
@@ -23,10 +23,9 @@ export const createOrder =
       dispatch({ type: NEW_ORDER_REQUEST });
       const config = {
         headers: { "Content-type": "application/json" },
-        withCredentials: true,
       };
 
-      const { data } = await axios.post(
+      const { data } = await API.post(
         `${process.env.REACT_APP_BASE_URL}/api/v1/order/new`,
         { shippingInfo, orderItems, totalPrice },
         config
@@ -53,12 +52,9 @@ export const getOrders = () => async (dispatch) => {
   try {
     //   console.log("Inside Order Data", orderData);
     dispatch({ type: GET_ORDER_REQUEST });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/order/me`,
-      config
+
+    const { data } = await API.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/order/me`
     );
 
     if (data && data?.success === false) {
@@ -84,12 +80,8 @@ export const getOrderDetails = (orderId) => async (dispatch) => {
 
     // console.log(orderId);
 
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
-    const { data } = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/order/${orderId}`,
-      config
+    const { data } = await API.post(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/order/${orderId}`
     );
 
     if (data && data?.success === false) {
@@ -116,12 +108,9 @@ export const getAdminOrders = () => async (dispatch) => {
   try {
     //   console.log("Inside Order Data", orderData);
     dispatch({ type: ADMIN_ORDERS_REQUEST });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/orders`,
-      config
+
+    const { data } = await API.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/admin/orders`
     );
 
     if (data && data?.success === false) {

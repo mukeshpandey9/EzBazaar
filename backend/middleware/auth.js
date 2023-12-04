@@ -2,7 +2,18 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
 exports.isAuthenticatedUser = async (req, res, next) => {
-  const { token } = req.cookies;
+  // const token = req.headers["authorization"].split("Bearer ")[1];
+
+  const authHeader = req.headers["authorization"];
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    // Respond with an appropriate error status
+    return res
+      .status(401)
+      .json({ error: "Invalid or missing authorization header" });
+  }
+
+  const token = authHeader.split(" ")[1];
 
   if (!token) {
     return res

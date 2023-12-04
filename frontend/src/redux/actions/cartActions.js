@@ -1,4 +1,4 @@
-import axios from "axios";
+import API from "../../utils/API";
 import {
   ADD_TO_CART_FAIL,
   ADD_TO_CART_REQUEST,
@@ -27,10 +27,9 @@ export const addToCart = (productId, qty) => async (dispatch) => {
 
     const config = {
       headers: { "Content-type": "application/json" },
-      withCredentials: true,
     };
 
-    await axios.post(
+    await API.post(
       `${process.env.REACT_APP_BASE_URL}/api/v1/cart/add`,
       { productId, qty },
       config
@@ -52,13 +51,9 @@ export const getCart = () => async (dispatch) => {
     dispatch({
       type: GET_CART_REQUEST,
     });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
 
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cart`,
-      config
+    const { data } = await API.get(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/cart`
     );
 
     if (data) {
@@ -79,13 +74,9 @@ export const removeFromCart = (productId) => async (dispatch) => {
     dispatch({
       type: REMOVE_CART_REQUEST,
     });
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
 
-    await axios.delete(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/remove/${productId}`,
-      config
+    await API.delete(
+      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/remove/${productId}`
     );
 
     dispatch({ type: REMOVE_CART_SUCCESS });
@@ -107,10 +98,9 @@ export const updateCart = (productId, qty) => async (dispatch) => {
 
     const config = {
       headers: { "Content-type": "application/json" },
-      withCredentials: true,
     };
     console.log(productId, "  ", qty);
-    const { data } = await axios.put(
+    const { data } = await API.put(
       `${process.env.REACT_APP_BASE_URL}/api/v1/cart/update`,
       { productId, qty },
       config
@@ -129,13 +119,7 @@ export const updateCart = (productId, qty) => async (dispatch) => {
 
 export const clearCart = () => async (dispatch) => {
   try {
-    const config = {
-      withCredentials: true, // Include this for requests requiring credentials
-    };
-    await axios.delete(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/clear`,
-      config
-    );
+    await API.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/cart/clear`);
   } catch (error) {
     console.log("Error in clearing Cart: ", error);
   }
