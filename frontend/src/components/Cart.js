@@ -10,12 +10,17 @@ import {
 } from "../redux/actions/cartActions";
 import Spinner from "./Spinner";
 import { message } from "antd";
+import { REMOVE_CART_RESET } from "../redux/constants/addToCartConstants";
 
 export default function Cart() {
   const dispatch = useDispatch();
 
   const { cart, cartLoading, cartError, success } = useSelector(
     (state) => state.cart
+  );
+
+  const { loading: delLoading, success: isRemoved } = useSelector(
+    (state) => state.delCart
   );
 
   useEffect(() => {
@@ -27,10 +32,16 @@ export default function Cart() {
       return;
     }
 
+    if (isRemoved) {
+      message.success("Item Removed from Cart");
+      dispatch(getCart());
+      dispatch({ type: REMOVE_CART_RESET });
+    }
+
     if (success) {
       message.success("Cart Loaded Sucessfully");
     }
-  }, [dispatch, cartError]);
+  }, [dispatch, cartError, isRemoved]);
 
   // const [open, setOpen] = useState(true);
   // const [subtotal, setSubtotal] = useState(0);
@@ -38,7 +49,7 @@ export default function Cart() {
 
   return (
     <>
-      {cartLoading ? (
+      {cartLoading || delLoading ? (
         <Spinner />
       ) : (
         <div className="mx-auto  pt-1 h-full  max-w-7xl px-4 sm:px-6 lg:px-8 bg-white  ">

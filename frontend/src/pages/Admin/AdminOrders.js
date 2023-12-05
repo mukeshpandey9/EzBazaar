@@ -1,39 +1,91 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import SideBar from "../../components/SideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import Spinner from "../../components/Spinner";
-import { clearErrors, getAdminOrders } from "../../redux/actions/orderActions";
+import {
+  clearErrors,
+  deleteOrder,
+  getAdminOrders,
+} from "../../redux/actions/orderActions";
+import ConfirmModel from "../../components/ConfirmModel";
+import { Button, Modal } from "flowbite-react";
+import { useState } from "react";
+import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { DELETE_ORDERS_RESET } from "../../redux/constants/orderConstants";
+
 const AdminOrders = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { orders, error, loading, success } = useSelector(
     (state) => state.order
   );
 
-  const handleDeleteOrder = () => {};
+  const {
+    success: isDeleted,
+    error: deleteError,
+    loading: orderLoading,
+  } = useSelector((state) => state.delOrder);
+
+  const handleDelete = (id) => {
+    dispatch(deleteOrder(id));
+
+    // setOpenModal(false);
+  };
 
   useEffect(() => {
-    dispatch(getAdminOrders());
-
     if (success) {
       message.success("Orders Fetched");
     }
 
-    if (error) {
+    if (error || deleteError) {
       message.error(error);
       dispatch(clearErrors());
     }
-  }, [dispatch, error]);
+    if (isDeleted) {
+      message.success("Order Deleted");
+      dispatch(getAdminOrders());
+
+      dispatch({ type: DELETE_ORDERS_RESET });
+    }
+    dispatch(getAdminOrders());
+  }, [dispatch, error, isDeleted]);
+
+  // const [openModal, setOpenModal] = useState(true);
 
   return (
     <>
-      {loading ? (
+      {loading || orderLoading ? (
         <Spinner />
       ) : (
         <>
-          {" "}
+          {/* <Modal
+            className="z-50"
+            show={openModal}
+            size="md"
+            onClose={() => setOpenModal(false)}
+            popup
+          >
+            <Modal.Header />
+            <Modal.Body>
+              <div className="text-center">
+                <HiOutlineExclamationCircle className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+                <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                  Are you sure you want to delete this product?
+                </h3>
+                <div className="flex justify-center gap-4">
+                  <Button color="failure" onClick={handleDelete}>
+                    {"Yes, I'm sure"}
+                  </Button>
+                  <Button color="gray" onClick={() => setOpenModal(false)}>
+                    No, cancel
+                  </Button>
+                </div>
+              </div>
+            </Modal.Body>
+          </Modal> */}
           <SideBar />
           <div className="container md:pl-64 py-20 mx-auto bg-white">
             <h1 className="text-4xl text-violet-700 text-center font-semibold ">
@@ -97,6 +149,7 @@ const AdminOrders = () => {
                           </div>
                           <div className="flex justify-between">
                             <h1>Status: {order?.orderStatus}</h1>
+
                             <Link
                               to={`/product/${orderItem?.product_id}`}
                               className="text-violet-700 font-semibold font-sans"
@@ -107,6 +160,13 @@ const AdminOrders = () => {
                         </div>
                       );
                     })}
+
+                    <button
+                      className="text-red-600 mx-5 font-semibold font-sans"
+                      onClick={() => handleDelete(order?._id)}
+                    >
+                      Delete Order
+                    </button>
                   </div>
                 );
               })}

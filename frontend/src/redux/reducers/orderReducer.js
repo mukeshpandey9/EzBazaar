@@ -12,6 +12,10 @@ import {
   ADMIN_ORDERS_REQUEST,
   ADMIN_ORDERS_SUCCESS,
   ADMIN_ORDERS_FAIL,
+  DELETE_ORDERS_REQUEST,
+  DELETE_ORDERS_FAIL,
+  DELETE_ORDERS_SUCCESS,
+  DELETE_ORDERS_RESET,
 } from "../constants/orderConstants";
 
 export const orderReducer = (state = {}, action) => {
@@ -88,6 +92,77 @@ export const orderDetailsReducer = (state = { order: {} }, action) => {
         order: action.payload,
       };
 
+    case CLEAR_ERRORS:
+      return {
+        loading: false,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const deleteOrderReducer = (state = {}, action) => {
+  switch (action.type) {
+    case DELETE_ORDERS_REQUEST:
+      return {
+        loading: true,
+        success: false,
+      };
+
+    case DELETE_ORDERS_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+
+    case DELETE_ORDERS_FAIL:
+      return {
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
+
+    case DELETE_ORDERS_RESET:
+      return {
+        ...state,
+        success: false,
+      };
+    case CLEAR_ERRORS:
+      return {
+        loading: false,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const newOrderReducer = (
+  state = { loading: false, success: false },
+  action
+) => {
+  switch (action.type) {
+    case NEW_ORDER_REQUEST:
+      return {
+        loading: true,
+        success: false,
+      };
+
+    case NEW_ORDER_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+
+    case NEW_ORDER_FAIL:
+      return {
+        loading: false,
+        success: false,
+        error: action.payload,
+      };
     case CLEAR_ERRORS:
       return {
         loading: false,

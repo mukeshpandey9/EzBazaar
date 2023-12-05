@@ -22,6 +22,7 @@ import CreateProduct from "./pages/Admin/CreateProduct";
 import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import AdminRoutes from "./components/routes/AdminRoutes";
 
 function App() {
   return (
@@ -83,11 +84,47 @@ function App() {
             </ProtectedRoutes>
           }
         />
-        <Route path="/admin/dashboard" element={<AdminPage />} />
-        <Route path="/admin/products" element={<AdminProductsPage />} />
-        <Route path="/admin/product/new" element={<CreateProduct />} />
-        <Route path="/admin/orders/all" element={<AdminOrders />} />
-        <Route path="/admin/order/:id" element={<AdminOrderDetails />} />
+
+        <Route
+          path="/admin/dashboard"
+          element={
+            <AdminRoutes>
+              <AdminPage />
+            </AdminRoutes>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <AdminRoutes>
+              <AdminProductsPage />
+            </AdminRoutes>
+          }
+        />
+        <Route
+          path="/admin/product/new"
+          element={
+            <AdminRoutes>
+              <CreateProduct />
+            </AdminRoutes>
+          }
+        />
+        <Route
+          path="/admin/orders/all"
+          element={
+            <AdminRoutes>
+              <AdminOrders />
+            </AdminRoutes>
+          }
+        />
+        <Route
+          path="/admin/order/:id"
+          element={
+            <AdminRoutes>
+              <AdminOrderDetails />
+            </AdminRoutes>
+          }
+        />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>

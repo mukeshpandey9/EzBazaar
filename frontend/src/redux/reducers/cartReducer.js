@@ -15,6 +15,7 @@ import {
   UPDATE_CART_REQUEST,
   UPDATE_CART_SUCCESS,
   UPDATE_CART_FAIL,
+  REMOVE_CART_RESET,
 } from "../constants/addToCartConstants";
 
 // Add Items TO Cart
@@ -58,6 +59,44 @@ export const cartReducer = (state = {}, action) => {
         cartLoading: false,
         success: false,
         cartError: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        cartError: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const cartDeleteReducer = (state = {}, action) => {
+  switch (action.type) {
+    case REMOVE_CART_REQUEST:
+      return {
+        loading: true,
+        success: false,
+      };
+
+    case REMOVE_CART_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+
+    case REMOVE_CART_FAIL:
+      return {
+        loading: false,
+        success: false,
+        cartError: action.payload,
+      };
+
+    case REMOVE_CART_RESET:
+      return {
+        ...state,
+        success: false,
       };
 
     case CLEAR_ERRORS:
