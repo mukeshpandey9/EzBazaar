@@ -83,6 +83,9 @@ export default function ProductList() {
   // Category
 
   const [category, setCategory] = useState();
+  useEffect(() => {
+    setSearchParams({ page: "1" });
+  }, [category, price]);
 
   useEffect(() => {
     if (error) {

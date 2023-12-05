@@ -14,7 +14,7 @@ const Checkout = () => {
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
 
-  const { error, success } = useSelector((state) => state.order);
+  const { error, success } = useSelector((state) => state.newOrder);
 
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -63,9 +63,13 @@ const Checkout = () => {
 
       // console.log("Order:    ", orderData);
 
-      dispatch(createOrder(orderData));
-
       sessionStorage.clear();
+      dispatch(createOrder(orderData));
+      dispatch(clearCart());
+      navigate("/success");
+      if (success && !error) {
+        message.success("Order SuccessFully Placed");
+      }
     }
   };
 
@@ -74,12 +78,6 @@ const Checkout = () => {
       message.error("Error In Placing Order");
       dispatch(clearErrors());
       return;
-    }
-
-    if (success) {
-      navigate("/success");
-      message.success("Order SuccessFully Placed");
-      dispatch(clearCart());
     }
   }, [dispatch, success, message]);
 

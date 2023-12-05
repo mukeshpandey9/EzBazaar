@@ -1,3 +1,4 @@
+import { message } from "antd";
 import API from "../../utils/API";
 import {
   CLEAR_ERRORS,
@@ -13,7 +14,11 @@ import {
   ADMIN_ORDERS_REQUEST,
   ADMIN_ORDERS_SUCCESS,
   ADMIN_ORDERS_FAIL,
+  DELETE_ORDERS_REQUEST,
+  DELETE_ORDERS_FAIL,
+  DELETE_ORDERS_SUCCESS,
 } from "../constants/orderConstants";
+import { Navigate } from "react-router-dom";
 
 export const createOrder =
   ({ shippingInfo, orderItems, totalPrice }) =>
@@ -39,7 +44,10 @@ export const createOrder =
         return;
       }
 
-      dispatch({ type: NEW_ORDER_SUCCESS });
+      if (data && data.success) {
+        message.success("Order Success");
+        dispatch({ type: NEW_ORDER_SUCCESS });
+      }
     } catch (error) {
       console.log("Error in Creating Order: \n", error);
       dispatch({ type: NEW_ORDER_FAIL, payload: error.response.data.message });
@@ -125,6 +133,42 @@ export const getAdminOrders = () => async (dispatch) => {
   } catch (error) {
     console.log("Error in Getting Order: \n", error);
     dispatch({ type: ADMIN_ORDERS_FAIL, payload: error.response.data.message });
+  }
+};
+
+// Delete Order --- ADMIN
+
+export const deleteOrder = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: DELETE_ORDERS_REQUEST,
+    });
+
+    const { data } = await API.delete(`/api/v1/admin/order/${id}`);
+
+    if (data && data.success === false) {
+      message.error("Order Deleted Failed");
+      dispatch({
+        type: DELETE_ORDERS_FAIL,
+        payload: data.message,
+      });
+    }
+
+    if (data && data.success) {
+      message.success("Order Deleted Sucsessfully");
+      dispatch({
+        type: DELETE_ORDERS_SUCCESS,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    message.error(error.message);
+    dispatch({
+      type: DELETE_ORDERS_FAIL,
+      payload: error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 

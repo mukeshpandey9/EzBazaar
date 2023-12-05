@@ -158,15 +158,14 @@ exports.deleteOrder = async (req, res) => {
     if (!order) {
       return res.status(404).json({
         success: false,
-        message: "Order not found with this id",
+        message: "Order not Found!",
       });
     }
-    await orderModel.deleteOne();
+    await orderModel.deleteOne({ _id: req.params.id });
 
     res.status(200).json({
       success: true,
-      orders,
-      totalAmount,
+      message: "Order Deleted SuccessFully",
     });
   } catch (error) {
     console.log(error);
