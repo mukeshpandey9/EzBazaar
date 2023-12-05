@@ -7,7 +7,7 @@ import Spinner from "../Spinner";
 export function Login() {
   // const count = useSelector();
   const dispatch = useDispatch();
-  const { loading, user, isAuthanticated, mesg, error } = useSelector(
+  const { loading, user, token, mesg, error } = useSelector(
     (state) => state.user
   );
   const navigate = useNavigate();
@@ -21,10 +21,10 @@ export function Login() {
       dispatch(clearErrors());
     }
     // TODO: We will add protected routes
-    if (isAuthanticated) {
+    if (token) {
       navigate("/profile");
     }
-  }, [dispatch, error, isAuthanticated, navigate]);
+  }, [dispatch, error, token, navigate]);
 
   const loginHandler = (e) => {
     e.preventDefault();

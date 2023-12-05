@@ -24,14 +24,6 @@ import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 function App() {
-  // useEffect(() => {
-  //   store.dispatch(loadUser());
-  // }, []);
-
-  // useEffect(() => {
-  //   store.dispatch(getCart());
-  // });
-
   return (
     <BrowserRouter>
       <Routes>

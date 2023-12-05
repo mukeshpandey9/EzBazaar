@@ -18,11 +18,13 @@ import {
   UPDATE_USER_RESET,
 } from "../constants/userConstants";
 
-let isToken = localStorage.getItem("token");
-
-let token = isToken ? isToken : null;
-
-export const userReducer = (state = { user: {}, token }, action) => {
+export const userReducer = (
+  state = {
+    user: {},
+    token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
+  },
+  action
+) => {
   switch (action.type) {
     case USER_LOGIN_REQUEST:
     case USER_SIGNUP_REQUEST:
@@ -31,16 +33,25 @@ export const userReducer = (state = { user: {}, token }, action) => {
       return {
         loading: true,
         user: {},
+        token: localStorage.getItem("token")
+          ? localStorage.getItem("token")
+          : null,
       };
     case USER_LOGIN_SUCCESS:
     case USER_SIGNUP_SUCCESS:
-    case LOAD_USER_SUCCESS:
       return {
-        ...state,
         loading: false,
         user: action.payload.user,
         isAuthanticated: true,
         token: action.payload.token,
+      };
+
+    case LOAD_USER_SUCCESS:
+      return {
+        loading: false,
+        user: action.payload.user,
+        isAuthanticated: true,
+        token: localStorage.getItem("token"),
       };
 
     case LOGOUT_SUCCESS:
@@ -48,6 +59,7 @@ export const userReducer = (state = { user: {}, token }, action) => {
         ...state,
         loading: false,
         user: null,
+        token: null,
         mesg: action.payload.message,
         isAuthanticated: false,
       };
@@ -58,6 +70,7 @@ export const userReducer = (state = { user: {}, token }, action) => {
         loading: false,
         error: action.payload,
         user: null,
+        token: null,
         isAuthanticated: false,
       };
 

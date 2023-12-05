@@ -26,7 +26,7 @@ const Header = () => {
   const location = useLocation();
 
   const dispatch = useDispatch();
-  const { isAuthanticated, user } = useSelector((state) => state.user);
+  const { token, user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -82,7 +82,7 @@ const Header = () => {
   const widgetMenu = (
     <Menu>
       <Menu.Item>
-        <Link to={isAuthanticated ? `/profile` : "/login"}>
+        <Link to={token ? `/profile` : "/login"}>
           <SolutionOutlined className="icon" /> {"  "}
           profile
         </Link>
@@ -129,7 +129,7 @@ const Header = () => {
               </li>
             </Link>
           )}
-          {!isAuthanticated ? (
+          {!token ? (
             <>
               <Link to="/login">
                 <li className="menuItem">Login</li>
@@ -172,7 +172,7 @@ const Header = () => {
         </div>
 
         {/* Profile avatar */}
-        {isAuthanticated ? (
+        {token ? (
           <div>
             <Dropdown overlay={widgetMenu}>
               <Avatar size={50} className="w-full" src={user?.avatar?.url} />

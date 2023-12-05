@@ -10,7 +10,7 @@ import {
   PlusIcon,
 } from "@heroicons/react/20/solid";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { clearErrors, getProduct } from "../redux/actions/productAction";
 import Spinner from "./Spinner";
 import { Pagination, Slider, message } from "antd";
@@ -51,10 +51,24 @@ export default function ProductList() {
 
   // Pagination
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams(1);
+
+  // Read query parameters
+  const pageParam = Number(searchParams.get("page"));
+
+  // You can read other query parameters similarly
+
   const handlePageChange = (page) => {
-    setCurrentPage(page);
+    searchParams.set("page", page);
+    setSearchParams(searchParams);
   };
+
+  useEffect(() => {
+    // Set initial query parameters on component mount
+    if (!searchParams.get("page")) {
+      setSearchParams({ page: "1" });
+    }
+  }, [searchParams, setSearchParams]);
 
   // Filters
   // Price
@@ -75,8 +89,9 @@ export default function ProductList() {
       message.error(error);
       dispatch(clearErrors());
     }
-    dispatch(getProduct(keyword, currentPage, price, category));
-  }, [dispatch, error, keyword, currentPage, price, category]);
+
+    dispatch(getProduct(keyword, pageParam, price, category));
+  }, [dispatch, error, keyword, pageParam, price, category]);
 
   const options = {
     edit: false,
@@ -427,11 +442,11 @@ export default function ProductList() {
                                         key={product.id}
                                         className="group relative backdrop-blur-sm border rounded"
                                       >
-                                        <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden object-contain rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 h-[19rem] lg:h-[17rem]">
+                                        <div className="w-full overflow-hidden object-contain rounded-md  lg:aspect-none group-hover:opacity-75 h-[19rem] lg:h-[17rem]">
                                           <img
                                             src={product.images[0].url}
                                             alt={product.name}
-                                            className="h-full w-max object-cover object-center lg:h-full lg:w-full"
+                                            className=" p-3 h-full w-max object-cover object-center lg:h-full lg:w-full"
                                           />
                                         </div>
                                         <div className="mt-4 p-4 flex justify-between">
@@ -484,7 +499,7 @@ export default function ProductList() {
                         total={productsCount}
                         defaultPageSize={resultPerpage}
                         responsive
-                        current={currentPage}
+                        current={pageParam}
                         onChange={handlePageChange}
                       />
                     </div>

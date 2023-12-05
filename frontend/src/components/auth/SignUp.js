@@ -9,9 +9,7 @@ export function SignUP() {
   // const count = useSelector();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, user, isAuthanticated, error } = useSelector(
-    (state) => state.user
-  );
+  const { loading, user, token, error } = useSelector((state) => state.user);
 
   const [imgUrl, setImgUrl] = useState(
     "https://lh3.googleusercontent.com/a-/AFdZucpC_6WFBIfaAbPHBwGM9z8SxyM1oV4wB4Ngwp_UyQ=s96-c"
@@ -27,15 +25,15 @@ export function SignUP() {
       dispatch(clearErrors());
     }
     // TODO: We will add protected routes
-    if (isAuthanticated) {
+    if (token) {
       navigate("/profile");
     }
-  }, [dispatch, error, isAuthanticated, navigate]);
+  }, [dispatch, error, token, navigate]);
 
   const signUpHandler = (e) => {
     e.preventDefault();
     dispatch(userSignup(name, email, password, avatar));
-    if (isAuthanticated) {
+    if (token) {
       message.success("Register Successful");
     }
   };
