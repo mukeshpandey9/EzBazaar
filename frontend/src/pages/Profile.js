@@ -14,9 +14,9 @@ import { UPDATE_USER_RESET } from "../redux/constants/userConstants";
 const { Title } = Typography;
 
 const Profile = () => {
-  // const { loading, user, isAuthanticated } = useSelector((state) => state.user);
+  // const { loading, user, token } = useSelector((state) => state.user);
   const { loading1, isUpdated, error } = useSelector((state) => state.profile);
-  const { loading, user, isAuthanticated } = useSelector((state) => state.user);
+  const { loading, user, token } = useSelector((state) => state.user);
   const [mobile, setMobile] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [imgUrl, setImgUrl] = useState("");
@@ -59,6 +59,10 @@ const Profile = () => {
       type: UPDATE_USER_RESET,
     });
   }, [dispatch, user, isUpdated]);
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, []);
 
   // Image uplaod
   const fileUploadHandle = (e) => {
