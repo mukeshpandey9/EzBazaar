@@ -70,18 +70,18 @@ export default function ProductDetails() {
     message.success("Item Added To Cart SuccessFully");
   };
 
-  let img;
-    img = preImg;
+ 
+   
 
   
 
-  const [activeImg, setActiveImage] = useState(img);
+  const [activeImg, setActiveImage] = useState(preImg);
 
   useEffect(()=>{
     if(product && product.images && product.images.length>0){
-      setActiveImage(product.images[0].url)
+      setActiveImage( product.images[0].url)
     }
-  },[product])
+  },[loading,product._id])
  
 
   return (
