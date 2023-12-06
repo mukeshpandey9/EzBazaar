@@ -72,9 +72,16 @@ export default function ProductDetails() {
 
   let img;
     img = preImg;
+
   
 
   const [activeImg, setActiveImage] = useState(img);
+
+  useEffect(()=>{
+    if(product && product.images && product.images.length>0){
+      setActiveImage(product.images[0].url)
+    }
+  },[product])
  
 
   return (
