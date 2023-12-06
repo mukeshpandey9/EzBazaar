@@ -18,6 +18,8 @@ const RatingCard = ({ productId }) => {
     }
 
     dispatch(createReview(rating, reviewMessage, productId));
+    setRating(0)
+    setReviewMessage("")
 
     if (error) {
       message.error(error);
@@ -26,7 +28,9 @@ const RatingCard = ({ productId }) => {
     }
 
     if (isReviewed) {
-      return message.success("Review Added");
+      setRating(0)
+      setReviewMessage("")
+      message.success("Review Added");
     }
   };
 
@@ -220,6 +224,7 @@ const RatingCard = ({ productId }) => {
             <textarea
               rows="4"
               cols="100"
+              value={reviewMessage}
               className="appearance-none block  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3  leading-tight focus:outline-none min-w-full focus:bg-white focus:border-gray-500"
               placeholder="Write Something About the product..."
               onChange={(e) => setReviewMessage(e.target.value)}
