@@ -70,15 +70,19 @@ export default function ProductDetails() {
     message.success("Item Added To Cart SuccessFully");
   };
 
-  let img;
+ 
+   
 
-  if (product && product.images && Array.isArray(product.images)) {
-    img = product.images[0].url;
-  } else {
-    img = preImg;
-  }
+  
 
-  const [activeImg, setActiveImage] = useState(img);
+  const [activeImg, setActiveImage] = useState(preImg);
+
+  useEffect(()=>{
+    if(product && product.images && product.images.length>0){
+      setActiveImage( product.images[0].url)
+    }
+  },[loading,product._id])
+ 
 
   return (
     <>
@@ -97,6 +101,8 @@ export default function ProductDetails() {
                         alt=""
                         className="w-full h-full rounded-xl mix-blend-multiply"
                       />
+                      
+                    
                     </div>
 
                     <div className="flex w-full  gap-5 flex-row overflow-x-auto justify-between h-28">
@@ -104,6 +110,9 @@ export default function ProductDetails() {
                         product.images &&
                         Array.isArray(product.images) &&
                         product?.images.map((image) => {
+                          
+                           
+                         
                           return (
                             <img
                               src={image?.url}
@@ -193,13 +202,13 @@ export default function ProductDetails() {
                   <h2 className="text-center  text-3xl">Reviews</h2>
 
                   {product?.reviews && product?.reviews[0] ? (
-                    <div className="reviews mt-8 flex gap-10 ">
+                    <div className="reviews mt-8 flex flex-wrap gap-3 md:gap-10 ">
                       {product?.reviews.map((review) => (
                         <ReviewCard review={review} />
                       ))}
                     </div>
                   ) : (
-                    <p className="text-orange-700 text-2xl">No Reviews Yet</p>
+                    <p className="text-violet-700 text-center text-3xl">No Reviews Yet</p>
                   )}
                 </div>
               </>
