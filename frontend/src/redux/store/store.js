@@ -6,11 +6,10 @@ import {
 
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
-import {
-  productDetailReducer,
-  productReducer,
-  reviewProduct,
-} from "../reducers/productReducer";
+import { productDetailReducer, reviewProduct } from "../reducers/productSlice";
+
+import productReducers from "../reducers/productSlice";
+
 import { updateProfileReducer, userReducer } from "../reducers/userReducer";
 import { cartDeleteReducer, cartReducer } from "../reducers/cartReducer";
 import {
@@ -21,7 +20,7 @@ import {
 } from "../reducers/orderReducer";
 
 const reducer = combineReducers({
-  products: productReducer,
+  products: productReducers.reducer,
   productDetails: productDetailReducer,
   user: userReducer,
   profile: updateProfileReducer,
