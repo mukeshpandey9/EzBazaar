@@ -16,6 +16,7 @@ import Spinner from "./Spinner";
 import { Pagination, Slider, message } from "antd";
 import ContentWrapper from "./contentWrapper/ContentWrapper";
 import { clearErrors } from "../redux/reducers/productSlice";
+import store from "../redux/store/store";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -45,7 +46,7 @@ function classNames(...classes) {
 
 export default function ProductList() {
   const dispatch = useDispatch();
-  const { loading, error, products, productsCount, resultPerpage } =
+  const { loading, error, products, productsCount, resultPerPage } =
     useSelector((state) => state.products);
 
   const { keyword } = useParams();
@@ -94,8 +95,8 @@ export default function ProductList() {
       dispatch(clearErrors());
     }
 
-    dispatch(getProducts(keyword, pageParam, price, category));
-  }, [dispatch, error, keyword, pageParam, price, category]);
+    dispatch(getProducts({ keyword, currentPage: pageParam, price, category }));
+  }, [error, keyword, pageParam, price, category]);
 
   const options = {
     edit: false,
@@ -495,13 +496,13 @@ export default function ProductList() {
                   </section>
 
                   {/* Pagination */}
-
-                  {productsCount > resultPerpage && (
+                  {console.log(resultPerPage)}
+                  {productsCount > resultPerPage && (
                     <div className="flex items-center justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
                       <Pagination
                         defaultCurrent={1}
                         total={productsCount}
-                        defaultPageSize={resultPerpage}
+                        defaultPageSize={resultPerPage}
                         responsive
                         current={pageParam}
                         onChange={handlePageChange}

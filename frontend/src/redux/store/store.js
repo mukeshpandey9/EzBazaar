@@ -8,36 +8,39 @@ import thunk from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
 import { productDetailReducer, reviewProduct } from "../reducers/productSlice";
 
-import productReducers from "../reducers/productSlice";
+import productReducer from "../reducers/productSlice";
 
 import { updateProfileReducer, userReducer } from "../reducers/userReducer";
-import { cartDeleteReducer, cartReducer } from "../reducers/cartReducer";
+import { cartDeleteReducer, cartReducer } from "../reducers/cartSlice";
 import {
   deleteOrderReducer,
   newOrderReducer,
   orderDetailsReducer,
   orderReducer,
-} from "../reducers/orderReducer";
+} from "../reducers/orderSlice";
 
-const reducer = combineReducers({
-  products: productReducers.reducer,
-  productDetails: productDetailReducer,
-  user: userReducer,
-  profile: updateProfileReducer,
-  cart: cartReducer,
-  newOrder: newOrderReducer,
-  order: orderReducer,
-  delOrder: deleteOrderReducer,
-  delCart: cartDeleteReducer,
-  orderDetails: orderDetailsReducer,
-  review: reviewProduct,
-});
+// const reducer = combineReducers({});
 
 let initialState = {};
 
 const middleware = [thunk];
 // composeWithDevTools(applyMiddleware(middleware));
 
-const store = configureStore({ reducer, preloadedState: initialState });
+const store = configureStore({
+  reducer: {
+    products: productReducer.reducer,
+    productDetails: productDetailReducer.reducer,
+    user: userReducer,
+    profile: updateProfileReducer,
+    cart: cartReducer.reducer,
+    newOrder: newOrderReducer.reducer,
+    order: orderReducer.reducer,
+    delOrder: deleteOrderReducer.reducer,
+    delCart: cartDeleteReducer.reducer,
+    orderDetails: orderDetailsReducer.reducer,
+    review: reviewProduct.reducer,
+  },
+  preloadedState: initialState,
+});
 
 export default store;

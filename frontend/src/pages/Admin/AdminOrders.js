@@ -5,16 +5,15 @@ import SideBar from "../../components/SideBar";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import Spinner from "../../components/Spinner";
-import {
-  clearErrors,
-  deleteOrder,
-  getAdminOrders,
-} from "../../redux/actions/orderActions";
+import { deleteOrder, getAdminOrders } from "../../redux/actions/orderActions";
 import ConfirmModel from "../../components/ConfirmModel";
 import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
-import { DELETE_ORDERS_RESET } from "../../redux/constants/orderConstants";
+import {
+  clearDeleteOrderError,
+  resetDeleteOrder,
+} from "../../redux/reducers/orderSlice";
 
 const AdminOrders = () => {
   const dispatch = useDispatch();
@@ -42,13 +41,13 @@ const AdminOrders = () => {
 
     if (error || deleteError) {
       message.error(error);
-      dispatch(clearErrors());
+      dispatch(clearDeleteOrderError());
     }
     if (isDeleted) {
       message.success("Order Deleted");
       dispatch(getAdminOrders());
 
-      dispatch({ type: DELETE_ORDERS_RESET });
+      dispatch(resetDeleteOrder());
     }
     dispatch(getAdminOrders());
   }, [dispatch, error, isDeleted]);

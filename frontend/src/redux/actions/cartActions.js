@@ -1,132 +1,77 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../utils/API";
-import {
-  ADD_TO_CART_FAIL,
-  ADD_TO_CART_REQUEST,
-  ADD_TO_CART_SUCCESS,
-  CLEAR_ERRORS,
-  GET_CART_FAIL,
-  GET_CART_REQUEST,
-  GET_CART_SUCCESS,
-  REMOVE_CART_FAIL,
-  REMOVE_CART_REQUEST,
-  REMOVE_CART_SUCCESS,
-  UPDATE_CART_REQUEST,
-  UPDATE_CART_SUCCESS,
-  UPDATE_CART_FAIL,
-} from "../constants/addToCartConstants";
 
-// Add TO CArt
-
-export const addToCart = (productId, qty) => async (dispatch) => {
-  try {
-    //
-    console.log("Add to Cart ACtion");
-    dispatch({
-      type: ADD_TO_CART_REQUEST,
-    });
-
-    const config = {
-      headers: { "Content-type": "application/json" },
-    };
-
-    await API.post(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/add`,
-      { productId, qty },
-      config
-    );
-
-    dispatch({ type: ADD_TO_CART_SUCCESS });
-  } catch (error) {
-    dispatch({
-      type: ADD_TO_CART_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
-
-// Get Cart Items
-
-export const getCart = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: GET_CART_REQUEST,
-    });
-
-    const { data } = await API.get(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cart`
-    );
-
-    if (data) {
-      dispatch({ type: GET_CART_SUCCESS, payload: data?.cartItem });
+export const addToCart = createAsyncThunk(
+  "cart/addToCart",
+  async ({ productId, qty }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: { "Content-type": "application/json" },
+      };
+      const { data } = await API.post(
+        `/api/v1/cart/add`,
+        { productId, qty },
+        config
+      );
+      if (data && data.success === false) {
+        return rejectWithValue(data?.message || "Error in Adding Item to Cart");
+      }
+      return;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
     }
-  } catch (error) {
-    dispatch({
-      type: GET_CART_FAIL,
-      payload: error.response.data.message,
-    });
   }
-};
+);
 
-// Remove items From Cart
-
-export const removeFromCart = (productId) => async (dispatch) => {
-  try {
-    dispatch({
-      type: REMOVE_CART_REQUEST,
-    });
-
-    await API.delete(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/remove/${productId}`
-    );
-
-    dispatch({ type: REMOVE_CART_SUCCESS });
-  } catch (error) {
-    dispatch({
-      type: REMOVE_CART_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
-
-// Update Cart
-
-export const updateCart = (productId, qty) => async (dispatch) => {
-  try {
-    dispatch({
-      type: UPDATE_CART_REQUEST,
-    });
-
-    const config = {
-      headers: { "Content-type": "application/json" },
-    };
-    console.log(productId, "  ", qty);
-    const { data } = await API.put(
-      `${process.env.REACT_APP_BASE_URL}/api/v1/cart/update`,
-      { productId, qty },
-      config
-    );
-
-    if (data) {
-      dispatch({ type: UPDATE_CART_SUCCESS, payload: data?.updatedCartItem });
+export const getCart = createAsyncThunk(
+  "cart/fetchCart",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await API.get(`/api/v1/cart`);
+      return data?.cartItem;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
     }
-  } catch (error) {
-    dispatch({
-      type: UPDATE_CART_FAIL,
-      payload: error.response.data.message,
-    });
   }
-};
+);
 
-export const clearCart = () => async (dispatch) => {
-  try {
-    await API.delete(`${process.env.REACT_APP_BASE_URL}/api/v1/cart/clear`);
-  } catch (error) {
-    console.log("Error in clearing Cart: ", error);
+export const removeFromCart = createAsyncThunk(
+  "cart/removeFromCart",
+  async (productId, { rejectWithValue }) => {
+    try {
+      const { data } = await API.delete(`/api/v1/cart/remove/${productId}`);
+      if (data && data.success === false) {
+        return rejectWithValue(
+          data?.message || "Error in Removing Item from Cart"
+        );
+      }
+      return;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
   }
-};
+);
 
-//   Clearing errors
+export const updateCart = createAsyncThunk(
+  "cart/updateCartItem",
+  async ({ productId, qty }, { rejectWithValue }) => {
+    try {
+      const { data } = await API.put(`/api/v1/cart/update`, { productId, qty });
+      return data?.updatedCartItem;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
 
-export const clearCartErrors = () => async (dispatch) => {
-  dispatch({ type: CLEAR_ERRORS });
-};
+export const clearCart = createAsyncThunk(
+  "cart/clearCartItems",
+  async (_, { rejectWithValue }) => {
+    try {
+      await API.delete(`/api/v1/cart/clear`);
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.message || error.message);
+      console.log("Error in clearing Cart: ", error);
+    }
+  }
+);
