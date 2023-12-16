@@ -3,14 +3,13 @@ import { useSelector, useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
 import {
-  clearCartErrors,
   getCart,
   removeFromCart,
   updateCart,
 } from "../redux/actions/cartActions";
 import Spinner from "./Spinner";
 import { message } from "antd";
-import { REMOVE_CART_RESET } from "../redux/constants/addToCartConstants";
+import { clearCartErrors, removeCartReset } from "../redux/reducers/cartSlice";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ export default function Cart() {
     if (isRemoved) {
       message.success("Item Removed from Cart");
       dispatch(getCart());
-      dispatch({ type: REMOVE_CART_RESET });
+      dispatch(removeCartReset());
     }
 
     if (success) {
@@ -94,10 +93,10 @@ export default function Cart() {
                                     value={product?.qty}
                                     onChange={(e) => {
                                       dispatch(
-                                        updateCart(
-                                          product?.product_id,
-                                          e.target.value
-                                        )
+                                        updateCart({
+                                          productId: product?.product_id,
+                                          qty: e.target.value,
+                                        })
                                       );
                                     }}
                                   >

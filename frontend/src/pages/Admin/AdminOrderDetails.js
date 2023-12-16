@@ -1,10 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { clearErrors, getOrderDetails } from "../../redux/actions/orderActions";
+import { getOrderDetails } from "../../redux/actions/orderActions";
 import { message } from "antd";
 import Spinner from "../../components/Spinner";
 import SideBar from "../../components/SideBar";
+import { clearOrderDetailsErrors } from "../../redux/reducers/orderSlice";
 
 const AdminOrderDetails = () => {
   const { id } = useParams();
@@ -19,7 +20,7 @@ const AdminOrderDetails = () => {
 
     if (error) {
       message.error(error);
-      dispatch(clearErrors());
+      dispatch(clearOrderDetailsErrors());
       return;
     }
 

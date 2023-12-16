@@ -5,8 +5,9 @@ import StepperComp from "../components/StepperComp";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import { Step, Stepper } from "react-form-stepper";
-import { clearErrors, createOrder } from "../redux/actions/orderActions";
+import { createOrder } from "../redux/actions/orderActions";
 import { clearCart } from "../redux/actions/cartActions";
+import { clearNewOrderErrors } from "../redux/reducers/orderSlice";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -76,7 +77,7 @@ const Checkout = () => {
   useEffect(() => {
     if (error) {
       message.error("Error In Placing Order");
-      dispatch(clearErrors());
+      dispatch(clearNewOrderErrors());
       return;
     }
   }, [dispatch, success, message]);

@@ -8,9 +8,10 @@ import ReactStars from "react-rating-stars-component";
 import Spinner from "./Spinner";
 import ReviewCard from "./ReviewCard";
 import ContentWrapper from "./contentWrapper/ContentWrapper";
-import { addToCart, clearCartErrors } from "../redux/actions/cartActions";
+import { addToCart } from "../redux/actions/cartActions";
 import RatingCard from "./RatingCard";
 import { clearErrors } from "../redux/reducers/productSlice";
+import { clearCartErrors } from "../redux/reducers/cartSlice";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -35,7 +36,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductDetails(id));
-  }, [dispatch, id, product?.reviews]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (error) {
@@ -55,7 +56,7 @@ export default function ProductDetails() {
   const [messageApi, contextHolder] = message.useMessage();
 
   const handleAddToCart = () => {
-    dispatch(addToCart(id, amount));
+    dispatch(addToCart({ productId: id, qty: amount }));
 
     messageApi.open({
       type: "loading",
