@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import preImg from "../assets/img/preimg.png";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, getProductDetails } from "../redux/actions/productAction";
+import { getProductDetails } from "../redux/actions/productAction";
 import { Link, useParams } from "react-router-dom";
 import { Carousel, message } from "antd";
 import ReactStars from "react-rating-stars-component";
@@ -10,6 +10,7 @@ import ReviewCard from "./ReviewCard";
 import ContentWrapper from "./contentWrapper/ContentWrapper";
 import { addToCart, clearCartErrors } from "../redux/actions/cartActions";
 import RatingCard from "./RatingCard";
+import { clearErrors } from "../redux/reducers/productSlice";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -70,19 +71,13 @@ export default function ProductDetails() {
     message.success("Item Added To Cart SuccessFully");
   };
 
- 
-   
-
-  
-
   const [activeImg, setActiveImage] = useState(preImg);
 
-  useEffect(()=>{
-    if(product && product.images && product.images.length>0){
-      setActiveImage( product.images[0].url)
+  useEffect(() => {
+    if (product && product.images && product.images.length > 0) {
+      setActiveImage(product.images[0].url);
     }
-  },[loading,product._id])
- 
+  }, [loading, product._id]);
 
   return (
     <>
@@ -101,8 +96,6 @@ export default function ProductDetails() {
                         alt=""
                         className="w-full h-full rounded-xl mix-blend-multiply"
                       />
-                      
-                    
                     </div>
 
                     <div className="flex w-full  gap-5 flex-row overflow-x-auto justify-between h-28">
@@ -110,9 +103,6 @@ export default function ProductDetails() {
                         product.images &&
                         Array.isArray(product.images) &&
                         product?.images.map((image) => {
-                          
-                           
-                         
                           return (
                             <img
                               src={image?.url}
@@ -208,7 +198,9 @@ export default function ProductDetails() {
                       ))}
                     </div>
                   ) : (
-                    <p className="text-violet-700 text-center text-3xl">No Reviews Yet</p>
+                    <p className="text-violet-700 text-center text-3xl">
+                      No Reviews Yet
+                    </p>
                   )}
                 </div>
               </>

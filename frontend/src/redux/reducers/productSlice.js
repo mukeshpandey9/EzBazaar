@@ -21,6 +21,16 @@ import {
   REVIEW_PRODUCT_FAIL,
 } from "../constants/productContants";
 
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  getAdminProducts,
+  deleteProduct,
+  createProduct,
+  createReview,
+  getProductDetails,
+  getProducts,
+} from "../actions/productAction"; // Replace with your actual actions' import paths
+
 export const productReducer = (state = { products: [] }, action) => {
   switch (action.type) {
     case ALL_PRODUCT_REQUEST:
@@ -88,6 +98,91 @@ export const productReducer = (state = { products: [] }, action) => {
       return state;
   }
 };
+
+const initialState = {
+  loading: false,
+  products: [],
+  productsCount: 0,
+  resultPerPage: 0,
+  filteredProductCount: 0,
+  success: false,
+  error: null,
+};
+
+const productSlice = createSlice({
+  name: "products",
+  initialState,
+  reducers: {
+    clearErrors(state) {
+      state.error = null;
+    },
+    createProductReset(state) {
+      state.success = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getProducts.pending, (state) => {
+      state.loading = true;
+      state.products = [];
+    });
+    builder.addCase(getProducts.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products = action.payload.product;
+      state.productsCount = action.payload.productCount;
+      state.resultPerPage = action.payload.resultPerPage;
+      state.filteredProductCount = action.payload.filteredProductCount;
+    });
+    builder.addCase(getProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = "Error in fetching products";
+    });
+    builder.addCase(getAdminProducts.pending, (state) => {
+      state.loading = true;
+      state.products = [];
+    });
+    builder.addCase(getAdminProducts.fulfilled, (state, action) => {
+      state.loading = false;
+      state.products = action.payload.product;
+      state.productsCount = action.payload.productCount;
+    });
+    builder.addCase(getAdminProducts.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
+    builder.addCase(deleteProduct.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+    });
+    builder.addCase(deleteProduct.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(deleteProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
+    builder.addCase(createProduct.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+    });
+    builder.addCase(createProduct.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(createProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
+  },
+});
+
+export const { clearErrors, createProductReset } = productSlice.actions;
+
+export default productSlice;
 
 export const productDetailReducer = (state = { product: {} }, action) => {
   switch (action.type) {

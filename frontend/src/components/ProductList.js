@@ -11,10 +11,11 @@ import {
 } from "@heroicons/react/20/solid";
 
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { clearErrors, getProduct } from "../redux/actions/productAction";
+import { getProducts } from "../redux/actions/productAction";
 import Spinner from "./Spinner";
 import { Pagination, Slider, message } from "antd";
 import ContentWrapper from "./contentWrapper/ContentWrapper";
+import { clearErrors } from "../redux/reducers/productSlice";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -93,7 +94,7 @@ export default function ProductList() {
       dispatch(clearErrors());
     }
 
-    dispatch(getProduct(keyword, pageParam, price, category));
+    dispatch(getProducts(keyword, pageParam, price, category));
   }, [dispatch, error, keyword, pageParam, price, category]);
 
   const options = {
