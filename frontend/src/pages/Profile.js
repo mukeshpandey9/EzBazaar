@@ -5,12 +5,9 @@ import Spinner from "../components/Spinner";
 import { Avatar, Button, Card, Form, Input, Typography, message } from "antd";
 import "../styles/profile.css";
 import { useNavigate } from "react-router-dom";
-import {
-  clearErrors,
-  loadUser,
-  updateProfile,
-} from "../redux/actions/userAction";
-import { UPDATE_USER_RESET } from "../redux/constants/userConstants";
+import { loadUser, updateProfile } from "../redux/actions/userAction";
+
+import { clearErrors, updateUserReset } from "../redux/reducers/userSlice";
 const { Title } = Typography;
 
 const Profile = () => {
@@ -41,7 +38,7 @@ const Profile = () => {
 
   const handleSaveClick = () => {
     dispatch(loadUser());
-    dispatch(updateProfile(name, avatar));
+    dispatch(updateProfile({ name, avatar }));
     setEditMode(false);
   };
 
@@ -55,9 +52,7 @@ const Profile = () => {
       dispatch(loadUser());
     }
 
-    dispatch({
-      type: UPDATE_USER_RESET,
-    });
+    dispatch(updateUserReset());
   }, [dispatch, user, isUpdated]);
 
   useEffect(() => {
