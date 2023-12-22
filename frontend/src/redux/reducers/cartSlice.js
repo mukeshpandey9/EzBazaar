@@ -1,24 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
-  ADD_TO_CART_FAIL,
-  ADD_TO_CART_REQUEST,
-  ADD_TO_CART_SUCCESS,
-  CLEAR_ERRORS,
-} from "../constants/addToCartConstants";
-
-import {
-  GET_CART_FAIL,
-  GET_CART_REQUEST,
-  GET_CART_SUCCESS,
-  REMOVE_CART_FAIL,
-  REMOVE_CART_REQUEST,
-  REMOVE_CART_SUCCESS,
-  UPDATE_CART_REQUEST,
-  UPDATE_CART_SUCCESS,
-  UPDATE_CART_FAIL,
-  REMOVE_CART_RESET,
-} from "../constants/addToCartConstants";
-import {
   addToCart,
   getCart,
   removeFromCart,

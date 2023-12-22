@@ -6,12 +6,13 @@ const productModel = require("../models/productModel");
 exports.newOrder = async (req, res) => {
   try {
     const { shippingInfo, orderItems, totalPrice } = req.body;
-
+    let date = new Date();
+    console.log(date.toLocaleString());
     const order = await orderModel.create({
       shippingInfo,
       orderItems,
       totalPrice,
-      paidAt: Date.now(),
+      paidAt: date.toLocaleString(),
       user: req.user.id,
     });
 

@@ -48,7 +48,7 @@ const OrderDetails = () => {
                   </div>
                   <div className="flex flex-row justify-between mb-2">
                     <span className="text-gray-700">Order Date:</span>
-                    <span className="text-violet-800">{order?.createdAt} </span>
+                    <span className="text-violet-800">{order?.createdAt}</span>
                   </div>
                 </div>
                 <hr className="my-4 border-gray-200" />

@@ -106,7 +106,9 @@ const Header = () => {
   }, [cart]);
 
   return (
-    <header className={`header ${mobileMenu && "mobileView"} ${show}`}>
+    <header
+      className={`header px-5 md:px-36 ${mobileMenu && "mobileView"} ${show}`}
+    >
       <ContentWrapper>
         <div className="logo">
           <Link to="/">
