@@ -96,7 +96,7 @@ export default function ProductList() {
     }
 
     dispatch(getProducts({ keyword, currentPage: pageParam, price, category }));
-  }, [error, keyword, pageParam, price, category]);
+  }, [keyword, pageParam, price, category]);
 
   const options = {
     edit: false,
@@ -329,7 +329,7 @@ export default function ProductList() {
                       Products
                     </h2>
 
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
                       {/* Filters */}
                       <form className="hidden lg:block">
                         {/* Price filter */}
@@ -411,7 +411,7 @@ export default function ProductList() {
 
                       {/* Product grid */}
 
-                      <div className="lg:col-span-3 ">
+                      <div className="lg:col-span-4">
                         <div className="flex justify-between px-10">
                           {keyword && (
                             <h3 className="text-2xl ">
@@ -440,18 +440,18 @@ export default function ProductList() {
                           <>
                             <div className="bg-white">
                               <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
-                                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                                   {products?.map((product) => (
                                     <Link to={`/product/${product?._id}`}>
                                       <div
                                         key={product.id}
-                                        className="group relative backdrop-blur-sm border rounded"
+                                        className="group relative shadow-sm backdrop-blur-md border rounded"
                                       >
-                                        <div className="w-full overflow-hidden object-contain rounded-md  lg:aspect-none group-hover:opacity-75 h-[19rem] lg:h-[17rem]">
+                                        <div className="w-full overflow-hidden object-contain text-center rounded-md  lg:aspect-none group-hover:opacity-75 h-[17rem] lg:h-[13rem]">
                                           <img
                                             src={product.images[0].url}
                                             alt={product.name}
-                                            className=" p-3 h-full w-max object-cover object-center lg:h-full lg:w-full"
+                                            className="drop-shadow-md p-3 h-full w-max object-cover object-center lg:h-full lg:w-[95%]"
                                           />
                                         </div>
                                         <div className="mt-4 p-4 flex justify-between">

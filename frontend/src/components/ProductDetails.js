@@ -82,14 +82,14 @@ export default function ProductDetails() {
 
   return (
     <>
-      <ContentWrapper>
+      <div className="px-32 py-16">
         {loading ? (
           <Spinner />
         ) : (
           <>
             {product && !error ? (
               <>
-                <div className="flex px-4 md:px-0  flex-col justify-between pb-12 pt-20 md:pt-24 lg:flex-row gap-8 md:gap-20">
+                <div className="flex px-4 md:px-0  flex-col justify-between pb-12 pt-4 md:pt-24 lg:flex-row gap-8 md:gap-20">
                   <div className="flex align-middle flex-col gap-3 h-6/12 lg:w-3/6">
                     <div className=" max-h-[50vh] h-[40vh] max-w-[90vw] md:max-h-[70vh] md:h-[60vh]  mx-auto  ">
                       <img
@@ -99,7 +99,7 @@ export default function ProductDetails() {
                       />
                     </div>
 
-                    <div className="flex w-full  gap-5 flex-row overflow-x-auto justify-between h-28">
+                    <div className="flex w-full  gap-5 flex-row overflow-x-auto justify-start h-28">
                       {product &&
                         product.images &&
                         Array.isArray(product.images) &&
@@ -189,11 +189,11 @@ export default function ProductDetails() {
                   <RatingCard productId={product?._id} />
                 </div>
                 <hr />
-                <div className="reviews-section overflow-x-scroll px-10  mt-8">
+                <div className="reviews-section overflow-x-auto px-10  mt-8">
                   <h2 className="text-center  text-3xl">Reviews</h2>
 
                   {product?.reviews && product?.reviews[0] ? (
-                    <div className="reviews mt-8 flex flex-wrap gap-3 md:gap-10 ">
+                    <div className="reviews mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-10 ">
                       {product?.reviews.map((review) => (
                         <ReviewCard review={review} />
                       ))}
@@ -222,7 +222,7 @@ export default function ProductDetails() {
             )}
           </>
         )}
-      </ContentWrapper>
+      </div>
     </>
   );
 }
