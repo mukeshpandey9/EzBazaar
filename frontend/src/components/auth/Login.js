@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { UserLogin, clearErrors } from "../../redux/actions/userAction";
+import { UserLogin } from "../../redux/actions/userAction";
 import Spinner from "../Spinner";
+import { clearErrors } from "../../redux/reducers/userSlice";
 export function Login() {
   // const count = useSelector();
   const dispatch = useDispatch();
@@ -28,7 +29,7 @@ export function Login() {
 
   const loginHandler = (e) => {
     e.preventDefault();
-    dispatch(UserLogin(email, password));
+    dispatch(UserLogin({ email, password }));
     if (!error) {
       message.success("Login Successful");
     }

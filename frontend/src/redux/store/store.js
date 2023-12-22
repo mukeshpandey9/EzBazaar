@@ -10,7 +10,7 @@ import { productDetailReducer, reviewProduct } from "../reducers/productSlice";
 
 import productReducer from "../reducers/productSlice";
 
-import { updateProfileReducer, userReducer } from "../reducers/userReducer";
+import { updateProfileReducer, userReducer } from "../reducers/userSlice";
 import { cartDeleteReducer, cartReducer } from "../reducers/cartSlice";
 import {
   deleteOrderReducer,
@@ -30,8 +30,8 @@ const store = configureStore({
   reducer: {
     products: productReducer.reducer,
     productDetails: productDetailReducer.reducer,
-    user: userReducer,
-    profile: updateProfileReducer,
+    user: userReducer.reducer,
+    profile: updateProfileReducer.reducer,
     cart: cartReducer.reducer,
     newOrder: newOrderReducer.reducer,
     order: orderReducer.reducer,
