@@ -9,7 +9,7 @@ const Home = () => {
     <>
       <Header />
       <CarouselComponent />
-      <ProductList />
+      {/* <ProductList /> */}
     </>
   );
 };
