@@ -82,7 +82,7 @@ export default function ProductDetails() {
 
   return (
     <>
-      <div className="px-32 py-16">
+      <div className="px-2 md:px-32 py-16">
         {loading ? (
           <Spinner />
         ) : (

@@ -445,13 +445,13 @@ export default function ProductList() {
                                     <Link to={`/product/${product?._id}`}>
                                       <div
                                         key={product.id}
-                                        className="group relative shadow-sm backdrop-blur-md border rounded"
+                                        className="group relative shadow-md md:shadow-sm backdrop-blur-md border rounded-md md:hover:shadow-lg"
                                       >
-                                        <div className="w-full overflow-hidden object-contain text-center rounded-md  lg:aspect-none group-hover:opacity-75 h-[17rem] lg:h-[13rem]">
+                                        <div className="w-full overflow-hidden object-contain flex items-center justify-center text-center rounded-md  lg:aspect-none group-hover:opacity-75 h-[17rem] lg:h-[13rem]">
                                           <img
                                             src={product.images[0].url}
                                             alt={product.name}
-                                            className="drop-shadow-md p-3 h-full w-max object-cover object-center lg:h-full lg:w-[95%]"
+                                            className="p-3 h-full w-max object-cover object-center lg:h-full lg:w-[95%]"
                                           />
                                         </div>
                                         <div className="mt-4 p-4 flex justify-between">
