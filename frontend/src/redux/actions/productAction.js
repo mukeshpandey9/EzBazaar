@@ -88,7 +88,7 @@ export const deleteProduct = createAsyncThunk(
 // Create Review
 export const createReview = createAsyncThunk(
   "products/createReview",
-  async ({ rating, ratingMessage, productId }, { rejectWithValue }) => {
+  async ({ rating, reviewMessage, productId }, { rejectWithValue }) => {
     try {
       const config = {
         headers: { "Content-type": "application/json" },
@@ -96,7 +96,7 @@ export const createReview = createAsyncThunk(
 
       const { data } = await API.put(
         `/api/v1/review`,
-        { rating, comment:ratingMessage, productId },
+        { rating, comment:reviewMessage, productId },
         config
       );
 
