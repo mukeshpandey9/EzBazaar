@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { clearErrors, getOrderDetails } from "../redux/actions/orderActions";
+import { getOrderDetails } from "../redux/actions/orderActions";
 import { message } from "antd";
 import Spinner from "../components/Spinner";
+import { clearOrderDetailsErrors } from "../redux/reducers/orderSlice";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -18,7 +19,7 @@ const OrderDetails = () => {
 
     if (error) {
       message.error(error);
-      dispatch(clearErrors());
+      dispatch(clearOrderDetailsErrors());
       return;
     }
 
@@ -47,7 +48,7 @@ const OrderDetails = () => {
                   </div>
                   <div className="flex flex-row justify-between mb-2">
                     <span className="text-gray-700">Order Date:</span>
-                    <span className="text-violet-800">{order?.createdAt} </span>
+                    <span className="text-violet-800">{order?.createdAt}</span>
                   </div>
                 </div>
                 <hr className="my-4 border-gray-200" />

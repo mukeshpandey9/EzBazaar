@@ -10,7 +10,7 @@ const ReviewCard = ({ review }) => {
   };
 
   return (
-    <div className="w-52 h-full p-5 border rounded-2xl border-3 border-gray-200">
+    <div className="w-60 shadow-md h-full p-5 border bg-white rounded-2xl border-3 border-gray-200">
       <img src={Profile} className="w-full rounded-full h-40" alt="" />
       <p className="text-center">{review.name}</p>
       <p className="mx-auto">
