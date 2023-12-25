@@ -18,7 +18,7 @@ const RatingCard = ({ productId }) => {
       return message.warning("Please Fill All Details");
     }
 
-    dispatch(createReview(rating, reviewMessage, productId));
+    dispatch(createReview({rating, reviewMessage, productId}));
     setRating(0);
     setReviewMessage("");
 
