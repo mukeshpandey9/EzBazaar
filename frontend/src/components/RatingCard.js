@@ -1,7 +1,8 @@
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, createReview } from "../redux/actions/productAction";
+import { createReview } from "../redux/actions/productAction";
+import { clearErrors } from "../redux/reducers/productSlice";
 
 const RatingCard = ({ productId }) => {
   const [rating, setRating] = useState(0);
@@ -18,8 +19,8 @@ const RatingCard = ({ productId }) => {
     }
 
     dispatch(createReview(rating, reviewMessage, productId));
-    setRating(0)
-    setReviewMessage("")
+    setRating(0);
+    setReviewMessage("");
 
     if (error) {
       message.error(error);
@@ -28,8 +29,8 @@ const RatingCard = ({ productId }) => {
     }
 
     if (isReviewed) {
-      setRating(0)
-      setReviewMessage("")
+      setRating(0);
+      setReviewMessage("");
       message.success("Review Added");
     }
   };

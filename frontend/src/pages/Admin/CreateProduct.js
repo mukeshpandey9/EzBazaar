@@ -3,12 +3,12 @@ import SideBar from "../../components/SideBar";
 import { message } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../../components/Spinner";
+import { createProduct } from "../../redux/actions/productAction";
+import { useNavigate } from "react-router-dom";
 import {
   clearErrors,
-  createProduct,
-  resetCreateProduct,
-} from "../../redux/actions/productAction";
-import { useNavigate } from "react-router-dom";
+  createProductReset,
+} from "../../redux/reducers/productSlice";
 
 const CreateProduct = () => {
   const categoryOptions = [
@@ -83,7 +83,7 @@ const CreateProduct = () => {
       navigate("/admin/products");
     }
 
-    dispatch(resetCreateProduct());
+    dispatch(createProductReset());
   }, [dispatch, error, success]);
 
   return (

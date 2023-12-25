@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import { userSignup, clearErrors } from "../../redux/actions/userAction";
+import { userSignup } from "../../redux/actions/userAction";
 import Spinner from "../Spinner";
+import { clearErrors } from "../../redux/reducers/userSlice";
 
 export function SignUP() {
   // const count = useSelector();
@@ -32,7 +33,7 @@ export function SignUP() {
 
   const signUpHandler = (e) => {
     e.preventDefault();
-    dispatch(userSignup(name, email, password, avatar));
+    dispatch(userSignup({ name, email, password, avatar }));
     if (token) {
       message.success("Register Successful");
     }

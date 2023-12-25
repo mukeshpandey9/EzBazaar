@@ -5,12 +5,12 @@ import axios from "axios";
 import SideBar from "../../components/SideBar";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  clearErrors,
   deleteProduct,
-  getAdminProduct,
+  getAdminProducts,
 } from "../../redux/actions/productAction";
 import { message } from "antd";
 import Spinner from "../../components/Spinner";
+import { clearErrors } from "../../redux/reducers/productSlice";
 
 const AdminProductsPage = () => {
   const dispatch = useDispatch();
@@ -26,11 +26,11 @@ const AdminProductsPage = () => {
     if (!error) {
       message.success("Product Deleted");
     }
-    dispatch(getAdminProduct());
+    dispatch(getAdminProducts());
   };
 
   useEffect(() => {
-    dispatch(getAdminProduct());
+    dispatch(getAdminProducts());
 
     if (error) {
       message.error(error);

@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import preImg from "../assets/img/preimg.png";
 import { useSelector, useDispatch } from "react-redux";
-import { clearErrors, getProductDetails } from "../redux/actions/productAction";
+import { getProductDetails } from "../redux/actions/productAction";
 import { Link, useParams } from "react-router-dom";
 import { Carousel, message } from "antd";
 import ReactStars from "react-rating-stars-component";
 import Spinner from "./Spinner";
 import ReviewCard from "./ReviewCard";
 import ContentWrapper from "./contentWrapper/ContentWrapper";
-import { addToCart, clearCartErrors } from "../redux/actions/cartActions";
+import { addToCart } from "../redux/actions/cartActions";
 import RatingCard from "./RatingCard";
+import { clearErrors } from "../redux/reducers/productSlice";
+import { clearCartErrors } from "../redux/reducers/cartSlice";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -34,7 +36,7 @@ export default function ProductDetails() {
 
   useEffect(() => {
     dispatch(getProductDetails(id));
-  }, [dispatch, id, product?.reviews]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (error) {
@@ -54,7 +56,7 @@ export default function ProductDetails() {
   const [messageApi, contextHolder] = message.useMessage();
 
   const handleAddToCart = () => {
-    dispatch(addToCart(id, amount));
+    dispatch(addToCart({ productId: id, qty: amount }));
 
     messageApi.open({
       type: "loading",
@@ -70,30 +72,24 @@ export default function ProductDetails() {
     message.success("Item Added To Cart SuccessFully");
   };
 
- 
-   
-
-  
-
   const [activeImg, setActiveImage] = useState(preImg);
 
-  useEffect(()=>{
-    if(product && product.images && product.images.length>0){
-      setActiveImage( product.images[0].url)
+  useEffect(() => {
+    if (product && product.images && product.images.length > 0) {
+      setActiveImage(product.images[0].url);
     }
-  },[loading,product._id])
- 
+  }, [loading, product._id]);
 
   return (
     <>
-      <ContentWrapper>
+      <div className="px-2 md:px-32 py-16">
         {loading ? (
           <Spinner />
         ) : (
           <>
             {product && !error ? (
               <>
-                <div className="flex px-4 md:px-0  flex-col justify-between pb-12 pt-20 md:pt-24 lg:flex-row gap-8 md:gap-20">
+                <div className="flex px-4 md:px-0  flex-col justify-between pb-12 pt-4 md:pt-24 lg:flex-row gap-8 md:gap-20">
                   <div className="flex align-middle flex-col gap-3 h-6/12 lg:w-3/6">
                     <div className=" max-h-[50vh] h-[40vh] max-w-[90vw] md:max-h-[70vh] md:h-[60vh]  mx-auto  ">
                       <img
@@ -101,18 +97,13 @@ export default function ProductDetails() {
                         alt=""
                         className="w-full h-full rounded-xl mix-blend-multiply"
                       />
-                      
-                    
                     </div>
 
-                    <div className="flex w-full  gap-5 flex-row overflow-x-auto justify-between h-28">
+                    <div className="flex w-full  gap-5 flex-row overflow-x-auto justify-start h-28">
                       {product &&
                         product.images &&
                         Array.isArray(product.images) &&
                         product?.images.map((image) => {
-                          
-                           
-                         
                           return (
                             <img
                               src={image?.url}
@@ -198,17 +189,19 @@ export default function ProductDetails() {
                   <RatingCard productId={product?._id} />
                 </div>
                 <hr />
-                <div className="reviews-section overflow-x-scroll px-10  mt-8">
+                <div className="reviews-section overflow-x-auto px-10  mt-8">
                   <h2 className="text-center  text-3xl">Reviews</h2>
 
                   {product?.reviews && product?.reviews[0] ? (
-                    <div className="reviews mt-8 flex flex-wrap gap-3 md:gap-10 ">
+                    <div className="reviews mt-8 flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-10 ">
                       {product?.reviews.map((review) => (
                         <ReviewCard review={review} />
                       ))}
                     </div>
                   ) : (
-                    <p className="text-violet-700 text-center text-3xl">No Reviews Yet</p>
+                    <p className="text-violet-700 text-center text-3xl">
+                      No Reviews Yet
+                    </p>
                   )}
                 </div>
               </>
@@ -229,7 +222,7 @@ export default function ProductDetails() {
             )}
           </>
         )}
-      </ContentWrapper>
+      </div>
     </>
   );
 }

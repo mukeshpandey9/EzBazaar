@@ -11,10 +11,12 @@ import {
 } from "@heroicons/react/20/solid";
 
 import { Link, useParams, useSearchParams } from "react-router-dom";
-import { clearErrors, getProduct } from "../redux/actions/productAction";
+import { getProducts } from "../redux/actions/productAction";
 import Spinner from "./Spinner";
 import { Pagination, Slider, message } from "antd";
 import ContentWrapper from "./contentWrapper/ContentWrapper";
+import { clearErrors } from "../redux/reducers/productSlice";
+import store from "../redux/store/store";
 
 const sortOptions = [
   { name: "Most Popular", href: "#", current: true },
@@ -44,7 +46,7 @@ function classNames(...classes) {
 
 export default function ProductList() {
   const dispatch = useDispatch();
-  const { loading, error, products, productsCount, resultPerpage } =
+  const { loading, error, products, productsCount, resultPerPage } =
     useSelector((state) => state.products);
 
   const { keyword } = useParams();
@@ -93,8 +95,8 @@ export default function ProductList() {
       dispatch(clearErrors());
     }
 
-    dispatch(getProduct(keyword, pageParam, price, category));
-  }, [dispatch, error, keyword, pageParam, price, category]);
+    dispatch(getProducts({ keyword, currentPage: pageParam, price, category }));
+  }, [keyword, pageParam, price, category]);
 
   const options = {
     edit: false,
@@ -327,7 +329,7 @@ export default function ProductList() {
                       Products
                     </h2>
 
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+                    <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
                       {/* Filters */}
                       <form className="hidden lg:block">
                         {/* Price filter */}
@@ -409,7 +411,7 @@ export default function ProductList() {
 
                       {/* Product grid */}
 
-                      <div className="lg:col-span-3 ">
+                      <div className="lg:col-span-4">
                         <div className="flex justify-between px-10">
                           {keyword && (
                             <h3 className="text-2xl ">
@@ -438,18 +440,18 @@ export default function ProductList() {
                           <>
                             <div className="bg-white">
                               <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
-                                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                                <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                                   {products?.map((product) => (
                                     <Link to={`/product/${product?._id}`}>
                                       <div
                                         key={product.id}
-                                        className="group relative backdrop-blur-sm border rounded"
+                                        className="group relative shadow-md md:shadow-sm backdrop-blur-md border rounded-md md:hover:shadow-lg"
                                       >
-                                        <div className="w-full overflow-hidden object-contain rounded-md  lg:aspect-none group-hover:opacity-75 h-[19rem] lg:h-[17rem]">
+                                        <div className="w-full overflow-hidden object-contain flex items-center justify-center text-center rounded-md  lg:aspect-none group-hover:opacity-75 h-[17rem] lg:h-[13rem]">
                                           <img
                                             src={product.images[0].url}
                                             alt={product.name}
-                                            className=" p-3 h-full w-max object-cover object-center lg:h-full lg:w-full"
+                                            className="p-3 h-full w-max object-cover object-center lg:h-full lg:w-[95%]"
                                           />
                                         </div>
                                         <div className="mt-4 p-4 flex justify-between">
@@ -494,13 +496,13 @@ export default function ProductList() {
                   </section>
 
                   {/* Pagination */}
-
-                  {productsCount > resultPerpage && (
+                  {console.log(resultPerPage)}
+                  {productsCount > resultPerPage && (
                     <div className="flex items-center justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
                       <Pagination
                         defaultCurrent={1}
                         total={productsCount}
-                        defaultPageSize={resultPerpage}
+                        defaultPageSize={resultPerPage}
                         responsive
                         current={pageParam}
                         onChange={handlePageChange}

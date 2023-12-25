@@ -2,9 +2,10 @@ import React, { useEffect } from "react";
 import Header from "../components/header/Header";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, getOrders } from "../redux/actions/orderActions";
+import { getOrders } from "../redux/actions/orderActions";
 import { message } from "antd";
 import Spinner from "../components/Spinner";
+import { clearErrors } from "../redux/reducers/orderSlice";
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, error, loading, success } = useSelector(
