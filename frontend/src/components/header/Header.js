@@ -4,6 +4,7 @@ import { SlMenu } from "react-icons/sl";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Avatar, Badge, Menu, Dropdown, message } from "antd";
+import Logo from "./logo.png";
 import {
   UserOutlined,
   SolutionOutlined,
@@ -11,11 +12,9 @@ import {
 } from "@ant-design/icons";
 import "./header.scss";
 
-// import logo from "../../assets/images/movix-logo.svg";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/actions/userAction";
-
 const Header = () => {
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -107,13 +106,14 @@ const Header = () => {
 
   return (
     <header
-      className={`header px-5 md:px-36 ${mobileMenu && "mobileView"} ${show}`}
+      className={`header shadow-md px-5 md:px-36 ${
+        mobileMenu && "mobileView"
+      } ${show}`}
     >
       <ContentWrapper>
         <div className="logo">
           <Link to="/">
-            LOGO
-            <img src="" alt="" />
+            <img src={Logo} alt="" className="h-full w-full" />
           </Link>
         </div>
         <ul className="menuItems">

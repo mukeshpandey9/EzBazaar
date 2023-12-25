@@ -13,22 +13,22 @@ const CarouselComponent = () => {
       <Carousel autoplay infinite autoplaySpeed={4000}>
         <div>
           <div
-            className="flex relative px-4 pt-24 pb-20 items-center text-white  h-full  dark:bg-gray-700 bg-contain bg-right bg-no-repeat dark:text-white "
+            className="flex relative px-4 pt-20 pb-[4.5rem] items-center text-white  h-full  dark:bg-gray-700 bg-contain bg-right bg-no-repeat dark:text-white "
             style={{ backgroundImage: `url(${Hero})` }}
           >
             {/* Gradient */}
             <div className="block md:hidden absolute inset-0 top-[3.6rem] z-0  opacity-70 !bg-gradient-to-r !from-violet-800 !via-violet-500 !to-violet-300 content-none text-4xl h-screen w-full !backdrop-blur-md blur-md" />
 
-            <div className="w-full  !z-50 md:w-1/2 h-full flex flex-col gap-5 justify-center  ">
+            <div className="w-full !z-50 md:w-1/2 h-full flex flex-col gap-5 justify-center  ">
               <h1 className="text-6xl text-gray-800 font-bold">
                 Celebrate
                 <span className="text-gray-900"> Unique. </span> Shop
                 Exclusives.
               </h1>
-              <h1 className="text-4xl md:text-5xl text-gray-200 font-semibold">
+              <h1 className="text-4xl md:text-5xl text-gray-200 md:text-violet-500 font-semibold">
                 Welcome to EzBazaar.
               </h1>
-              <p className="text-lg md:text-lg text-gray-200 md:text-gray-500">
+              <p className="text-lg md:text-lg pr-10 text-gray-200 md:text-gray-500">
                 Join us on a journey where every click unveils something
                 special. Embrace convenience, quality, and the joy of
                 discovering the extraordinary. Start your shopping adventure
