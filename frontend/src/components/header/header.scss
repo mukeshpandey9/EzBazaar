@@ -73,8 +73,8 @@
     align-items: center;
     width: 70%;
     justify-content: flex-end;
-    gap: 10px;
-    margin-right: 10px;
+    gap: 25px;
+    margin-right: 24px;
     @include md {
       display: none;
     }
@@ -93,7 +93,7 @@
       top: 60px;
 
       left: 0;
-      background: rgba(90, 33, 182, 0.308);
+      background: rgba(90, 33, 182, 0.508);
       flex-direction: column;
       width: 100%;
       padding: 20px 0;
@@ -104,14 +104,11 @@
         width: 100%;
         height: auto;
         color: white !important;
-        padding: 15px 20px;
+        padding: 15px 15px;
         margin: 0;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        &:last-child {
-          // display: none;
-        }
       }
 
       svg {
@@ -124,11 +121,12 @@
   }
 
   .searchBar {
-    width: 100%;
+    width: 99%;
     height: 60px;
     background-color: white;
     position: absolute;
     top: 60px;
+    left: 0;
     animation: mobileMenu 0.3s ease forwards;
     .searchInput {
       display: flex;
@@ -139,7 +137,7 @@
       svg {
         font-size: 20px;
         flex-shrink: 0;
-        margin-left: 10px;
+        margin-left: 5px;
         cursor: pointer;
       }
       input {

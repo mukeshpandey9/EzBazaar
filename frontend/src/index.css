@@ -16,10 +16,14 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(231, 42, 231, 0.322);
+  background: rgba(231, 42, 231, 0.222);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(85, 15, 85);
+  background: rgb(131, 27, 131);
   border-radius: 1rem;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important;
 }

@@ -57,6 +57,7 @@ export default function ProductList() {
 
   // Read query parameters
   const pageParam = Number(searchParams.get("page"));
+  const finalCategory = searchParams.get("category")?.toString();
 
   // You can read other query parameters similarly
 
@@ -68,9 +69,9 @@ export default function ProductList() {
   useEffect(() => {
     // Set initial query parameters on component mount
     if (!searchParams.get("page")) {
-      setSearchParams({ page: "1" });
+      searchParams.set("page", "1");
     }
-  }, [searchParams, setSearchParams]);
+  }, [searchParams]);
 
   // Filters
   // Price
@@ -85,8 +86,23 @@ export default function ProductList() {
   // Category
 
   const [category, setCategory] = useState();
+  const deleteCategoryParam = () => {
+    searchParams.set("page", "1");
+    searchParams.delete("category");
+    setSearchParams(searchParams);
+  };
+
   useEffect(() => {
-    setSearchParams({ page: "1" });
+    if (!category) {
+      return;
+    }
+    searchParams.set("category", category);
+    setSearchParams(searchParams);
+  }, [category]);
+
+  useEffect(() => {
+    searchParams.set("page", "1");
+    setSearchParams(searchParams);
   }, [category, price]);
 
   useEffect(() => {
@@ -95,8 +111,15 @@ export default function ProductList() {
       dispatch(clearErrors());
     }
 
-    dispatch(getProducts({ keyword, currentPage: pageParam, price, category }));
-  }, [keyword, pageParam, price, category]);
+    dispatch(
+      getProducts({
+        keyword,
+        currentPage: pageParam,
+        price,
+        category: finalCategory,
+      })
+    );
+  }, [keyword, pageParam, price, finalCategory]);
 
   const options = {
     edit: false,
@@ -267,6 +290,7 @@ export default function ProductList() {
                             onClick={() => {
                               setPrice([0, 50000]);
                               setCategory("");
+                              deleteCategoryParam();
                             }}
                           >
                             Reset Filters

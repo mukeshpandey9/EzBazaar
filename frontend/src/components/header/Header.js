@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { HiOutlineSearch, HiShoppingCart } from "react-icons/hi";
+import {
+  HiOutlineSearch,
+  HiShoppingCart,
+  HiShoppingBag,
+  HiOutlineRewind,
+  HiOutlinePaperAirplane,
+  HiInformationCircle,
+} from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -118,16 +125,24 @@ const Header = () => {
         </div>
         <ul className="menuItems">
           <Link to="/products">
-            <li className="menuItem">All Products</li>
+            <li className="menuItem">
+              {" "}
+              <HiShoppingBag />
+              {"  "}
+              All Products
+            </li>
           </Link>
           {!mobileMenu && (
-            <Link to="/cart">
-              <li className="menuItem p-0 ">
+            <Link to="/cart" className="flex items-center">
+              <li className="menuItem pr-1 ">
                 <HiShoppingCart />
                 <Badge
                   count={cartCount}
                   className="md:-mt-5 md:-ms-3  mt-0 text-violet-800"
-                ></Badge>
+                />
+                <span className="pl-4 text-violet-700 hover:text-black">
+                  Cart
+                </span>
               </li>
             </Link>
           )}
@@ -142,30 +157,48 @@ const Header = () => {
             </>
           ) : (
             <Link to="/orders">
-              <li className="menuItem">My orders</li>
+              <li className="menuItem">
+                <HiOutlineRewind />
+                My orders
+              </li>
             </Link>
           )}
-          <li className="menuItem">
-            <HiOutlineSearch onClick={openSearch} />
-          </li>
+
+          <Link to="/about">
+            <li className="menuItem">
+              <HiInformationCircle />
+              About Us
+            </li>
+          </Link>
+          <Link to="/contact">
+            <li className="menuItem">
+              <HiOutlinePaperAirplane />
+              {"    "}
+              Contact
+            </li>
+          </Link>
+          {!mobileMenu && (
+            <li className="menuItem">
+              <HiOutlineSearch onClick={openSearch} />
+            </li>
+          )}
         </ul>
 
         <div className="mobileMenuItems">
-          <HiOutlineSearch onClick={openSearch} />
-
           {mobileMenu ? (
             <>
               <VscChromeClose onClick={() => setMobileMenu(false)} />
             </>
           ) : (
             <>
+              <HiOutlineSearch onClick={openSearch} />
               <Link to="/cart">
                 <li className="menuItem p-0 ">
-                  <HiShoppingCart className="w-24" />
+                  <HiShoppingCart />
                   <Badge
                     count={cartCount}
                     className="-mt-[5rem] ms-6 w-3/12 text-violet-800"
-                  ></Badge>
+                  />
                 </li>
               </Link>
               <SlMenu onClick={openMobileView} />
@@ -185,7 +218,7 @@ const Header = () => {
         )}
       </ContentWrapper>
       {showSearch && (
-        <div className="searchBar">
+        <div className="searchBar px-4 md:px-16">
           <ContentWrapper>
             <div className="searchInput">
               <input
