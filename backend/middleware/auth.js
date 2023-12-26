@@ -12,8 +12,8 @@ exports.isAuthenticatedUser = async (req, res, next) => {
       .status(401)
       .json({ error: "Invalid or missing authorization header" });
   }
-  console.log("Token : ", req.cookies.token);
-  const token = req.cookies.token;
+
+  const token = authHeader.split(" ")[1] || req.cookies.token;
 
   if (!token) {
     return res
@@ -21,22 +21,9 @@ exports.isAuthenticatedUser = async (req, res, next) => {
       .json({ success: false, message: "Please login to access this page" });
   }
 
-  try {
-    const decodeData = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await userModel.findById(decodeData.id);
-
-    if (!user) {
-      return res
-        .status(401)
-        .json({ success: false, message: "User not found" });
-    }
-
-    req.user = user;
-    next();
-  } catch (error) {
-    // Handle token verification error
-    return res.status(401).json({ success: false, message: "Invalid token" });
-  }
+  const decodeData = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = await userModel.findById(decodeData.id);
+  next();
 };
 
 exports.authorizeRoles = (...roles) => {
