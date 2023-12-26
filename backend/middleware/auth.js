@@ -12,8 +12,8 @@ exports.isAuthenticatedUser = async (req, res, next) => {
       .status(401)
       .json({ error: "Invalid or missing authorization header" });
   }
-
-  const token = authHeader.split(" ")[1];
+  console.log("Token : ", req.cookies.token);
+  const token = req.cookies.token;
 
   if (!token) {
     return res
