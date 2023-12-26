@@ -107,8 +107,8 @@ const AdminProductsPage = () => {
             </div>
 
             <Link
-              to="/admin/products/new"
-              className="bg-violet-800 text-white px-4 py-2 rounded-md mt-4 inline-block"
+              to="/admin/product/new"
+              className="bg-violet-800 shadow-md text-white px-4 py-2 rounded-md mt-4 inline-block"
             >
               Create New Product
             </Link>
