@@ -9,10 +9,12 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+
+app.set("trust proxy", 1);
 // process.env.FRONTEND_URL
 app.use(
   cors({
-    origin: "https://ez-bazaar.vercel.app/",
+    origin: "*",
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true,
     optionsSuccessStatus: 204, // Added to handle preflight OPTIONS requests
