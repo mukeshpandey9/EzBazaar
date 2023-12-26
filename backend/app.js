@@ -6,11 +6,20 @@ const cors = require("cors");
 const app = express();
 app.use(cookieParser());
 
-app.use(cors());
-
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+// process.env.FRONTEND_URL
+app.use(
+  cors({
+    origin: "https://ez-bazaar.vercel.app/",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204, // Added to handle preflight OPTIONS requests
+    preflightContinue: false, // Added to handle preflight OPTIONS requests
+    allowedHeaders: ["Content-Type", "Authorization"], // Adjust allowed headers based on your needs
+  })
+);
 
 // Routes
 
