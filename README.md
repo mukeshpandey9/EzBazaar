@@ -2,7 +2,7 @@
 
 A Full Stack Ecommerce website
 
-## Tehnology Used
+## Technologies Used
 
 - React
 - Rest APi
