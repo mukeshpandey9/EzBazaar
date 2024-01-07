@@ -6,6 +6,7 @@ import {
   createReview,
   getProductDetails,
   getProducts,
+  updateProduct,
 } from "../actions/productAction"; // Replace with your actual actions' import paths
 
 // export const productReducer = (state = { products: [] }, action) => {
@@ -96,6 +97,9 @@ const productReducer = createSlice({
     createProductReset(state) {
       state.success = false;
     },
+    updateProductReset(state) {
+      state.success = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state) => {
@@ -122,6 +126,7 @@ const productReducer = createSlice({
       state.loading = false;
       state.products = action.payload.product;
       state.productsCount = action.payload.productCount;
+      state.resultPerPage = action.payload.resultPerpage;
     });
     builder.addCase(getAdminProducts.rejected, (state, action) => {
       state.loading = false;
@@ -154,10 +159,24 @@ const productReducer = createSlice({
       state.success = false;
       state.error = action.payload;
     });
+    builder.addCase(updateProduct.pending, (state) => {
+      state.loading = true;
+      state.success = false;
+    });
+    builder.addCase(updateProduct.fulfilled, (state) => {
+      state.loading = false;
+      state.success = true;
+    });
+    builder.addCase(updateProduct.rejected, (state, action) => {
+      state.loading = false;
+      state.success = false;
+      state.error = action.payload;
+    });
   },
 });
 
-export const { clearErrors, createProductReset } = productReducer.actions;
+export const { clearErrors, createProductReset, updateProductReset } =
+  productReducer.actions;
 
 export default productReducer;
 

@@ -68,21 +68,25 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getAdminProducts = async (req, res) => {
   try {
-    // res.status(500).json({ message: "I called tthe eoor" });
+    const resultPerpage = 8;
     const productCount = await Product.countDocuments();
 
-    const product = await Product.find();
+    const apiFeature = new ApiFeatures(Product.find(), req.query).pagination(
+      resultPerpage
+    );
+    const product = await apiFeature.query;
 
     if (!product) {
       return res
         .status(404)
-        .json({ success: false, message: "No Product Found" });
+        .json({ success: false, message: "No Products Found" });
     }
 
     res.status(201).json({
       success: true,
       product,
       productCount,
+      resultPerpage,
     });
   } catch (error) {
     console.log(error);
@@ -121,7 +125,7 @@ exports.updateProduct = async (req, res) => {
 
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-      runValidators: true,
+      runValidators: false,
       useFindAndModify: false,
     });
 

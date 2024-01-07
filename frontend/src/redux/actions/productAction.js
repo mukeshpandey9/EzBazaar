@@ -40,9 +40,9 @@ export const getProducts = createAsyncThunk(
 // Get All Admin Products
 export const getAdminProducts = createAsyncThunk(
   "products/getAdminProducts",
-  async (_, { rejectWithValue }) => {
+  async ({ page }, { rejectWithValue }) => {
     try {
-      const { data } = await API.get(`/api/v1/admin/products`);
+      const { data } = await API.get(`/api/v1/admin/products?page=${page}`);
       return data ?? {};
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message ?? error?.message);
@@ -60,6 +60,34 @@ export const createProduct = createAsyncThunk(
       };
 
       await API.post(`/api/v1/admin/product/new`, formData, config);
+      return;
+    } catch (error) {
+      return rejectWithValue(error?.response?.data?.message ?? error?.message);
+    }
+  }
+);
+
+// Update Product (Admin)
+
+export const updateProduct = createAsyncThunk(
+  "products/update",
+  async (formData, { rejectWithValue }) => {
+    try {
+      console.log("Update ACion Called");
+      let id = formData.get("id");
+      const config = {
+        headers: { "Content-type": "multipart/form-data" },
+      };
+
+      const body = {
+        name: formData.get("name"),
+        description: formData.get("description"),
+        price: formData.get("price"),
+        stock: formData.get("stock"),
+        category: formData.get("category"),
+      };
+      console.log(body);
+      await API.put(`/api/v1/admin/product/${id}`, body, config);
       return;
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message ?? error?.message);
@@ -96,7 +124,7 @@ export const createReview = createAsyncThunk(
 
       const { data } = await API.put(
         `/api/v1/review`,
-        { rating, comment:reviewMessage, productId },
+        { rating, comment: reviewMessage, productId },
         config
       );
 
@@ -110,7 +138,3 @@ export const createReview = createAsyncThunk(
     }
   }
 );
-
-// These actions use createAsyncThunk to handle the API calls and dispatch actions to your Redux store based on success or failure.
-// Adjust error handling and payload extraction as per your API response structure and error messages.
-// Replace the paths and API methods with your actual API routes and methods.

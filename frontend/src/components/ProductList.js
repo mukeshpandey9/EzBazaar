@@ -520,7 +520,7 @@ export default function ProductList() {
                   </section>
 
                   {/* Pagination */}
-                  {console.log(resultPerPage)}
+
                   {productsCount > resultPerPage && (
                     <div className="flex items-center justify-center border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
                       <Pagination

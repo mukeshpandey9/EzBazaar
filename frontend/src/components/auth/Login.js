@@ -5,6 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserLogin } from "../../redux/actions/userAction";
 import Spinner from "../Spinner";
 import { clearErrors } from "../../redux/reducers/userSlice";
+import Logo from "../../assets/img/logo.png";
+
 export function Login() {
   // const count = useSelector();
   const dispatch = useDispatch();
@@ -35,19 +37,19 @@ export function Login() {
     }
   };
 
+  const googleLoginHandler = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <div>
+    <div style={{ backgroundImage: `url("../../assets/img/bg.svg")` }}>
       {loading ? (
         <Spinner />
       ) : (
         <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <img
-              className="mx-auto h-10 w-auto"
-              src="https://tailwindui.com/img/logos/mark.svg?color=violet&7hade=600"
-              alt="Your Company"
-            />
-            <h2 className="mt-5 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            <img className="mx-auto  w-20" src={Logo} alt="EzBazaar" />
+            <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Sign in to your account
             </h2>
           </div>
@@ -118,6 +120,17 @@ export function Login() {
                 </button>
               </div>
             </form>
+            <h3 className="text-center py-2 text-violet-800 font-bold">or</h3>
+
+            <div className="flex items-center justify-center">
+              <button
+                type="button"
+                onClick={googleLoginHandler}
+                className="text-center text-violet-700 p-3 px-4 bg-white"
+              >
+                Login With Google
+              </button>
+            </div>
 
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a member?{" "}

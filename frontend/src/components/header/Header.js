@@ -21,7 +21,7 @@ import "./header.scss";
 
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "../../redux/actions/userAction";
+import { loadUser, logoutUser } from "../../redux/actions/userAction";
 const Header = () => {
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -32,7 +32,7 @@ const Header = () => {
   const location = useLocation();
 
   const dispatch = useDispatch();
-  const { token, user } = useSelector((state) => state.user);
+  const { isAuthanticated, user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -88,7 +88,7 @@ const Header = () => {
   const widgetMenu = (
     <Menu>
       <Menu.Item>
-        <Link to={token ? `/profile` : "/login"}>
+        <Link to={isAuthanticated ? `/profile` : "/login"}>
           <SolutionOutlined className="icon" /> {"  "}
           profile
         </Link>
@@ -124,10 +124,18 @@ const Header = () => {
           </Link>
         </div>
         <ul className="menuItems">
+          {isAuthanticated && user.role === "admin" && (
+            <Link to="/admin/dashboard">
+              <li className="menuItem">
+                {" "}
+                {"  "}
+                Dashboard
+              </li>
+            </Link>
+          )}
           <Link to="/products">
             <li className="menuItem">
               {" "}
-              <HiShoppingBag />
               {"  "}
               All Products
             </li>
@@ -146,7 +154,7 @@ const Header = () => {
               </li>
             </Link>
           )}
-          {!token ? (
+          {!isAuthanticated ? (
             <>
               <Link to="/login">
                 <li className="menuItem">Login</li>
@@ -157,22 +165,15 @@ const Header = () => {
             </>
           ) : (
             <Link to="/orders">
-              <li className="menuItem">
-                <HiOutlineRewind />
-                My orders
-              </li>
+              <li className="menuItem">My orders</li>
             </Link>
           )}
 
           <Link to="/about">
-            <li className="menuItem">
-              <HiInformationCircle />
-              About Us
-            </li>
+            <li className="menuItem">About Us</li>
           </Link>
           <Link to="/contact">
             <li className="menuItem">
-              <HiOutlinePaperAirplane />
               {"    "}
               Contact
             </li>
@@ -207,7 +208,7 @@ const Header = () => {
         </div>
 
         {/* Profile avatar */}
-        {token ? (
+        {isAuthanticated ? (
           <div>
             <Dropdown overlay={widgetMenu}>
               <Avatar size={50} className="w-full" src={user?.avatar?.url} />

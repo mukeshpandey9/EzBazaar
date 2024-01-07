@@ -23,8 +23,14 @@ import AdminOrders from "./pages/Admin/AdminOrders";
 import AdminOrderDetails from "./pages/Admin/AdminOrderDetails";
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import AdminRoutes from "./components/routes/AdminRoutes";
+import UpdateProduct from "./pages/Admin/UpdateProduct";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadUser());
+  });
   return (
     <BrowserRouter>
       <Routes>
@@ -106,6 +112,15 @@ function App() {
           element={
             <AdminRoutes>
               <CreateProduct />
+            </AdminRoutes>
+          }
+        />
+
+        <Route
+          path="/admin/product/update/:id"
+          element={
+            <AdminRoutes>
+              <UpdateProduct />
             </AdminRoutes>
           }
         />

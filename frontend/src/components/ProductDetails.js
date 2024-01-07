@@ -89,7 +89,7 @@ export default function ProductDetails() {
           <>
             {product && !error ? (
               <>
-                <div className="flex px-4 md:px-0  flex-col justify-between pb-12 pt-4 md:pt-24 lg:flex-row gap-8 md:gap-20">
+                <div className="flex px-4 md:px-0  flex-col justify-between pb-12 pt-4 md:pt-16 lg:flex-row gap-8 md:gap-20">
                   <div className="flex align-middle flex-col gap-3 h-6/12 lg:w-3/6">
                     <div className=" max-h-[50vh] h-[40vh] max-w-[90vw] md:max-h-[70vh] md:h-[60vh]  mx-auto  ">
                       <img

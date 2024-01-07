@@ -33,9 +33,9 @@ export default function SideBar() {
         onClick={() => setIsOpen((prev) => !prev)}
         className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none"
       >
-        <span class="sr-only">Open sidebar</span>
+        <span className="sr-only">Open sidebar</span>
         <svg
-          class="w-6 h-6"
+          className="w-6 h-6"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 20 20"
