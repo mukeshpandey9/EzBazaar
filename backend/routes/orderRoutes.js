@@ -8,7 +8,15 @@ const {
   getAllOrders,
   updateOrders,
   deleteOrder,
+  newAddress,
+  getAddress,
 } = require("../controllers/orderController");
+
+// Create Address
+
+router.route("/address/new").post(isAuthenticatedUser, newAddress);
+router.route("/address/me").get(isAuthenticatedUser, getAddress);
+
 // Create Order
 
 router.route("/order/new").post(isAuthenticatedUser, newOrder);

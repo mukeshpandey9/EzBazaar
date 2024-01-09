@@ -1,5 +1,61 @@
+const addressModel = require("../models/addressModel");
 const orderModel = require("../models/orderModel");
 const productModel = require("../models/productModel");
+
+// Create new Address
+
+exports.newAddress = async (req, res) => {
+  try {
+    req.body.user = req.user.id;
+    const address = await addressModel.create(req.body);
+
+    if (!address) {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to create Address",
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Address created sucessfully",
+      address,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// Get the Address
+
+exports.getAddress = async (req, res) => {
+  try {
+    const address = await addressModel.find({ user: req.user.id });
+
+    if (!address) {
+      return res.status(400).json({
+        success: false,
+        message: "No Address found",
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Address Fetched sucessfully",
+      address,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 // Create new order
 

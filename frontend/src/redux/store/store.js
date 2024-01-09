@@ -18,6 +18,7 @@ import {
   orderDetailsReducer,
   orderReducer,
 } from "../reducers/orderSlice";
+import { addressReducer } from "../reducers/addressSlice";
 
 // const reducer = combineReducers({});
 
@@ -39,6 +40,7 @@ const store = configureStore({
     delCart: cartDeleteReducer.reducer,
     orderDetails: orderDetailsReducer.reducer,
     review: reviewProduct.reducer,
+    address: addressReducer.reducer,
   },
   preloadedState: initialState,
 });
