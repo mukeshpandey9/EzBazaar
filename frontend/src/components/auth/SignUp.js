@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { userSignup } from "../../redux/actions/userAction";
 import Spinner from "../Spinner";
 import { clearErrors } from "../../redux/reducers/userSlice";
+import OAuth from "../OAuth";
 
 export function SignUP() {
   // const count = useSelector();
@@ -173,6 +174,8 @@ export function SignUP() {
                   >
                     Sign Up
                   </button>
+
+                  <OAuth />
                 </div>
               </form>
 

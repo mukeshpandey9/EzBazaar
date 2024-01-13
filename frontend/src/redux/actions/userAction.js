@@ -51,6 +51,29 @@ export const userSignup = createAsyncThunk(
   }
 );
 
+// Login with Google
+export const googleAuth = createAsyncThunk(
+  "auth/google",
+  async ({ name, email, avatar }, { rejectWithValue }) => {
+    try {
+      const config = {
+        headers: { "Content-type": "application/json" },
+      };
+      const { data } = await API.post(
+        "/api/v1/auth/google",
+        { name, email, avatar },
+        config
+      );
+      if (data && data?.success) {
+        localStorage.setItem("token", data?.token);
+        return data;
+      }
+    } catch (error) {
+      return rejectWithValue(error.response?.data?.message);
+    }
+  }
+);
+
 // Update User Profile
 export const updateProfile = createAsyncThunk(
   "user/updateProfile",

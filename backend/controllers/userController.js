@@ -90,6 +90,49 @@ exports.loginController = async (req, res) => {
   }
 };
 
+// Google Login
+
+exports.google = async (req, res, next) => {
+  try {
+    const user = await userModel.findOne({ email: req.body.email });
+    if (user) {
+      const createdUser = await userModel
+        .findById(user._id)
+        .select("-password");
+      sendToken(createdUser, 200, res);
+    } else {
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+
+      const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+        folder: "avatars",
+        width: 150,
+        crop: "scale",
+      });
+
+      const newUser = new userModel({
+        name: req.body.name,
+        email: req.body.email,
+        password: generatedPassword,
+        avatar: {
+          public_id: myCloud.public_id,
+          url: myCloud.secure_url,
+        },
+      });
+
+      await newUser.save();
+      const createdUser = await userModel
+        .findById(newUser._id)
+        .select("-password");
+
+      await sendToken(createdUser, 201, res);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Logout
 
 exports.logout = async (req, res) => {

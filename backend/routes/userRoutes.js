@@ -12,12 +12,15 @@ const {
   getSingleUser,
   updateUserRole,
   deleteUser,
+  google,
 } = require("../controllers/userController");
 const { isAuthenticatedUser, authorizeRoles } = require("../middleware/auth");
 const router = express.Router();
 
 router.route("/register").post(registerController);
 router.route("/login").post(loginController);
+router.route("/auth/google").post(google);
+
 router.route("/password/forgot").post(forgotPassword);
 router.route("/password/reset/:token").put(resetPassword);
 router.route("/logout").get(logout);

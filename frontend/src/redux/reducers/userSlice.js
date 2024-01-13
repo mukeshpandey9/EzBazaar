@@ -5,6 +5,7 @@ import {
   logoutUser,
   updateProfile,
   userSignup,
+  googleAuth,
 } from "../actions/userAction";
 
 export const userReducer = createSlice({
@@ -28,6 +29,9 @@ export const userReducer = createSlice({
       .addCase(UserLogin.pending, (state) => {
         state.loading = true;
       })
+      .addCase(googleAuth.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(userSignup.pending, (state) => {
         state.loading = true;
       })
@@ -39,6 +43,12 @@ export const userReducer = createSlice({
         state.loading = true;
       })
       .addCase(UserLogin.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isAuthanticated = true;
+      })
+      .addCase(googleAuth.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
@@ -71,6 +81,7 @@ export const userReducer = createSlice({
           [
             userSignup.rejected.type,
             UserLogin.rejected.type,
+            googleAuth.rejected.type,
             loadUser.rejected.type,
           ].includes(action.type),
         (state, action) => {

@@ -6,6 +6,7 @@ import { UserLogin } from "../../redux/actions/userAction";
 import Spinner from "../Spinner";
 import { clearErrors } from "../../redux/reducers/userSlice";
 import Logo from "../../assets/img/logo.png";
+import OAuth from "../OAuth";
 
 export function Login() {
   // const count = useSelector();
@@ -35,10 +36,6 @@ export function Login() {
     if (!error) {
       message.success("Login Successful");
     }
-  };
-
-  const googleLoginHandler = (e) => {
-    e.preventDefault();
   };
 
   return (
@@ -123,13 +120,7 @@ export function Login() {
             <h3 className="text-center py-2 text-violet-800 font-bold">or</h3>
 
             <div className="flex items-center justify-center">
-              <button
-                type="button"
-                onClick={googleLoginHandler}
-                className="text-center text-violet-700 p-3 px-4 bg-white"
-              >
-                Login With Google
-              </button>
+              <OAuth />
             </div>
 
             <p className="mt-10 text-center text-sm text-gray-500">
