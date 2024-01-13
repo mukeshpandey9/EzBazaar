@@ -51,18 +51,19 @@ const OAuth = () => {
     message.loading("Loading", 4000);
   }
 
-  //   if (isAuthanticated) {
-  //     message.success("Logged In Successfully");
-  //     navigate("/profile");
-  //   }
-
   return (
     <button
       onClick={handleGoogleClick}
       type="button"
-      className="bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95"
+      className="px-4 py-2 border flex gap-4 border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
     >
-      Continue with Google
+      <img
+        className="w-6 h-6"
+        src="https://www.svgrepo.com/show/475656/google-color.svg"
+        loading="lazy"
+        alt="google logo"
+      />
+      <span className="text-md">Continue with Google</span>
     </button>
   );
 };
