@@ -2,9 +2,39 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
   shippingInfo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Address",
-    required: true,
+    name: {
+      type: String,
+      required: [true, "name of the address holder is required"],
+    },
+    email: {
+      type: String,
+      required: [true, "User Email is Required"],
+    },
+    address: {
+      type: String,
+      required: [true, "Address is Required"],
+    },
+    city: {
+      type: String,
+      required: [true, "City is Required"],
+    },
+    state: {
+      type: String,
+      required: [true, "State is Required"],
+    },
+    country: {
+      type: String,
+      default: "India",
+      required: [true, "country is Required"],
+    },
+    pincode: {
+      type: Number,
+      required: [true, "PinCode is Required"],
+    },
+    phoneNo: {
+      type: Number,
+      required: [true, "Phone Number is Required"],
+    },
   },
 
   orderItems: [
@@ -21,9 +51,9 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
-      image: {
+      imageSrc: {
         type: String,
-        required: false,
+        required: true,
       },
       product_id: {
         type: mongoose.Schema.ObjectId,
@@ -40,14 +70,14 @@ const orderSchema = new mongoose.Schema({
   },
 
   paymentInfo: {
-    id: {
+    payment_id: {
       type: String,
-      required: false,
+      required: true,
     },
 
     status: {
       type: String,
-      required: false,
+      required: true,
     },
   },
 
@@ -67,7 +97,7 @@ const orderSchema = new mongoose.Schema({
   },
   orderStatus: {
     type: String,
-    default: "Processing",
+    default: "Ordered",
   },
   deliveredAt: Date,
   createdAt: {

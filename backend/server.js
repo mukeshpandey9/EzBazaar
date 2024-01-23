@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const mongoDB = require("./config/db");
 
 const cloudinary = require("cloudinary");
+
 // Config dotenv
 
 dotenv.config({ path: "backend/config/.env" });

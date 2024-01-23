@@ -34,7 +34,7 @@ exports.newAddress = async (req, res) => {
 
 exports.getAddress = async (req, res) => {
   try {
-    const address = await addressModel.find({ user: req.user.id });
+    const address = await addressModel.findOne({ user: req.user.id });
 
     if (!address) {
       return res.status(400).json({
@@ -61,13 +61,14 @@ exports.getAddress = async (req, res) => {
 
 exports.newOrder = async (req, res) => {
   try {
-    const { shippingInfo, orderItems, totalPrice } = req.body;
+    console.log(req.body.paymentInfo);
+    const { shippingInfo, orderItems, totalPrice, paymentInfo } = req.body;
     let date = new Date();
-    console.log(date.toLocaleString());
     const order = await orderModel.create({
       shippingInfo,
       orderItems,
       totalPrice,
+      paymentInfo,
       paidAt: date.toLocaleString(),
       user: req.user.id,
     });

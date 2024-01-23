@@ -85,7 +85,7 @@ const Orders = () => {
                           <div className="flex flex-col mt-3  md:flex-row gap-10">
                             <div className="w-24 h-28">
                               <img
-                                src="https://tailwindui.com/img/ecommerce-images/order-history-page-03-product-01.jpg"
+                                src={orderItem.imageSrc}
                                 alt=""
                                 className="w-full"
                               />

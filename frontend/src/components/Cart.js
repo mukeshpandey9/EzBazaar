@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import cartempty from "../assets/img/emptycart.jpg";
 import { Link } from "react-router-dom";
 import {
   getCart,
@@ -146,9 +146,12 @@ export default function Cart() {
               </div>
             </div>
           ) : (
-            <h1 className="text-6xl text-center my-auto  font-bold text-violet-800">
-              Cart Is Empty
-            </h1>
+            <div className="flex flex-col items-center justify-center">
+              <h1 className="text-5xl text-center font-bold text-violet-800">
+                Cart Is Empty !
+              </h1>
+              <img src={cartempty} className="w-[30%]" alt="Cart Empty" />
+            </div>
           )}
         </div>
       )}

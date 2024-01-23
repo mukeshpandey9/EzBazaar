@@ -3,7 +3,10 @@ import API from "../../utils/API";
 
 export const createOrder = createAsyncThunk(
   "order/createOrder",
-  async ({ shippingInfo, orderItems, totalPrice }, { rejectWithValue }) => {
+  async (
+    { shippingInfo, orderItems, totalPrice, paymentInfo },
+    { rejectWithValue }
+  ) => {
     try {
       const config = {
         headers: { "Content-type": "application/json" },
@@ -11,7 +14,7 @@ export const createOrder = createAsyncThunk(
 
       const { data } = await API.post(
         `/api/v1/order/new`,
-        { shippingInfo, orderItems, totalPrice },
+        { shippingInfo, orderItems, totalPrice, paymentInfo },
         config
       );
 

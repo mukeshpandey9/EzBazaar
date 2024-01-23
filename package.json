@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.1",
     "nodemailer": "^6.9.4",
+    "razorpay": "^2.9.2",
     "validator": "^13.11.0"
   }
 }

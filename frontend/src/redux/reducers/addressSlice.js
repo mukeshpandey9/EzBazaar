@@ -6,7 +6,7 @@ export const addressReducer = createSlice({
   initialState: {
     loading: false,
     success: false,
-    addresses: [],
+    address: {},
     error: null,
   },
   reducers: {
@@ -23,7 +23,7 @@ export const addressReducer = createSlice({
       .addCase(createAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.addresses = action.payload.address;
+        state.address = action.payload.address;
       })
       .addCase(createAddress.rejected, (state, action) => {
         state.loading = false;
@@ -37,7 +37,7 @@ export const addressReducer = createSlice({
       .addCase(getAddress.fulfilled, (state, action) => {
         state.loading = false;
         state.success = true;
-        state.addresses = action.payload.address;
+        state.address = action.payload.address;
       })
       .addCase(getAddress.rejected, (state, action) => {
         state.loading = false;

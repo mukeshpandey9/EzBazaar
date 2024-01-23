@@ -11,6 +11,8 @@ import { clearNewOrderErrors } from "../redux/reducers/orderSlice";
 import { createAddress, getAddress } from "../redux/actions/addressAction";
 import Spinner from "../components/Spinner";
 import { clearErrors } from "../redux/reducers/addressSlice";
+import axios from "axios";
+import API from "../utils/API";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -23,11 +25,11 @@ const Checkout = () => {
     loading,
     error: addressError,
     success: addressSuccess,
-    addresses,
+    address,
   } = useSelector((state) => state.address);
 
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
+  const [userAddress, setUserAddress] = useState("");
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("India");
   const [state, setState] = useState("");
@@ -42,10 +44,10 @@ const Checkout = () => {
       return;
     }
 
-    const address = {
+    const addressData = {
       name,
       email: user?.email,
-      address,
+      address: userAddress,
       city,
       state,
       country,
@@ -54,22 +56,31 @@ const Checkout = () => {
     };
     setActiveStep(1);
 
-    dispatch(createAddress(address));
+    dispatch(createAddress(addressData));
   };
 
   useEffect(() => {
     dispatch(getAddress());
-  }, [dispatch, addresses.length]);
+  }, [dispatch, address.length]);
 
-  const orderHandler = () => {
-    if (!addresses && addresses.length === 0) {
+  const orderHandler = async (order) => {
+    if (!address || !order) {
       message.warning("Please Enter The Shipping Details");
       return;
     }
 
     if (cart) {
+      const {
+        data: { payment_id },
+      } = await API.get(`api/v1/payment/info/${order.id}`);
+
+      const paymentInfo = {
+        payment_id,
+        status: "Paid",
+      };
       const orderData = {
-        address,
+        shippingInfo: address,
+        paymentInfo,
         orderItems: cart,
         totalPrice: sessionStorage.getItem("subtotal"),
       };
@@ -77,10 +88,67 @@ const Checkout = () => {
       sessionStorage.clear();
       dispatch(createOrder(orderData));
       dispatch(clearCart());
-      navigate("/success");
-      if (success && !error) {
+      // navigate(`/success/${paymentInfo.payment_id}`);
+
+      if (success) {
         message.success("Order SuccessFully Placed");
+        navigate(`/success`);
       }
+    }
+  };
+
+  const checkoutHandler = async () => {
+    if (Object.keys(address).length === 0) {
+      message.warning("Please Fill the Shipping Details!");
+      return;
+    }
+
+    const {
+      data: { key },
+    } = await API.get("api/v1/payment/getkey");
+    const amount = sessionStorage.getItem("subtotal");
+
+    const { data } = await API.post("api/v1/payment/checkout", { amount });
+    // console.log(data.order);
+    let order = data?.order;
+
+    if (order) {
+      const options = {
+        key,
+        amount: order.amount,
+        currency: "INR",
+        name: "Mukesh Pandey",
+        description: "Paying to EzBazaar",
+        image:
+          "https://ez-bazaar.vercel.app/static/media/logo.bdc76d07cb317ca79dfc.png",
+        order_id: order.id,
+
+        handler: async function (response) {
+          const {
+            data: { success },
+          } = await API.post("api/v1/payment/verification", response);
+          if (success) {
+            message.info("Payment Succeeded");
+            orderHandler(order);
+          }
+        },
+
+        prefill: {
+          email: user.email,
+        },
+        notes: {
+          address: "EzBazaar Corporate Office",
+        },
+        theme: {
+          color: "#a647e6",
+        },
+      };
+      const razor = new window.Razorpay(options);
+      await razor.open();
+
+      razor.on("payment.failed", function (response) {
+        message.error("Payment Failed");
+      });
     }
   };
 
@@ -89,6 +157,11 @@ const Checkout = () => {
       message.error("Error In Placing Order");
       dispatch(clearNewOrderErrors());
       return;
+    }
+
+    if (success) {
+      message.success("Order SuccessFully Placed");
+      navigate(`/success`);
     }
   }, [dispatch, success, message]);
 
@@ -108,16 +181,10 @@ const Checkout = () => {
             <Spinner />
           ) : (
             <div className={` lg:col-span-3   mt-5`}>
-              {addresses.length === 0 && (
-                <StepperComp activeStep={activeStep} />
-              )}
-              {addresses.length === 0 ? (
+              {!address && <StepperComp activeStep={activeStep} />}
+              {Object.keys(address).length === 0 ? (
                 <>
-                  <form
-                    className={`bg-white p-8  ${
-                      addresses.length > 0 ? "hidden" : "block"
-                    }`}
-                  >
+                  <form className={`bg-white p-8`}>
                     <div className="space-y-12">
                       <div className="border-b border-gray-900/10 pb-12">
                         <h2 className="text-2xl font-semibold leading-7 text-gray-900">
@@ -225,7 +292,7 @@ const Checkout = () => {
                                 type="text"
                                 name="street-address"
                                 id="street-address"
-                                onChange={(e) => setAddress(e.target.value)}
+                                onChange={(e) => setUserAddress(e.target.value)}
                                 autoComplete="street-address"
                                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                               />
@@ -301,6 +368,7 @@ const Checkout = () => {
                           Reset
                         </button>
                         <button
+                          type="button"
                           onClick={addressHandler}
                           className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                         >
@@ -314,96 +382,44 @@ const Checkout = () => {
                 <>
                   <StepperComp activeStep={activeStep} />
                   <div
-                    className={`border-b border-gray-900/10 pb-12 bg-white p-10 ${
-                      addresses.length > 0 ? "block" : "hidden"
-                    }`}
+                    className={`border-b border-gray-900/10 pb-12 bg-white p-10 "
+                    `}
                   >
                     <h2 className="text-2xl font-bold leading-7 text-gray-900">
                       Shipping Info
                     </h2>
 
-                    {addresses.map((address) => (
-                      <div className="summary py-5">
-                        <h2 className="text-gray-900 my-2 font-semibold">
-                          Name:{" "}
-                          <span className="text-gray-500">{address?.name}</span>
-                        </h2>
-                        <h2 className="text-gray-900 my-2 font-semibold">
-                          City :{" "}
-                          <span className="text-gray-500">
-                            {`${address?.city}`}
-                          </span>
-                        </h2>
-                        <h2 className="text-gray-900 my-2 font-semibold">
-                          State :{" "}
-                          <span className="text-gray-500">{address.state}</span>
-                        </h2>
-                        <h2 className="text-gray-900 my-2 font-semibold">
-                          Country :{" "}
-                          <span className="text-gray-500">
-                            {address.country}
-                          </span>
-                        </h2>
-                        <h2 className="text-gray-900 my-2 font-semibold">
-                          Address :{" "}
-                          <span className="text-gray-500">
-                            {address.address}
-                          </span>
-                        </h2>
-                        <h2 className="text-gray-900 my-2 font-semibold">
-                          Pincode :{" "}
-                          <span className="text-gray-500">
-                            {address.pincode}
-                          </span>
-                        </h2>
-                        <h2 className="text-gray-900 my-2 font-semibold">
-                          Phone No :{" "}
-                          <span className="text-gray-500">
-                            {address.phoneNo}
-                          </span>
-                        </h2>
-                      </div>
-                    ))}
-
-                    <div className="mt-10 space-y-10">
-                      <fieldset>
-                        <legend className="text-sm font-semibold leading-6 text-gray-900">
-                          Payment Methods
-                        </legend>
-                        <p className="mt-1 text-sm leading-6 text-gray-600">
-                          Choose One
-                        </p>
-                        <div className="mt-6 space-y-6">
-                          <div className="flex items-center gap-x-3">
-                            <input
-                              id="cash"
-                              name="payments"
-                              type="radio"
-                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                            />
-                            <label
-                              htmlFor="cash"
-                              className="block text-sm font-medium leading-6 text-gray-900"
-                            >
-                              Cash
-                            </label>
-                          </div>
-                          <div className="flex items-center gap-x-3">
-                            <input
-                              id="card"
-                              name="payments"
-                              type="radio"
-                              className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                            />
-                            <label
-                              htmlFor="card"
-                              className="block text-sm font-medium leading-6 text-gray-900"
-                            >
-                              Card Payment
-                            </label>
-                          </div>
-                        </div>
-                      </fieldset>
+                    <div className="summary py-5">
+                      <h2 className="text-gray-900 my-2 font-semibold">
+                        Name:{" "}
+                        <span className="text-gray-500">{address?.name}</span>
+                      </h2>
+                      <h2 className="text-gray-900 my-2 font-semibold">
+                        City :{" "}
+                        <span className="text-gray-500">
+                          {`${address?.city}`}
+                        </span>
+                      </h2>
+                      <h2 className="text-gray-900 my-2 font-semibold">
+                        State :{" "}
+                        <span className="text-gray-500">{address.state}</span>
+                      </h2>
+                      <h2 className="text-gray-900 my-2 font-semibold">
+                        Country :{" "}
+                        <span className="text-gray-500">{address.country}</span>
+                      </h2>
+                      <h2 className="text-gray-900 my-2 font-semibold">
+                        Address :{" "}
+                        <span className="text-gray-500">{address.address}</span>
+                      </h2>
+                      <h2 className="text-gray-900 my-2 font-semibold">
+                        Pincode :{" "}
+                        <span className="text-gray-500">{address.pincode}</span>
+                      </h2>
+                      <h2 className="text-gray-900 my-2 font-semibold">
+                        Phone No :{" "}
+                        <span className="text-gray-500">{address.phoneNo}</span>
+                      </h2>
                     </div>
                   </div>
                 </>
@@ -419,7 +435,7 @@ const Checkout = () => {
               <div className="border-t border-gray-200 px-4 sm:px-6">
                 <div className="mt-5 flex justify-center">
                   <button
-                    onClick={orderHandler}
+                    onClick={checkoutHandler}
                     className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                   >
                     Pay and Order
