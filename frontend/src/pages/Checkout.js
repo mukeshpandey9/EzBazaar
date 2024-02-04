@@ -13,6 +13,7 @@ import Spinner from "../components/Spinner";
 import { clearErrors } from "../redux/reducers/addressSlice";
 import axios from "axios";
 import API from "../utils/API";
+import { Helmet } from "react-helmet";
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -174,6 +175,9 @@ const Checkout = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Checkout👜 - Make your Order</title>
+      </Helmet>
       <div className="mx-auto pb-16 h-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-5">
           {/* Form */}

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import API from "../../utils/API";
+import { message } from "antd";
 
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
@@ -16,6 +17,7 @@ export const addToCart = createAsyncThunk(
       if (data && data.success === false) {
         return rejectWithValue(data?.message || "Error in Adding Item to Cart");
       }
+      message.success("Item Added To Cart SuccessFully");
       return;
     } catch (error) {
       return rejectWithValue(error.response.data.message);
@@ -45,6 +47,7 @@ export const removeFromCart = createAsyncThunk(
           data?.message || "Error in Removing Item from Cart"
         );
       }
+      message.success("Item Removed");
       return;
     } catch (error) {
       return rejectWithValue(error.response.data.message);
@@ -57,6 +60,7 @@ export const updateCart = createAsyncThunk(
   async ({ productId, qty }, { rejectWithValue }) => {
     try {
       const { data } = await API.put(`/api/v1/cart/update`, { productId, qty });
+      message.success("Cart Updated");
       return data?.updatedCartItem;
     } catch (error) {
       return rejectWithValue(error.response.data.message);

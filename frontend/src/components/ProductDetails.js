@@ -8,10 +8,11 @@ import ReactStars from "react-rating-stars-component";
 import Spinner from "./Spinner";
 import ReviewCard from "./ReviewCard";
 import ContentWrapper from "./contentWrapper/ContentWrapper";
-import { addToCart } from "../redux/actions/cartActions";
+import { addToCart, getCart } from "../redux/actions/cartActions";
 import RatingCard from "./RatingCard";
 import { clearErrors } from "../redux/reducers/productSlice";
 import { clearCartErrors } from "../redux/reducers/cartSlice";
+import { Helmet } from "react-helmet";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -69,7 +70,7 @@ export default function ProductDetails() {
       dispatch(clearCartErrors());
       return;
     }
-    message.success("Item Added To Cart SuccessFully");
+    dispatch(getCart());
   };
 
   const [activeImg, setActiveImage] = useState(preImg);
@@ -82,6 +83,10 @@ export default function ProductDetails() {
 
   return (
     <>
+      <Helmet>
+        <title>{product.name ? product?.name : "Product"} | EzBazaar</title>
+        <link rel="shortcut icon" href={activeImg} type="image/x-icon" />
+      </Helmet>
       <div className="px-2 md:px-32 py-16">
         {loading ? (
           <Spinner />
@@ -94,7 +99,7 @@ export default function ProductDetails() {
                     <div className=" max-h-[50vh] h-[40vh] max-w-[90vw] md:max-h-[70vh] md:h-[60vh]  mx-auto  ">
                       <img
                         src={activeImg}
-                        alt=""
+                        alt="product"
                         className="w-full h-full rounded-xl mix-blend-multiply"
                       />
                     </div>
@@ -103,11 +108,12 @@ export default function ProductDetails() {
                       {product &&
                         product.images &&
                         Array.isArray(product.images) &&
-                        product?.images.map((image) => {
+                        product?.images.map((image, i) => {
                           return (
                             <img
+                              key={i}
                               src={image?.url}
-                              alt=""
+                              alt="product"
                               className="md:w-24 md:h-24 w-20 h-20 rounded-md cursor-pointer"
                               onClick={() => setActiveImage(image?.url)}
                             />

@@ -402,25 +402,23 @@ export default function ProductList() {
                                     {section.options.map(
                                       (option, optionIdx) => {
                                         return (
-                                          <>
-                                            <ul
-                                              key={option.value}
-                                              className="flex flex-wrap items-center"
-                                            >
-                                              <li
-                                                id={`filter-${section.id}-${optionIdx}`}
-                                                className={`rounded border-gray-300 bg-violet-200 p-2 text-violet-700 focus:ring-indigo-500
+                                          <ul
+                                            key={optionIdx}
+                                            className="flex flex-wrap items-center"
+                                          >
+                                            <li
+                                              id={`filter-${section.id}-${optionIdx}`}
+                                              className={`rounded border-gray-300 bg-violet-200 p-2 text-violet-700 focus:ring-indigo-500
                                             hover:text-violet-600 cursor-pointer
                                              
                                             `}
-                                                onClick={() => {
-                                                  setCategory(option.value);
-                                                }}
-                                              >
-                                                {option.value}
-                                              </li>
-                                            </ul>
-                                          </>
+                                              onClick={() => {
+                                                setCategory(option.value);
+                                              }}
+                                            >
+                                              {option.value}
+                                            </li>
+                                          </ul>
                                         );
                                       }
                                     )}

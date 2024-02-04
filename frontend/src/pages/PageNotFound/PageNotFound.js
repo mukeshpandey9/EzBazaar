@@ -1,9 +1,13 @@
 import React from "react";
 import "./style.css";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 const PageNotFound = () => {
   return (
     <div>
+      <Helmet>
+        <title>Not Found! 😇</title>
+      </Helmet>
       <div className="container1 container-star">
         <div className="star-1" />
         <div className="star-1" />

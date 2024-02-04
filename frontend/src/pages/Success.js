@@ -1,12 +1,16 @@
 import React from "react";
 import success from "../assets/img/success1.svg";
 import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 const Success = () => {
   const seachQuery = useSearchParams()[0];
 
   const { id } = useParams();
   return (
     <div className="flex items-center flex-col gap-4 justify-center h-screen w-screen">
+      <Helmet>
+        <title>Order Success ✅</title>
+      </Helmet>
       <img src={success} alt="" />
       <h1 className="text-4xl font-bold text-gary-700 text-center">
         Your Order is Placed!!

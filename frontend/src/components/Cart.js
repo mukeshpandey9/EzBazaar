@@ -32,7 +32,6 @@ export default function Cart() {
     }
 
     if (isRemoved) {
-      message.success("Item Removed from Cart");
       dispatch(getCart());
       dispatch(removeCartReset());
     }

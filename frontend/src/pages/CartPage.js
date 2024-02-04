@@ -4,11 +4,15 @@ import Header from "../components/header/Header";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Footer from "../components/Footer";
+import { Helmet } from "react-helmet";
 
 const CartPage = () => {
   const { cart } = useSelector((state) => state.cart);
   return (
     <>
+      <Helmet>
+        <title>Cart 🛒 | EzBazaar</title>
+      </Helmet>
       <div className="mt-[-20px]">
         <Header />
       </div>

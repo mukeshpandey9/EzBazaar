@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { loadUser, updateProfile } from "../redux/actions/userAction";
 
 import { clearErrors, updateUserReset } from "../redux/reducers/userSlice";
+import { Helmet } from "react-helmet";
 const { Title } = Typography;
 
 const Profile = () => {
@@ -75,6 +76,9 @@ const Profile = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Profile 👱‍♂️</title>
+      </Helmet>
       <Header />
       {loading || loading1 ? (
         <Spinner />

@@ -9,9 +9,7 @@ import ProdDetailPage from "./pages/ProdDetailPage";
 import Products from "./pages/Products";
 import Profile from "./pages/Profile";
 import { useEffect } from "react";
-import store from "./redux/store/store";
 import { loadUser } from "./redux/actions/userAction";
-import { getCart } from "./redux/actions/cartActions";
 import Success from "./pages/Success";
 import Orders from "./pages/Orders";
 import OrderDetails from "./pages/OrderDetails";
@@ -25,14 +23,14 @@ import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import AdminRoutes from "./components/routes/AdminRoutes";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import { useDispatch } from "react-redux";
-import { getProducts } from "./redux/actions/productAction";
-import Footer from "./components/Footer";
+import { getCart } from "./redux/actions/cartActions";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadUser());
+    dispatch(getCart());
   });
   return (
     <BrowserRouter>
