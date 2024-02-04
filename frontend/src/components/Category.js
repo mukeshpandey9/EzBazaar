@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 const CategoryComponent = ({ image, category }) => {
   return (
     <Link
-      className="w-full cursor-pointer"
+      className="w-full cursor-pointer flex flex-col items-center justify-center"
       to={`/products?page=1&category=${category}`}
     >
       <div className="overflow-hidden flex items-center justify-center border md:w-28 md:h-28 w-24 h-24 border-violet-600 rounded-full ">
@@ -23,7 +23,7 @@ const CategoryComponent = ({ image, category }) => {
         />
       </div>
 
-      <h1 className="text-gray-700 text-center">{category}</h1>
+      <h1 className="text-gray-700 hover:text-violet-700">{category}</h1>
     </Link>
   );
 };

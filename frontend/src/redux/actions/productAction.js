@@ -22,6 +22,7 @@ export const getProducts = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
+      console.log("PRoduct Action");
       let url = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[gte]=${price[0]}&price[lte]=${price[1]}`;
 
       if (category) {

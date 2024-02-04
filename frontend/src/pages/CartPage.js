@@ -3,6 +3,7 @@ import Cart from "../components/Cart";
 import Header from "../components/header/Header";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Footer from "../components/Footer";
 
 const CartPage = () => {
   const { cart } = useSelector((state) => state.cart);
@@ -51,6 +52,7 @@ const CartPage = () => {
           </div>
         )}
       </div>
+      <Footer />
     </>
   );
 };

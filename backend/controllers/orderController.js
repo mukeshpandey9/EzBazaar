@@ -1,6 +1,5 @@
 const addressModel = require("../models/addressModel");
 const orderModel = require("../models/orderModel");
-const productModel = require("../models/productModel");
 
 // Create new Address
 
@@ -57,11 +56,44 @@ exports.getAddress = async (req, res) => {
   }
 };
 
+exports.updateAddress = async (req, res) => {
+  try {
+    const { id } = req.params;
+    let address = await addressModel.findById(req.params.id);
+    if (!address) {
+      return res
+        .status(404)
+        .json({ success: false, message: "No address Found" });
+    }
+    address = await addressModel.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+
+    if (!address) {
+      return res.status(400).json({
+        success: false,
+        message: "Failed to Update Address",
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      message: "Address updated sucessfully",
+      address,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 // Create new order
 
 exports.newOrder = async (req, res) => {
   try {
-    console.log(req.body.paymentInfo);
     const { shippingInfo, orderItems, totalPrice, paymentInfo } = req.body;
     let date = new Date();
     const order = await orderModel.create({
@@ -178,7 +210,7 @@ exports.updateOrders = async (req, res) => {
     }
 
     order.orderItems.forEach(async (o) => {
-      await updateStock(o.product, o.quantity);
+      await updateStock(o.addressModel, o.quantity);
     });
 
     order.orderStatus = req.body.status;
@@ -203,9 +235,9 @@ exports.updateOrders = async (req, res) => {
 };
 
 async function updateStock(id, quantity) {
-  const product = await productModel.findById(id);
-  product.stock -= quantity;
-  await product.save({ validateBeforeSave: false });
+  const addressModel = await addressModel.findById(id);
+  addressModel.stock -= quantity;
+  await addressModel.save({ validateBeforeSave: false });
 }
 
 // Delete Order
@@ -226,10 +258,9 @@ exports.deleteOrder = async (req, res) => {
       message: "Order Deleted SuccessFully",
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Failed to Delete Order",
     });
   }
 };

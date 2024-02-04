@@ -10,7 +10,7 @@ const Spinner = () => {
     width: "100%",
     zIndex: "100",
     height: "100vh",
-    background: "rgba(42%, 22%, 75%,0.3)",
+    background: "white",
     transform: "rotate(0deg)",
     position: "absolute",
     top: "0px",

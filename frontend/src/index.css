@@ -16,11 +16,11 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(231, 42, 231, 0.222);
+  background: rgba(231, 42, 231, 0.18);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(131, 27, 131);
+  background: rgba(151, 34, 151, 0.6);
   border-radius: 1rem;
 }
 

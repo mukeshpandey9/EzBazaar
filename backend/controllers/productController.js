@@ -38,10 +38,12 @@ exports.createProduct = async (req, res) => {
 
 exports.getAllProducts = async (req, res) => {
   try {
-    // res.status(500).json({ message: "I called tthe eoor" });
     const resultPerpage = 8;
     const productCount = await Product.countDocuments();
-    const apiFeature = new ApiFeatures(Product.find(), req.query)
+    const apiFeature = new ApiFeatures(
+      Product.find().sort({ createdAt: -1 }),
+      req.query
+    )
       .search()
       .filter()
       .pagination(resultPerpage);

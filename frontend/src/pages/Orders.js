@@ -6,6 +6,7 @@ import { getOrders } from "../redux/actions/orderActions";
 import { message } from "antd";
 import Spinner from "../components/Spinner";
 import { clearErrors } from "../redux/reducers/orderSlice";
+import Footer from "../components/Footer";
 const Orders = () => {
   const dispatch = useDispatch();
   const { orders, error, loading, success } = useSelector(
@@ -120,6 +121,7 @@ const Orders = () => {
           </div>
         </>
       )}
+      <Footer />
     </>
   );
 };

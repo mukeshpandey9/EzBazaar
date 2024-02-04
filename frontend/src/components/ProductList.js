@@ -466,11 +466,11 @@ export default function ProductList() {
                               <div className="mx-auto max-w-2xl px-4 py-0 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
                                 <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                                   {products?.map((product) => (
-                                    <Link to={`/product/${product?._id}`}>
-                                      <div
-                                        key={product.id}
-                                        className="group relative shadow-md md:shadow-sm backdrop-blur-md border rounded-md md:hover:shadow-lg"
-                                      >
+                                    <Link
+                                      key={product._id}
+                                      to={`/product/${product?._id}`}
+                                    >
+                                      <div className="group relative shadow-md md:shadow-sm backdrop-blur-md border rounded-md md:hover:shadow-lg">
                                         <div className="w-full overflow-hidden object-contain flex items-center justify-center text-center rounded-md  lg:aspect-none group-hover:opacity-75 h-[17rem] lg:h-[13rem]">
                                           <img
                                             src={product.images[0].url}

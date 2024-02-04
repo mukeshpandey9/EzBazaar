@@ -25,9 +25,12 @@ import PageNotFound from "./pages/PageNotFound/PageNotFound";
 import AdminRoutes from "./components/routes/AdminRoutes";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
 import { useDispatch } from "react-redux";
+import { getProducts } from "./redux/actions/productAction";
+import Footer from "./components/Footer";
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(loadUser());
   });

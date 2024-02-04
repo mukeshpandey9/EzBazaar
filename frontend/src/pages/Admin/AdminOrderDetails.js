@@ -105,7 +105,7 @@ const AdminOrderDetails = () => {
                   {/* Track order */}
 
                   <div className="mx-auto p-4">
-                    <div className="p-44">
+                    <div className="px-4">
                       <div className="w-full bg-gray-200 rounded-full overflow-hidden">
                         <div
                           className={`transition-all duration-1000 ease-in-out h-2 bg-blue-500 ${

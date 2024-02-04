@@ -17,16 +17,13 @@ exports.isAuthenticatedUser = async (req, res, next) => {
     const token = authHeader.split(" ")[1] || req.cookies.token;
 
     if (!token) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Please login to access this page" });
+      return res.status(401).json({ success: false, message: "Please login." });
     }
 
     const decodeData = jwt.verify(token, process.env.JWT_SECRET);
     req.user = await userModel.findById(decodeData.id);
     next();
   } catch (error) {
-    console.error("Invalid token: ", error.message);
     res
       .status(401)
       .json({ success: false, message: "Token Invalid or Expired" });

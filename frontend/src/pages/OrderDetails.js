@@ -5,6 +5,7 @@ import { getOrderDetails } from "../redux/actions/orderActions";
 import { message } from "antd";
 import Spinner from "../components/Spinner";
 import { clearOrderDetailsErrors } from "../redux/reducers/orderSlice";
+import Footer from "../components/Footer";
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -185,6 +186,7 @@ const OrderDetails = () => {
           )}
         </div>
       )}
+      <Footer />
     </>
   );
 };

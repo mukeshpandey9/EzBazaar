@@ -82,13 +82,13 @@ const Header = () => {
 
   const logoutHandler = () => {
     dispatch(logoutUser());
-    message.success("Logout success");
+    navigate("/");
   };
 
   const widgetMenu = (
     <Menu>
       <Menu.Item>
-        <Link to={isAuthanticated ? `/profile` : "/login"}>
+        <Link to={isAuthanticated ? `/profile` : "/login?redirect=true"}>
           <SolutionOutlined className="icon" /> {"  "}
           profile
         </Link>

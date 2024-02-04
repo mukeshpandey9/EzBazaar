@@ -1,3 +1,4 @@
+import { message } from "antd";
 import API from "../../utils/API";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
@@ -115,6 +116,7 @@ export const logoutUser = createAsyncThunk(
     try {
       const { data } = await API.get("/api/v1/logout");
       localStorage.clear();
+      message.success("Logged Out");
       return data;
     } catch (error) {
       localStorage.clear();

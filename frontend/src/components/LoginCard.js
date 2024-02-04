@@ -8,7 +8,7 @@ const LoginCard = () => {
         Please SignIn to access this page
       </h1>
       <Link
-        to="/login"
+        to="/login?redirect=true"
         className="text-center rounded text-white bg-violet-700 shadow-sm  p-3 px-5"
       >
         SignIn

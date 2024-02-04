@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { message } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { UserLogin } from "../../redux/actions/userAction";
 import Spinner from "../Spinner";
 import { clearErrors } from "../../redux/reducers/userSlice";
 import Logo from "../../assets/img/logo.png";
 import OAuth from "../OAuth";
+import Footer from "../Footer";
 
 export function Login() {
   // const count = useSelector();
@@ -15,27 +16,29 @@ export function Login() {
     (state) => state.user
   );
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const isRedirected = searchParams.get("redirect");
   useEffect(() => {
     if (error) {
       message.error(error);
       dispatch(clearErrors());
     }
-    // TODO: We will add protected routes
     if (token) {
-      navigate("/profile");
+      if (isRedirected) {
+        navigate(-1);
+      } else {
+        navigate("/profile");
+      }
     }
   }, [dispatch, error, token, navigate]);
 
   const loginHandler = (e) => {
     e.preventDefault();
     dispatch(UserLogin({ email, password }));
-    if (!error) {
-      message.success("Login Successful");
-    }
   };
 
   return (
@@ -43,7 +46,7 @@ export function Login() {
       {loading ? (
         <Spinner />
       ) : (
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="flex min-h-full flex-1 flex-col justify-center px-6 pb-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <img className="mx-auto  w-20" src={Logo} alt="EzBazaar" />
             <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -51,7 +54,7 @@ export function Login() {
             </h2>
           </div>
 
-          <div className=" bg-[#ffffff25] p-8 backdrop-blur-sm rounded-lg border-2 border-white mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className=" bg-[#ffffff25] p-8 backdrop-blur-sm rounded-lg border-2 border-white mt-5 sm:mx-auto sm:w-full sm:max-w-md">
             <form
               className="space-y-6"
               action="#"
@@ -126,7 +129,7 @@ export function Login() {
             <p className="mt-10 text-center text-sm text-gray-500">
               Not a member?{" "}
               <Link
-                to="/signup"
+                to={isRedirected ? "/signup?redirect=true" : "/signup"}
                 className="font-semibold leading-6 text-violet-700 hover:text-violet-700"
               >
                 Create an Account
@@ -144,6 +147,7 @@ export function Login() {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }
