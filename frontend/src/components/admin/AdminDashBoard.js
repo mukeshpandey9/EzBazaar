@@ -1,31 +1,101 @@
-import React from "react";
+import React, { useEffect } from "react";
+import "./dashboard.css";
+import { Link } from "react-router-dom";
+import { Doughnut, Line } from "react-chartjs-2";
+import { useSelector, useDispatch } from "react-redux";
+import { getAllUsers } from "../../redux/actions/userAction";
+import { getAdminOrders } from "../../redux/actions/orderActions";
+import { getAdminProducts } from "../../redux/actions/productAction";
+import { Chart, registerables } from "chart.js";
+
+// Register Chart.js components
+Chart.register(...registerables);
 
 const AdminDashBoard = () => {
-  return (
-    <>
-      <div className="container mt-20 md:mt-2 md:pl-40">
-        <h1 className="text-center text-5xl text-violet-600">Dashboard</h1>
-        <div className="text-center mt-20">
-          <h1> Total Revenue </h1>
-          <h1>$2000</h1>
-        </div>
+  const dispatch = useDispatch();
 
-        <div className="flex items-center justify-center mt-10 sm:gap-16 gap-6">
-          <div className="circle flex flex-col items-center justify-center w-24 h-24  rounded-full bg-violet-500 text-center text-white font-semibold">
-            <h1>Products</h1>
-            <p>10</p>
+  const { products, productsCount } = useSelector((state) => state.products);
+  const { orders } = useSelector((state) => state.order);
+  const {
+    users: { users },
+  } = useSelector((state) => state.allUsers);
+
+  let outOfStock = 0;
+  products &&
+    products.forEach((item) => {
+      if (item.stock === 0) {
+        outOfStock += 1;
+      }
+    });
+
+  useEffect(() => {
+    dispatch(getAdminProducts());
+    dispatch(getAdminOrders());
+    dispatch(getAllUsers());
+  }, [dispatch]);
+
+  let totalAmount = 0;
+  orders &&
+    orders.forEach((item) => {
+      totalAmount += item.totalPrice;
+    });
+
+  const lineState = {
+    labels: ["Initial Amount", "Amount Earned"],
+    datasets: [
+      {
+        label: "TOTAL AMOUNT",
+        backgroundColor: "tomato",
+        hoverBackgroundColor: "rgb(197, 72, 49)",
+        data: [0, totalAmount],
+      },
+    ],
+  };
+
+  const doughnutState = {
+    labels: ["Out of Stock", "In Stock"],
+    datasets: [
+      {
+        backgroundColor: ["#00A6B4", "#6800B4"],
+        hoverBackgroundColor: ["#4B5000", "#35014F"],
+        data: [outOfStock, productsCount - outOfStock],
+      },
+    ],
+  };
+
+  return (
+    <div className="dashboard pl-4 md:pl-64 w-full">
+      <div className="dashboardContainer">
+        <h1 className="text-center text-3xl">Dashboard</h1>
+        <div className="dashboardSummary">
+          <div>
+            <p>
+              Total Amount <br /> ₹{totalAmount}
+            </p>
           </div>
-          <div className="circle flex flex-col items-center justify-center w-24 h-24  rounded-full bg-violet-500 text-center text-white font-semibold">
-            <h1>Orders</h1>
-            <p>1</p>
+          <div className="dashboardSummaryBox2">
+            <Link to="/admin/products">
+              <p>Products</p>
+              <p>{products && productsCount}</p>
+            </Link>
+            <Link to="/admin/orders">
+              <p>Orders</p>
+              <p>{orders && orders.length}</p>
+            </Link>
+            <Link to="/admin/users">
+              <p>Users</p>
+              <p>{users && users.length}</p>
+            </Link>
           </div>
-          <div className="circle flex flex-col items-center justify-center w-24 h-24  rounded-full bg-violet-500 text-center text-white font-semibold">
-            <h1>Users</h1>
-            <p>10</p>
-          </div>
+        </div>
+        <div className="lineChart">
+          <Line data={lineState} />
+        </div>
+        <div className="doughnutChart">
+          <Doughnut data={doughnutState} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

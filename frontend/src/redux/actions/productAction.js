@@ -40,9 +40,9 @@ export const getProducts = createAsyncThunk(
 // Get All Admin Products
 export const getAdminProducts = createAsyncThunk(
   "products/getAdminProducts",
-  async ({ page }, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const { data } = await API.get(`/api/v1/admin/products?page=${page}`);
+      const { data } = await API.get(`/api/v1/admin/products`);
       return data ?? {};
     } catch (error) {
       return rejectWithValue(error?.response?.data?.message ?? error?.message);

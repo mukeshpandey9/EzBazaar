@@ -6,6 +6,7 @@ import {
   updateProfile,
   userSignup,
   googleAuth,
+  getAllUsers,
 } from "../actions/userAction";
 
 export const userReducer = createSlice({
@@ -130,6 +131,40 @@ export const updateProfileReducer = createSlice({
       });
   },
 });
+
+// Reducer for all users
+
+export const getAllUsersReducer = createSlice({
+  name: "getAllUsers",
+  initialState: {
+    loading: false,
+    users: [],
+    error: null,
+  },
+  reducers: {
+    clearErrors: (state) => {
+      state.loading = false;
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllUsers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(getAllUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
+
+// Actions
+export const { clearErrors: clearUserErrors } = getAllUsersReducer.actions;
 
 export const { updateUserReset, clearErrors: clearErrors1 } =
   updateProfileReducer.actions;

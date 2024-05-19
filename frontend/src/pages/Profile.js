@@ -136,7 +136,7 @@ const Profile = () => {
                       />
                     ) : (
                       <div className="info-section">
-                        <Title level={2} className="user-name ">
+                        <Title level={4} className="user-name ">
                           {user?.name}
                         </Title>
                       </div>
@@ -204,7 +204,7 @@ const Profile = () => {
                   )}
 
                   {!editMode && (
-                    <Form.Item>
+                    <Form.Item className="flex justify-between">
                       <Button
                         type="submit"
                         className="edit-button"

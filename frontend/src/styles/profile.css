@@ -39,14 +39,14 @@
 .info-section {
   width: 60%;
   text-align: center;
-  margin-bottom: 20px; /* Add spacing below the user's name */
+  margin-bottom: 10px; /* Add spacing below the user's name */
 }
 
 .user-name {
   text-align: center;
   color: #b6b3b3 !important;
   margin-bottom: 5px; /* Add spacing below the user's name */
-  font-size: 3rem !important; /* Increase font size for the user's name */
+  font-size: 2rem !important; /* Increase font size for the user's name */
 }
 
 .user-info {
@@ -63,17 +63,18 @@
 
 .edit-button,
 .save-button {
-  width: 50%;
-  background-color: #ff8818;
-  border-color: #ff8818;
+  outline: none;
+  width: 40%;
+  background-color: #8f15ae;
+  border-color: #8b0eb5;
   color: #fff;
   margin-top: 20px; /* Add spacing above buttons */
-  font-size: 16px; /* Increase font size for buttons */
+  font-size: 12px; /* Increase font size for buttons */
 }
 
 .edit-button:hover,
 .save-button:hover {
-  background-color: #f08f35;
+  background-color: #56077a;
 }
 
 /* Responsive Styles */

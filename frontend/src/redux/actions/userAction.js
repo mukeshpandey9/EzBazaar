@@ -124,3 +124,17 @@ export const logoutUser = createAsyncThunk(
     }
   }
 );
+
+// Get all users
+
+export const getAllUsers = createAsyncThunk(
+  "admin/getUsers",
+  async (_, { rejectWithValue }) => {
+    try {
+      const { data } = await API.get("/api/v1/admin/users");
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.message);
+    }
+  }
+);
