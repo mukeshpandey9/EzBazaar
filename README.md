@@ -12,3 +12,4 @@ A Full Stack Ecommerce website
 - Nodemailer
 - JsonWbToken
 - Bcrypt
+- Payments Integration - Razorpays
